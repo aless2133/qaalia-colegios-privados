@@ -3,8 +3,8 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
-import { Moon, Menu, X } from 'lucide-react'
-import { Sun1 } from 'iconsax-react'
+import { Menu, X } from 'lucide-react'
+import { Moon, Sun1 } from 'iconsax-react'
 import { useTheme } from 'next-themes'
 import {
   motion,
@@ -81,8 +81,8 @@ function ThemeToggle() {
       aria-label="Cambiar tema"
     >
       {theme === 'dark'
-        ? <Sun1 size={20} color="currentColor" className="text-primary" />
-        : <Moon className="h-4 w-4" />
+        ? <Sun1 color="currentColor" className="text-primary !h-6 !w-6" />
+        : <Moon color="currentColor" className="text-primary !h-6 !w-6" />
       }
     </Button>
   )
@@ -173,7 +173,7 @@ export default function Navbar({ variant }: NavbarProps) {
                       exit={{    rotate:  90, opacity: 0 }}
                       transition={{ duration: 0.15 }}
                     >
-                      <X className="h-4 w-4" />
+                      <X className="h-6 w-6" />
                     </motion.span>
                   ) : (
                     <motion.span
@@ -183,7 +183,7 @@ export default function Navbar({ variant }: NavbarProps) {
                       exit={{    rotate: -90, opacity: 0 }}
                       transition={{ duration: 0.15 }}
                     >
-                      <Menu className="h-4 w-4" />
+                      <Menu className="h-6 w-6" />
                     </motion.span>
                   )}
                 </AnimatePresence>
