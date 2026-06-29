@@ -96,7 +96,7 @@ function Logo() {
   return (
     <Link href="/" aria-label="Qaalia">
       <Image
-        src="/assets/logo/qaalia_splash.png"
+        src="/assets/logo/qaalia_dos.png"
         alt="Qaalia"
         width={110}
         height={36}
