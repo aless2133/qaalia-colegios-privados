@@ -96,11 +96,11 @@ function Logo() {
   return (
     <Link href="/" aria-label="Qaalia">
       <Image
-        src="/assets/logo/qaalia_splash.webp"
+        src="/assets/logo/qaalia_splash.png"
         alt="Qaalia"
         width={110}
         height={36}
-        className="h-8 w-auto object-contain"
+        className="h-8 w-auto object-contain scale-[3.25] origin-left"
         priority
       />
     </Link>
