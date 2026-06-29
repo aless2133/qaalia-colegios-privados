@@ -79,7 +79,7 @@ export default function Footer({ variant }: FooterProps) {
             © {new Date().getFullYear()} Qaalia. Todos los derechos reservados.
           </p>
           <p className="text-xs text-muted-foreground">
-            Hecho en Ecuador 🇪🇨
+            Hecho en Ecuador
           </p>
         </div>
       </div>

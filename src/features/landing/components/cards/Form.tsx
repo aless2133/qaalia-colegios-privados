@@ -1,7 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { CheckCircle2, Loader2 } from 'lucide-react'
+import { motion, type Variants } from 'framer-motion'
+import { TickCircle, Refresh2, Location, Sms, ArrowRight2, Call } from 'iconsax-react'
 import { Input    } from '@/components/ui/input'
 import { Label    } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
@@ -13,53 +14,82 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-
 interface FormState {
-  name:        string
-  email:       string
-  institution: string
-  role:        string
-  message:     string
+  name:            string
+  email:           string
+  institution:     string
+  institutionType: string
+  role:            string
+  students:        string
+  description:     string
 }
 
 const EMPTY: FormState = {
-  name: '', email: '', institution: '', role: '', message: '',
+  name: '', email: '', institution: '',
+  institutionType: '', role: '', students: '', description: '',
 }
+
+const EASE = [0.17, 0.55, 0.55, 1] as [number, number, number, number]
+
+const fromLeft: Variants = {
+  hidden:  { opacity: 0, x: -32 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: EASE } },
+}
+const fromRight: Variants = {
+  hidden:  { opacity: 0, x: 32 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: EASE } },
+}
+const fadeUp = (i: number): Variants => ({
+  hidden:  { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.45, delay: i * 0.07, ease: EASE } },
+})
+
+const VP = { once: true, margin: '-60px' } as const
+
+const CONTACT = [
+  { Icon: Call,      label: '099 381 1125' },
+  { Icon: Sms,      label: 'info@qaalia.com' },
+  { Icon: Location, label: 'Loja, Ecuador'        },
+]
 
 export default function Form() {
   const [form,    setForm]    = useState<FormState>(EMPTY)
   const [loading, setLoading] = useState(false)
   const [sent,    setSent]    = useState(false)
 
-  const set = (key: keyof FormState) =>
+  const set    = (k: keyof FormState) =>
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-      setForm(prev => ({ ...prev, [key]: e.target.value }))
+      setForm(p => ({ ...p, [k]: e.target.value }))
+
+  const setVal = (k: keyof FormState) => (v: string) =>
+    setForm(p => ({ ...p, [k]: v }))
 
   const valid =
     form.name.trim()        !== '' &&
     form.email.trim()       !== '' &&
     form.institution.trim() !== '' &&
-    form.role               !== ''
+    form.institutionType    !== '' &&
+    form.role               !== '' &&
+    form.students           !== ''
 
   async function handleSubmit() {
     if (!valid) return
     setLoading(true)
-
-    /**
-     * TODO: reemplaza este fetch con tu endpoint real.
-     * Ejemplo: await fetch('/api/demo-request', { method: 'POST', body: JSON.stringify(form) })
-     */
     await new Promise(r => setTimeout(r, 1200))
-
     setLoading(false)
     setSent(true)
   }
 
   if (sent) {
     return (
-      <div className="flex flex-col items-center gap-4 py-14 text-center">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.4 }}
+        className="flex flex-col items-center gap-4 py-14 text-center"
+      >
         <div className="w-14 h-14 rounded-full bg-accent flex items-center justify-center">
-          <CheckCircle2 className="h-7 w-7 text-primary" />
+          <TickCircle size={28} color="currentColor" className="text-primary" />
         </div>
         <h3 className="text-lg font-semibold text-foreground">
           ¡Listo, {form.name.split(' ')[0]}!
@@ -68,94 +98,162 @@ export default function Form() {
           Recibimos tu solicitud. Nos contactamos en menos de 24 horas hábiles
           para coordinar tu demo de Qaalia.
         </p>
-      </div>
+      </motion.div>
     )
   }
 
   return (
-    <div className="flex flex-col gap-5">
-      {/* Nombre + Email */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="flex flex-col gap-1.5">
-          <Label htmlFor="f-name" className="text-sm">Nombre</Label>
-          <Input
-            id="f-name"
-            placeholder="Tu nombre completo"
-            value={form.name}
-            onChange={set('name')}
-          />
-        </div>
-        <div className="flex flex-col gap-1.5">
-          <Label htmlFor="f-email" className="text-sm">Correo</Label>
-          <Input
-            id="f-email"
-            type="email"
-            placeholder="nombre@institucion.edu"
-            value={form.email}
-            onChange={set('email')}
-          />
-        </div>
-      </div>
-
-      {/* Institución */}
-      <div className="flex flex-col gap-1.5">
-        <Label htmlFor="f-inst" className="text-sm">Nombre de la institución</Label>
-        <Input
-          id="f-inst"
-          placeholder="Ej. Colegio San Andrés"
-          value={form.institution}
-          onChange={set('institution')}
-        />
-      </div>
-
-      {/* Rol */}
-      <div className="flex flex-col gap-1.5">
-        <Label className="text-sm">Tu rol</Label>
-        <Select onValueChange={v => setForm(prev => ({ ...prev, role: v }))}>
-          <SelectTrigger>
-            <SelectValue placeholder="Selecciona tu rol" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="rector">Rector / Director</SelectItem>
-            <SelectItem value="coordinador">Coordinador académico</SelectItem>
-            <SelectItem value="admin">Administrativo</SelectItem>
-            <SelectItem value="docente">Docente</SelectItem>
-            <SelectItem value="otro">Otro</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
-      {/* Mensaje opcional */}
-      <div className="flex flex-col gap-1.5">
-        <Label htmlFor="f-msg" className="text-sm">
-          ¿Qué necesita tu institución?{' '}
-          <span className="text-muted-foreground font-normal">(opcional)</span>
-        </Label>
-        <Textarea
-          id="f-msg"
-          placeholder="Cuéntanos brevemente tu situación actual..."
-          rows={3}
-          value={form.message}
-          onChange={set('message')}
-          className="resize-none"
-        />
-      </div>
-
-      <Button
-        size="lg"
-        className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold"
-        onClick={handleSubmit}
-        disabled={loading || !valid}
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+      <motion.div
+        variants={fromLeft}
+        initial="hidden"
+        whileInView="visible"
+        viewport={VP}
+        className="flex flex-col gap-7"
       >
-        {loading ? (
-          <>
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            Enviando...
-          </>
-        ) : (
-          'Solicitar demo gratuita'
-        )}
-      </Button>
+        {/* Eyebrow */}
+        <p className="text-[11px] font-semibold uppercase tracking-widest text-primary">
+          Agenda un demo
+        </p>
+
+        {/* Heading */}
+        <div className="flex flex-col gap-3">
+          <h2 className="text-3xl font-bold text-foreground leading-tight">
+            Hola,{' '}
+            <span className="text-primary">¿lista para</span>
+            <br />digitalizar tu institución?
+          </h2>
+          <p className="text-sm text-muted-foreground leading-relaxed max-w-sm">
+            No dudes en contactarnos si tienes preguntas sobre cómo Qaalia puede
+            transformar la gestión de tu institución educativa.
+          </p>
+        </div>
+
+        {/* Tagline + contact */}
+        <div className="flex flex-col gap-4">
+          <p className="text-sm font-semibold text-foreground">
+            Identidad digital para instituciones educativas.
+          </p>
+          {CONTACT.map(({ Icon, label }) => (
+            <div key={label} className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-accent flex items-center justify-center flex-shrink-0">
+                <Icon size={16} color="currentColor" className="text-primary" />
+              </div>
+              <span className="text-sm text-muted-foreground">{label}</span>
+            </div>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* ─── RIGHT: form ────────────────────────────────────── */}
+      <motion.div
+        variants={fromRight}
+        initial="hidden"
+        whileInView="visible"
+        viewport={VP}
+        className="flex flex-col gap-4"
+      >
+        {/* Nombre + Email */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <motion.div variants={fadeUp(0)} initial="hidden" whileInView="visible" viewport={VP} className="flex flex-col gap-1.5">
+            <Label htmlFor="f-name" className="text-sm">Nombre y Apellido</Label>
+            <Input id="f-name" placeholder="Tu nombre completo" value={form.name} onChange={set('name')} />
+          </motion.div>
+          <motion.div variants={fadeUp(1)} initial="hidden" whileInView="visible" viewport={VP} className="flex flex-col gap-1.5">
+            <Label htmlFor="f-email" className="text-sm">Email</Label>
+            <Input id="f-email" type="email" placeholder="nombre@institucion.edu" value={form.email} onChange={set('email')} />
+          </motion.div>
+        </div>
+
+        {/* Institución */}
+        <motion.div variants={fadeUp(2)} initial="hidden" whileInView="visible" viewport={VP} className="flex flex-col gap-1.5">
+          <Label htmlFor="f-inst" className="text-sm">Nombre de la institución</Label>
+          <Input id="f-inst" placeholder="Ej. Colegio San Andrés" value={form.institution} onChange={set('institution')} />
+        </motion.div>
+
+        {/* Tipo + Rol */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <motion.div variants={fadeUp(3)} initial="hidden" whileInView="visible" viewport={VP} className="flex flex-col gap-1.5">
+            <Label className="text-sm">Tipo de institución</Label>
+            <Select onValueChange={setVal('institutionType')}>
+              <SelectTrigger><SelectValue placeholder="Selecciona el tipo" /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="colegio">Colegio privado</SelectItem>
+                <SelectItem value="instituto">Instituto técnico / vocacional</SelectItem>
+                <SelectItem value="academia">Academia deportiva / cultural</SelectItem>
+                <SelectItem value="centro">Centro de formación</SelectItem>
+                <SelectItem value="otro">Otro</SelectItem>
+              </SelectContent>
+            </Select>
+          </motion.div>
+          <motion.div variants={fadeUp(4)} initial="hidden" whileInView="visible" viewport={VP} className="flex flex-col gap-1.5">
+            <Label className="text-sm">Tu rol</Label>
+            <Select onValueChange={setVal('role')}>
+              <SelectTrigger><SelectValue placeholder="Selecciona tu rol" /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="rector">Rector / Director</SelectItem>
+                <SelectItem value="coordinador">Coordinador académico</SelectItem>
+                <SelectItem value="admin">Administrativo</SelectItem>
+                <SelectItem value="docente">Docente</SelectItem>
+                <SelectItem value="otro">Otro</SelectItem>
+              </SelectContent>
+            </Select>
+          </motion.div>
+        </div>
+
+        {/* Número de estudiantes */}
+        <motion.div variants={fadeUp(5)} initial="hidden" whileInView="visible" viewport={VP} className="flex flex-col gap-1.5">
+          <Label className="text-sm">Número de estudiantes</Label>
+          <Select onValueChange={setVal('students')}>
+            <SelectTrigger><SelectValue placeholder="¿Cuántos estudiantes tiene tu institución?" /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="menos50">Menos de 50</SelectItem>
+              <SelectItem value="50-200">50 – 200</SelectItem>
+              <SelectItem value="200-500">200 – 500</SelectItem>
+              <SelectItem value="500-1000">500 – 1 000</SelectItem>
+              <SelectItem value="mas1000">Más de 1 000</SelectItem>
+            </SelectContent>
+          </Select>
+        </motion.div>
+
+        {/* ¿Cómo describirías tu institución? */}
+        <motion.div variants={fadeUp(6)} initial="hidden" whileInView="visible" viewport={VP} className="flex flex-col gap-1.5">
+          <Label htmlFor="f-desc" className="text-sm">
+            ¿Cómo describirías tu institución?{' '}
+            <span className="text-muted-foreground font-normal">(opcional)</span>
+          </Label>
+          <Textarea
+            id="f-desc"
+            placeholder="Cuéntanos brevemente tu situación actual..."
+            rows={3}
+            value={form.description}
+            onChange={set('description')}
+            className="resize-none"
+          />
+        </motion.div>
+
+        {/* Submit */}
+        <motion.div variants={fadeUp(7)} initial="hidden" whileInView="visible" viewport={VP}>
+          <Button
+            size="lg"
+            className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold px-8 gap-2"
+            onClick={handleSubmit}
+            disabled={loading || !valid}
+          >
+            {loading ? (
+              <>
+                <Refresh2 size={16} color="currentColor" className="animate-spin" />
+                Enviando...
+              </>
+            ) : (
+              <>
+                Enviar
+                <ArrowRight2 size={16} color="currentColor" />
+              </>
+            )}
+          </Button>
+        </motion.div>
+      </motion.div>
     </div>
   )
 }

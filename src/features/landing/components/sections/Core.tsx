@@ -74,17 +74,13 @@ export default function Core({ variant }: CoreProps) {
       {/* ── Demo ──────────────────────────────────────── */}
       <section id="demo" className={`py-20 ${px}`}>
         <div className={cnt}>
-          <div className={desktop ? 'flex justify-center' : ''}>
-            <div className={desktop ? 'max-w-xl w-full' : 'w-full'}>
-              <SectionHeader
-                eyebrow="Demo"
-                title="Veamos cómo funciona en tu institución"
-                sub="Déjanos tu información. Nos contactamos en menos de 24 horas."
-                center={desktop}
-              />
-              <Form />
-            </div>
-          </div>
+          <SectionHeader
+            eyebrow="Demo"
+            title="Veamos cómo funciona en tu institución"
+            sub="Déjanos tu información. Nos contactamos en menos de 24 horas."
+            center={desktop}
+          />
+          <Form />
         </div>
       </section>
     </>

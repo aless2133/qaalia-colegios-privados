@@ -3,6 +3,7 @@ import { ArrowRight, QrCode, ShieldCheck, Zap } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge }  from '@/components/ui/badge'
 import type { LayoutVariant } from '../layouts/LandingOverview'
+import { Flash, ScanBarcode, ShieldTick, Star, Star1 } from 'iconsax-react'
 
 interface HeroProps {
   variant: LayoutVariant
@@ -118,12 +119,12 @@ export default function Hero({ variant }: HeroProps) {
           {/* Señales de confianza */}
           <div className="flex flex-wrap gap-5 pt-1">
             {[
-              { icon: QrCode,       label: 'QR único por estudiante' },
-              { icon: ShieldCheck,  label: 'Control de acceso real'  },
-              { icon: Zap,          label: 'Listo en minutos'        },
+              { icon: ScanBarcode,       label: 'QR único por estudiante' },
+              { icon: ShieldTick,  label: 'Control de acceso real'  },
+              { icon: Star,          label: 'Listo en minutos'        },
             ].map(({ icon: Icon, label }) => (
               <div key={label} className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Icon className="h-4 w-4 text-primary" />
+                <Icon size={20} color="currentColor" className="text-primary"/>
                 {label}
               </div>
             ))}
