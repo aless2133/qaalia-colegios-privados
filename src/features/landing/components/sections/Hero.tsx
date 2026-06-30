@@ -107,8 +107,8 @@ export default function Hero({ variant }: HeroProps) {
               className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold"
               asChild
             >
-              <Link href="#demo">
-                Solicitar demo <ArrowRight className="ml-2 h-4 w-4" />
+              <Link href="/register">
+                Empezar ahora <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
             <Button size="lg" variant="outline" asChild>

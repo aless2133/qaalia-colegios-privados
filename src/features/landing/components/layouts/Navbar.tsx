@@ -228,11 +228,11 @@ export default function Navbar({ variant }: NavbarProps) {
                   >
                     <Button
                       size="sm"
-                      className="mt-3 bg-primary text-primary-foreground hover:bg-primary/90 w-full rounded-full"
+                      className="mt-3 py-4 bg-primary text-primary-foreground hover:bg-primary/90 w-full rounded-full font-bold"
                       asChild
                     >
-                      <Link href="#demo" onClick={() => setOpen(false)}>
-                        Solicitar demo
+                      <Link href="/register" onClick={() => setOpen(false)}>
+                        Empezar ahora
                       </Link>
                     </Button>
                   </motion.div>
