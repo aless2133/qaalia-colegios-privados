@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Badge }  from '@/components/ui/badge'
 import type { LayoutVariant } from '../layouts/LandingOverview'
 import { Flash, ScanBarcode, ShieldTick, Star, Star1 } from 'iconsax-react'
-
+import { useRouter } from 'next/navigation'
 interface HeroProps {
   variant: LayoutVariant
 }
@@ -79,6 +79,7 @@ function StudentCardMockup() {
 
 export default function Hero({ variant }: HeroProps) {
   const desktop = variant === 'desktop'
+  const router = useRouter()
 
   return (
     <section className={`bg-background ${desktop ? 'py-28 px-8' : 'py-16 px-5'}`}>
@@ -105,11 +106,9 @@ export default function Hero({ variant }: HeroProps) {
             <Button
               size="lg"
               className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold"
-              asChild
+              onClick={() => router.push('/register')}
             >
-              <Link href="/register">
                 Empezar ahora <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
               <Link href="#funciones">Ver funciones</Link>
