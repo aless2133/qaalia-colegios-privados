@@ -1,0 +1,97 @@
+'use client'
+
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import type { ComponentType } from 'react'
+import {
+  Home2, Profile2User, TaskSquare, Wallet2,
+  DocumentText, Setting2, LogoutCurve,
+  Icon,
+} from 'iconsax-react'
+import type { NegocioData } from '@/src/lib/auth/UseLogic'
+
+interface NavItem { icon: Icon; label: string; href: string }
+
+const NAV: NavItem[] = [
+  { icon: Home2,        label: 'Dashboard',    href: '/dashboard' },
+  { icon: TaskSquare,   label: 'Trabajos',     href: '/dashboard/trabajos' },
+  { icon: Profile2User, label: 'Clientes',     href: '/dashboard/clientes' },
+  { icon: Profile2User, label: 'Técnicos',     href: '/dashboard/tecnicos' },
+  { icon: DocumentText, label: 'Presupuestos', href: '/dashboard/presupuestos' },
+  { icon: Wallet2,      label: 'Facturación',  href: '/dashboard/facturacion' },
+]
+
+interface SidebarProps {
+  negocio: NegocioData | null
+}
+
+export default function Sidebar({ negocio }: SidebarProps) {
+  const pathname = usePathname()
+  const iniciales = negocio?.nombre_dueno
+    ?.split(' ')
+    .slice(0, 2)
+    .map(n => n[0] ?? '')
+    .join('')
+    .toUpperCase() ?? '?'
+
+  return (
+    <aside className="hidden lg:flex flex-col w-64 h-screen fixed inset-y-0 left-0 z-20 border-r border-border bg-card">
+      {/* Marca */}
+      <div className="px-6 py-6">
+        <span className="text-xl font-black text-foreground">Servys</span>
+      </div>
+
+      {/* Navegación */}
+      <nav className="flex-1 px-3 flex flex-col gap-1">
+        {NAV.map(({ icon: IconCmp, label, href }) => {
+          const active = pathname === href
+          return (
+            <Link
+              key={href}
+              href={href}
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
+                active
+                  ? 'bg-accent text-primary'
+                  : 'text-muted-foreground hover:bg-accent/60 hover:text-foreground'
+              }`}
+            >
+              <IconCmp size={18} color="currentColor" />
+              {label}
+            </Link>
+          )
+        })}
+      </nav>
+
+      {/* Ajustes + cuenta */}
+      <div className="px-3 pb-4 flex flex-col gap-1 border-t border-border pt-3 mx-3">
+        <Link
+          href="/dashboard/ajustes"
+          className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
+            pathname === '/dashboard/ajustes'
+              ? 'bg-accent text-primary'
+              : 'text-muted-foreground hover:bg-accent/60 hover:text-foreground'
+          }`}
+        >
+          <Setting2 size={18} color="currentColor" />
+          Ajustes
+        </Link>
+
+        <div className="flex items-center gap-3 px-3 py-2.5">
+          <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center overflow-hidden flex-shrink-0">
+            {negocio?.foto_dueno ? (
+              <img src={negocio.foto_dueno} alt={negocio.nombre_dueno} className="w-full h-full object-cover" />
+            ) : (
+              <span className="text-[11px] font-black text-primary">{iniciales}</span>
+            )}
+          </div>
+          <span className="flex-1 min-w-0 truncate text-sm font-medium text-foreground">
+            {negocio?.nombre_dueno ?? 'Mi cuenta'}
+          </span>
+          <button className="text-muted-foreground hover:text-destructive transition-colors flex-shrink-0">
+            <LogoutCurve size={18} color="currentColor" />
+          </button>
+        </div>
+      </div>
+    </aside>
+  )
+}

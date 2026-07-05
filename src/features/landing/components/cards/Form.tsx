@@ -113,7 +113,7 @@ export default function Form() {
       >
         {/* Eyebrow */}
         <p className="text-[11px] font-semibold uppercase tracking-widest text-primary">
-          Agenda un demo
+          Hablemos de tu situación
         </p>
 
         {/* Heading */}
@@ -121,18 +121,18 @@ export default function Form() {
           <h2 className="text-3xl font-bold text-foreground leading-tight">
             Hola,{' '}
             <span className="text-primary">¿lista para</span>
-            <br />digitalizar tu institución?
+            <br />digitalizar tu centro de salud?
           </h2>
           <p className="text-sm text-muted-foreground leading-relaxed max-w-sm">
             No dudes en contactarnos si tienes preguntas sobre cómo Qaalia puede
-            transformar la gestión de tu institución educativa.
+            transformar la gestión de tu centro de salud.
           </p>
         </div>
 
         {/* Tagline + contact */}
         <div className="flex flex-col gap-4">
           <p className="text-sm font-semibold text-foreground">
-            Identidad digital para instituciones educativas.
+            Identidad digital para centros de salud.
           </p>
           {CONTACT.map(({ Icon, label }) => (
             <div key={label} className="flex items-center gap-3">
@@ -168,18 +168,18 @@ export default function Form() {
         {/* Institución */}
         <motion.div variants={fadeUp(2)} initial="hidden" whileInView="visible" viewport={VP} className="flex flex-col gap-1.5">
           <Label htmlFor="f-inst" className="text-sm">Nombre de la institución</Label>
-          <Input id="f-inst" placeholder="Ej. Colegio San Andrés" value={form.institution} onChange={set('institution')} />
+          <Input id="f-inst" placeholder="Ej. Hospital San Andrés" value={form.institution} onChange={set('institution')} />
         </motion.div>
 
         {/* Tipo + Rol */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <motion.div variants={fadeUp(3)} initial="hidden" whileInView="visible" viewport={VP} className="flex flex-col gap-1.5">
-            <Label className="text-sm">Tipo de institución</Label>
+            <Label className="text-sm">Tipo de centro de salud</Label>
             <Select onValueChange={setVal('institutionType')}>
               <SelectTrigger><SelectValue placeholder="Selecciona el tipo" /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="colegio">Colegio privado</SelectItem>
-                <SelectItem value="instituto">Instituto técnico / vocacional</SelectItem>
+                <SelectItem value="colegio">Hospital</SelectItem>
+                <SelectItem value="instituto">Clínica</SelectItem>
                 <SelectItem value="academia">Academia deportiva / cultural</SelectItem>
                 <SelectItem value="centro">Centro de formación</SelectItem>
                 <SelectItem value="otro">Otro</SelectItem>
@@ -201,11 +201,11 @@ export default function Form() {
           </motion.div>
         </div>
 
-        {/* Número de estudiantes */}
+        {/* Número de profesionales */}
         <motion.div variants={fadeUp(5)} initial="hidden" whileInView="visible" viewport={VP} className="flex flex-col gap-1.5">
-          <Label className="text-sm">Número de estudiantes</Label>
+          <Label className="text-sm">Número de profesionales</Label>
           <Select onValueChange={setVal('students')}>
-            <SelectTrigger><SelectValue placeholder="¿Cuántos estudiantes tiene tu institución?" /></SelectTrigger>
+            <SelectTrigger><SelectValue placeholder="¿Cuántos profesionales a cargo?" /></SelectTrigger>
             <SelectContent>
               <SelectItem value="menos50">Menos de 50</SelectItem>
               <SelectItem value="50-200">50 – 200</SelectItem>
@@ -219,7 +219,7 @@ export default function Form() {
         {/* ¿Cómo describirías tu institución? */}
         <motion.div variants={fadeUp(6)} initial="hidden" whileInView="visible" viewport={VP} className="flex flex-col gap-1.5">
           <Label htmlFor="f-desc" className="text-sm">
-            ¿Cómo describirías tu institución?{' '}
+            ¿Cómo describirías tu centro de salud?{' '}
             <span className="text-muted-foreground font-normal">(opcional)</span>
           </Label>
           <Textarea

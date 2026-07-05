@@ -11,7 +11,7 @@ const LINK_GROUPS = [
     links: [
       { label: 'Funciones',      href: '#funciones'  },
       { label: 'Precios',        href: '#precios'    },
-      { label: 'Solicitar demo', href: '#demo'       },
+      { label: 'Solicitar proyecto', href: '#demo'       },
     ],
   },
   {
@@ -57,7 +57,7 @@ export default function Footer({ variant }: FooterProps) {
             <div className="max-w-xs flex flex-col gap-3">
               <span className="text-lg font-bold text-foreground">Qaalia</span>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                La identidad digital que tu institución educativa necesita. Simple, segura y escalable.
+                La identidad digital que tu centro de salud necesita. Simple, segura y escalable.
               </p>
             </div>
             <LinkGroups />
@@ -67,7 +67,7 @@ export default function Footer({ variant }: FooterProps) {
             <div>
               <span className="text-lg font-bold text-foreground">Qaalia</span>
               <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
-                La identidad digital que tu institución educativa necesita.
+                La identidad digital que tu centro de salud necesita.
               </p>
             </div>
             <LinkGroups />

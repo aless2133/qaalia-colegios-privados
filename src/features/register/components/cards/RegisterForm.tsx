@@ -2,12 +2,12 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Shop, Category2, Location, Send, Profile, ArrowLeft2, TickCircle, Refresh2, Whatsapp } from 'iconsax-react'
+import { Shop, Category2, Location, Send, Profile, ArrowLeft2, TickCircle, Refresh2, Call, Whatsapp } from 'iconsax-react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { useRegister } from '@/src/features/register/hooks/useRegister'
-import { fadeUp } from '@/src/features/components/animations/variants'
-import Snackbar from '@/src/features/components/animations/SnackBar'
+import { fadeUp } from '@/src/features/register/components/animations/variants'
+import Snackbar from '@/src/features/components/utils/SnackBar'
 
 function Field({ icon, placeholder, value, onChange, type = 'text' }: any) {
   return (
@@ -152,8 +152,18 @@ export default function RegisterForm() {
                   <img src={user.user_metadata.avatar_url} alt="" className="absolute right-3.5 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full" />
                 )}
               </div>
-              <Field icon={<Whatsapp size={18} />} placeholder="Teléfono / WhatsApp" type="tel"
-                value={form.telefono} onChange={(v: string) => setForm(f => ({ ...f, telefono: v }))} />
+               <div className="relative">
+                <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">
+                  <Whatsapp size={18} color="currentColor" />
+                </span>
+                <Input
+                  className="pl-11 h-12 rounded-2xl"
+                  placeholder="Teléfono / WhatsApp"
+                  type="tel"
+                  value={form.telefono}
+                  onChange={e => setForm(f => ({ ...f, telefono: e.target.value }))}
+                />
+              </div>
               <Button onClick={() => { setError(''); setStep('step1') }} variant="outline" size="lg"
                 className="w-full rounded-2xl font-semibold gap-2">
                 <ArrowLeft2 size={15} color="currentColor" /> Anterior
