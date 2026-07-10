@@ -7,18 +7,20 @@ import {
   Home2, Profile2User, TaskSquare, Wallet2,
   DocumentText, Setting2, LogoutCurve,
   Icon,
+  User,
+  Activity,
+  Cpu,
 } from 'iconsax-react'
 import type { NegocioData } from '@/src/lib/auth/UseLogic'
 
 interface NavItem { icon: Icon; label: string; href: string }
 
 const NAV: NavItem[] = [
-  { icon: Home2,        label: 'Dashboard',    href: '/dashboard' },
-  { icon: TaskSquare,   label: 'Trabajos',     href: '/dashboard/trabajos' },
-  { icon: Profile2User, label: 'Clientes',     href: '/dashboard/clientes' },
-  { icon: Profile2User, label: 'Técnicos',     href: '/dashboard/tecnicos' },
-  { icon: DocumentText, label: 'Presupuestos', href: '/dashboard/presupuestos' },
-  { icon: Wallet2,      label: 'Facturación',  href: '/dashboard/facturacion' },
+  { icon: Home2,        label: 'Inicio',    href: '/dashboard' },
+  { icon: Activity,   label: 'Actividad',     href: '/activity' },
+  { icon: TaskSquare, label: 'Acciones',     href: '/shares' },
+  { icon: Cpu, label: 'Agente',     href: '/assistant' },
+  { icon: User, label: 'Perfil', href: '/dashboard/presupuestos' },
 ]
 
 interface SidebarProps {

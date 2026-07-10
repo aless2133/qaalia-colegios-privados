@@ -2,15 +2,15 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Home2, TaskSquare, Profile2User, Wallet2, Icon } from 'iconsax-react'
+import { Home2, Icon, Box, Note1, Activity, Star, Cpu, TaskSquare } from 'iconsax-react'
 
 interface NavItem { icon: Icon; label: string; href: string }
 
 const NAV: NavItem[] = [
   { icon: Home2,        label: 'Inicio',    href: '/dashboard' },
-  { icon: TaskSquare,   label: 'Trabajos',  href: '/dashboard/trabajos' },
-  { icon: Profile2User, label: 'Clientes',  href: '/dashboard/clientes' },
-  { icon: Wallet2,      label: 'Facturas',  href: '/dashboard/facturacion' },
+  { icon: Activity,   label: 'Actividad',  href: '/activity' },
+  { icon: TaskSquare, label: 'Acciones',  href: '/shares' },
+  { icon: Cpu,      label: 'Agente',  href: '/assistant' },
 ]
 
 export default function Navbar() {
