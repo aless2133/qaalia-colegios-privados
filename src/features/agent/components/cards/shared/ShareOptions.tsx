@@ -6,7 +6,6 @@ import type { AccionAgente } from '@/src/features/agent/hooks/useAgent'
 interface Props {
   acciones:      AccionAgente[]
   onSeleccionar: (accion: AccionAgente) => void
-  /** 'wrap' = varias filas centradas (estado sin mensajes). 'row' = una sola fila con scroll horizontal. */
   variant?:      'wrap' | 'row'
 }
 
@@ -29,11 +28,11 @@ export default function SharesOption({ acciones, onSeleccionar, variant = 'wrap'
           <button
             key={accion.id}
             onClick={() => onSeleccionar(accion)}
-            className="flex items-center gap-1.5 rounded-full border border-border bg-accent/60 hover:bg-accent
-                       px-3.5 py-2 text-left transition-colors flex-shrink-0"
+            className="flex items-center gap-1.5 rounded-full border border-border bg-primary/10 hover:bg-primary/15
+            px-3.5 py-2 text-left transition-colors flex-shrink-0"
           >
-            <Icono size={14} color="currentColor" className="text-muted-foreground flex-shrink-0" />
-            <span className="text-[11px] font-medium text-foreground truncate">{accion.nombre}</span>
+            <Icono size={14} color="currentColor" className="text-primary flex-shrink-0" />
+            <span className="text-[11px] font-medium text-primary truncate">{accion.nombre}</span>
           </button>
         )
       })}

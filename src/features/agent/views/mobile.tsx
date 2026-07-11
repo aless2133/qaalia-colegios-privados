@@ -1,7 +1,7 @@
 'use client'
 
 import { useAgent } from '@/src/features/agent/hooks/useAgent'
-import Hero from '@/src/features/agent/components/layouts/shared/Hero'
+import Navbar from '@/src/features/agent/components/layouts/shared/Navbar'
 import Core from '@/src/features/agent/components/layouts/shared/Core'
 
 interface Props {
@@ -13,16 +13,7 @@ export default function AgentMobile({ slug }: Props) {
 
   return (
     <div className="min-h-[100dvh] flex flex-col bg-background">
-      <div className="px-4 pt-5">
-        <Hero
-          nombre={agent.nombreAgente}
-          activo={agent.agenteActivo}
-          loading={agent.loading}
-          onInfo={() => {}}
-          onPerfil={() => {}}
-        />
-      </div>
-
+     <Navbar nombreNegocio={agent.nombreAgente} loading={agent.loading} />
       <Core agent={agent} />
     </div>
   )

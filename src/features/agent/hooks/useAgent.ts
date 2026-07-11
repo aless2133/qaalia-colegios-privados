@@ -116,7 +116,7 @@ export function useAgent(slug: string) {
     const mensajeAgente: MensajeAgente = {
       id: `msg-${Date.now() + 1}`,
       rol: 'agente',
-      texto: 'Gracias por tu mensaje, en un momento te ayudo con eso.',
+      texto: 'Gracias por tu mensaje, en un momento te ayudo con eso. Gracias por tu mensaje, en un momento te ayudo con eso. Gracias por tu mensaje, en un momento te ayudo con eso.',
       fecha: new Date().toISOString(),
     }
     setMensajes(prev => [...prev, mensajeAgente])

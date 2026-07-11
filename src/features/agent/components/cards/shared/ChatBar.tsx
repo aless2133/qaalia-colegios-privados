@@ -12,9 +12,10 @@ interface Props {
   enviando:  boolean
   /** Variante grande y centrada (estado sin mensajes). Por defecto es la barra fija/slim. */
   centrado?: boolean
+  onAbrirAcciones?: () => void
 }
 
-export default function ChatBar({ texto, setTexto, onEnviar, enviando, centrado = false }: Props) {
+export default function ChatBar({ texto, setTexto, onEnviar, enviando, centrado = false, onAbrirAcciones}: Props) {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   // Auto-crecimiento del textarea según el contenido
@@ -41,7 +42,6 @@ export default function ChatBar({ texto, setTexto, onEnviar, enviando, centrado 
     if (texto.trim()) onEnviar()
   }
 
-  // Clic en cualquier parte de la barra enfoca el textarea (más tolerante que solo el textarea)
   const enfocar = () => textareaRef.current?.focus()
 
   if (centrado) {
@@ -69,7 +69,7 @@ export default function ChatBar({ texto, setTexto, onEnviar, enviando, centrado 
             disabled={!texto.trim() || enviando}
             className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 w-9 h-9"
           >
-            <Send2 size={16} color="currentColor" />
+            <ArrowUpIcon size={16} color="currentColor" />
           </Button>
         </div>
       </div>
@@ -79,12 +79,13 @@ export default function ChatBar({ texto, setTexto, onEnviar, enviando, centrado 
   return (
     <div
       onClick={enfocar}
-      className="w-full rounded-full border border-border bg-accent/50 pl-2 pr-2 py-2 flex items-center gap-2 cursor-text
+      className="w-full rounded-full border border-border bg-card/50 pl-2 pr-2 py-2 flex items-center gap-2 cursor-text
                  transition-all duration-200 ease-out
                  focus-within:-translate-y-0.5 focus-within:shadow-lg focus-within:border-primary/40"
     >
       <button
         type="button"
+        onClick={(e) => { e.stopPropagation(); onAbrirAcciones?.() }}
         className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 hover:bg-accent transition-colors"
       >
         <AddSquare size={18} color="currentColor" className="text-muted-foreground" />

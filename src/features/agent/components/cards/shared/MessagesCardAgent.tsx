@@ -15,13 +15,13 @@ function formatearHora(iso: string) {
 
 export default function MessagesCardAgent({ mensaje, escribiendo }: Props) {
   return (
-    <div className="flex items-start gap-2 max-w-[85%]">
+    <div className="flex items-start gap-2 max-w-[98%]">
       <div className="w-7 h-7 rounded-full bg-accent flex items-center justify-center flex-shrink-0 mt-0.5">
-        <Cpu size={14} color="currentColor" className="text-foreground" />
+        <Cpu size={14} color="currentColor" className="text-primary" />
       </div>
 
       <div className="flex flex-col gap-2">
-        <div className="rounded-2xl rounded-tl-sm bg-card border border-border px-3.5 py-2.5">
+        <div className="px-1 py-2.5">
           {escribiendo ? (
             <div className="flex items-center gap-1 py-1">
               <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground animate-bounce [animation-delay:-0.3s]" />
