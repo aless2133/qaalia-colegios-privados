@@ -3,20 +3,20 @@
 import { Card, CardContent } from '@/components/ui/card'
 import { ArrowUp2, ArrowDown2, Icon } from 'iconsax-react'
 
-export interface ServiceCardTrend {
+export interface DashboardCardTrend {
   value:    string
   positive: boolean
 }
 
-interface ServiceCardProps {
+interface DashboardCardProps {
   icon:    Icon
   label:   string
   value:   string
   helper?: string
-  trend?:  ServiceCardTrend
+  trend?:  DashboardCardTrend
 }
 
-export default function ServiceCard({ icon: IconCmp, label, value, helper, trend }: ServiceCardProps) {
+export default function DashboardCard({ icon: IconCmp, label, value, helper, trend }: DashboardCardProps) {
   return (
     <Card className="bg-card border border-border hover:border-primary/40 hover:shadow-md transition-all">
       <CardContent className="pt-6 flex flex-col gap-3">

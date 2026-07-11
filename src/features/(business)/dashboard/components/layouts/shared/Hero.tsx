@@ -84,7 +84,7 @@ export default function Hero({ negocio, negocios, onSwitch, onNuevoTrabajo }: He
         className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold px-6 gap-2 w-fit"
       >
         <AddCircle size={18} color="currentColor" />
-        Nuevo trabajo
+        Personalizar agente
       </Button>
     </div>
   )

@@ -2,7 +2,7 @@
 
 import { Card, CardHeader, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { AddCircle, DocumentText, Profile2User, ArrowRight2, Icon } from 'iconsax-react'
+import { AddCircle, Messages2, ProfileCircle, ArrowRight2, Icon, BrushBig } from 'iconsax-react'
 
 interface Suggestion {
   icon:  Icon
@@ -13,22 +13,22 @@ interface Suggestion {
 
 const SUGGESTIONS: Suggestion[] = [
   {
-    icon:  Profile2User,
-    title: 'Agrega tu primer técnico',
-    desc:  'Sin técnicos asignados no puedes generar órdenes de trabajo.',
-    cta:   'Agregar técnico',
-  },
-  {
-    icon:  DocumentText,
-    title: 'Activa la facturación electrónica',
-    desc:  'Conecta tu RUC para emitir comprobantes válidos ante el SRI.',
-    cta:   'Configurar',
+    icon:  Messages2,
+    title: 'Personaliza tu agente IA',
+    desc:  'Define nombre, reglas y contexto para que responda como tú lo harías.',
+    cta:   'Personalizar agente',
   },
   {
     icon:  AddCircle,
-    title: 'Crea tu primer cliente',
-    desc:  'Registra el historial de equipos y servicios de tus clientes.',
-    cta:   'Nuevo cliente',
+    title: 'Crea tu primera acción',
+    desc:  "Ej: 'Cotizar producto' o 'Reportar problema' para guiar a tus clientes.",
+    cta:   'Crear acción',
+  },
+  {
+    icon:  BrushBig,
+    title: 'Completa el branding de tu enlace',
+    desc:  'Logo, colores y datos de tu negocio en tu enlace único.',
+    cta:   'Editar branding',
   },
 ]
 
@@ -36,9 +36,9 @@ export default function Suggeres() {
   return (
     <Card className="bg-card border border-border h-fit">
       <CardHeader className="pb-3">
-        <h3 className="text-sm font-semibold text-foreground">Próximos pasos</h3>
+        <h3 className="text-sm font-semibold text-foreground">Sugerencias</h3>
         <p className="text-xs text-muted-foreground">
-          Completa esto para sacarle todo el provecho a Servys.
+          Necesario para sacarle todo el provecho a tu agente.
         </p>
       </CardHeader>
       <CardContent className="flex flex-col gap-1">

@@ -1,93 +1,103 @@
 'use client'
 
 import { Card, CardHeader, CardContent } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { TaskSquare, Profile2User, Wallet2, CalendarTick, Clock } from 'iconsax-react'
-import ServiceCard from '@/src/features/(business)/dashboard/components/cards/shared/ServiceCard'
+import { Button } from '@/components/ui/button'
+import { Messages2, DocumentText, Eye, TaskSquare, Link1, ExportSquare, Setting2, AddCircle, TickCircle, Setting, Copy } from 'iconsax-react'
+import DashboardCard from '@/src/features/(business)/dashboard/components/cards/shared/DashboardCard'
 import Suggeres    from '@/src/features/(business)/dashboard/components/cards/shared/Suggeres'
 import type { NegocioData } from '@/src/lib/auth/UseLogic'
-
+import PlanCard from '@/src/features/(business)/dashboard/components/cards/shared/PlanCard'
+import { useState, useMemo } from 'react'
 interface CoreProps {
   negocio: NegocioData | null
 }
 
-// cuando exista el endpoint de métricas del negocio.
+// TODO: reemplazar por el endpoint real de métricas del agente/negocio.
 const STATS = [
-  { icon: TaskSquare,    label: 'Trabajos hoy',        value: '8',      helper: '3 en progreso · 5 agendados', trend: { value: '+12%', positive: true  } },
-  { icon: Profile2User,  label: 'Técnicos activos',    value: '4',      helper: 'De un total de 6 registrados' },
-  { icon: Wallet2,       label: 'Ingresos del mes',    value: '$2,340', trend: { value: '+8%',  positive: true  } },
-  { icon: CalendarTick,  label: 'Citas pendientes',    value: '11',     helper: 'Próximas 7 días' },
-]
-
-type EstadoTrabajo = 'pendiente' | 'en_progreso' | 'completado'
-
-const ESTADO_LABEL: Record<EstadoTrabajo, string> = {
-  pendiente:    'Pendiente',
-  en_progreso:  'En progreso',
-  completado:   'Completado',
-}
-
-const ESTADO_VARIANT: Record<EstadoTrabajo, 'secondary' | 'default' | 'outline'> = {
-  pendiente:   'outline',
-  en_progreso: 'secondary',
-  completado:  'default',
-}
-
-const TRABAJOS_RECIENTES: Array<{
-  id: string; cliente: string; servicio: string; tecnico: string; estado: EstadoTrabajo; hora: string
-}> = [
-  { id: 'T-1042', cliente: 'Comercial Andrade',  servicio: 'Mantenimiento A/C',   tecnico: 'Luis Cabrera',  estado: 'en_progreso', hora: '09:30' },
-  { id: 'T-1041', cliente: 'Farmacia San Juan',  servicio: 'Revisión eléctrica',  tecnico: 'Ana Guamán',    estado: 'pendiente',   hora: '11:00' },
-  { id: 'T-1040', cliente: 'Residencial Los Pinos', servicio: 'Fumigación',       tecnico: 'Jorge Vélez',   estado: 'completado',  hora: '08:15' },
-  { id: 'T-1039', cliente: 'Hotel Real',         servicio: 'Mantenimiento A/C',   tecnico: 'Luis Cabrera',  estado: 'completado',  hora: 'Ayer' },
+  { icon: Messages2,    label: 'Conversaciones activas', value: '12',  helper: 'Últimas registradas' },
+  { icon: DocumentText, label: 'Solicitudes pendientes',  value: '5',   helper: 'Esperando tu respuesta' },
+  { icon: TickCircle,          label: 'Completados',       value: '340', trend: { value: '+18%', positive: true } },
+  { icon: TaskSquare,   label: 'Acciones configuradas',   value: '4',   helper: 'Disponibles para tus clientes' },
 ]
 
 export default function Core({ negocio }: CoreProps) {
+  const [copiado, setCopiado] = useState(false)
+  const enlace = useMemo(() => {
+    if (!negocio?.slug) return null
+    return `${typeof window !== 'undefined' ? window.location.origin : ''}/r/${negocio.slug}`
+  }, [negocio?.slug])
+
+  const enlaceCorto = useMemo(() =>
+    enlace ? enlace.replace(/^https?:\/\//, '') : 'Sin enlace configurado'
+  , [enlace])
+
+  const copiarEnlace = async () => {
+    if (!enlace) return
+    await navigator.clipboard.writeText(enlace)
+    setCopiado(true)
+    setTimeout(() => setCopiado(false), 2200)
+  }
+
   return (
     <div className="flex flex-col gap-6">
-      {/* Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {STATS.map(s => <ServiceCard key={s.label} {...s} />)}
-      </div>
-
-      {/* Trabajos recientes + sugerencias */}
+      <Card className="bg-card border border-border">
+        <CardHeader className="pb-3">
+          <h3 className="text-sm font-semibold text-foreground">Resumen</h3>
+          <p className="text-xs text-muted-foreground">
+            Así va tu negocio en este momento.
+          </p>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-1">
+          {STATS.map((s, i) => (
+            <div key={s.label} className="flex flex-col gap-2">
+              <div className="flex items-center gap-3 py-3">
+                <div className="w-9 h-9 rounded-xl bg-accent flex items-center justify-center flex-shrink-0">
+                  <s.icon size={16} color="currentColor" className="text-primary" />
+                </div>
+               <div className="flex-1 flex flex-col gap-1 min-w-0">
+                  <p className="text-sm font-medium text-foreground">{s.label}</p>
+                  {s.helper && (
+                    <p className="text-xs text-muted-foreground leading-relaxed">{s.helper}</p>
+                  )}
+                </div>
+                <span className="text-sm font-bold text-foreground flex-shrink-0">{s.value}</span>
+              </div>
+              {i < STATS.length - 1 && <div className="h-px bg-border" />}
+            </div>
+          ))}
+        </CardContent>
+      </Card>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 items-start">
         <Card className="lg:col-span-2 bg-card border border-border">
-          <CardHeader className="pb-3 flex flex-row items-center justify-between">
-            <div>
-              <h3 className="text-sm font-semibold text-foreground">Trabajos recientes</h3>
-              <p className="text-xs text-muted-foreground">
-                {negocio?.nombre ?? 'Tu negocio'} · últimas órdenes de trabajo
+          <CardHeader className="pb-0">
+            <h3 className="text-sm font-semibold text-foreground">Enlace del negocio</h3>
+            <p className="text-xs text-muted-foreground">
+             Comparte tu enlace, puedes cambiarlo cuando quieras.
+            </p>
+          </CardHeader>
+          <CardContent className="flex items-center gap-2">
+            <div className="flex-1 flex items-center gap-2 px-3 py-2.5 rounded-2xl bg-accent min-w-0">
+              <Link1 size={16} color="currentColor" className="text-muted-foreground flex-shrink-0" />
+              <p className="text-xs font-semibold text-foreground truncate">
+                {enlaceCorto}
               </p>
             </div>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-1">
-            {TRABAJOS_RECIENTES.map((t, i) => (
-              <div key={t.id} className="flex flex-col gap-0">
-                <div className="flex items-center gap-3 py-3">
-                  <div className="w-9 h-9 rounded-xl bg-accent flex items-center justify-center flex-shrink-0">
-                    <Clock size={16} color="currentColor" className="text-primary" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-foreground truncate">{t.cliente}</p>
-                    <p className="text-xs text-muted-foreground truncate">
-                      {t.servicio} · {t.tecnico}
-                    </p>
-                  </div>
-                  <div className="flex flex-col items-end gap-1 flex-shrink-0">
-                    <Badge variant={ESTADO_VARIANT[t.estado]} className="text-[11px] font-medium">
-                      {ESTADO_LABEL[t.estado]}
-                    </Badge>
-                    <span className="text-[11px] text-muted-foreground">{t.hora}</span>
-                  </div>
-                </div>
-                {i < TRABAJOS_RECIENTES.length - 1 && <div className="h-px bg-border" />}
-              </div>
-            ))}
+            <Button
+              size="icon"
+              variant={copiado ? 'default' : 'outline'}
+              onClick={copiarEnlace}
+              disabled={!enlace}
+              className="rounded-full flex-shrink-0 h-9 w-9"
+            >
+              {copiado
+                ? <TickCircle size={18} color="currentColor" variant="Bold" />
+                : <Copy size={18} color="currentColor" />
+              }
+            </Button>
           </CardContent>
         </Card>
-
         <Suggeres />
+        <PlanCard />
       </div>
     </div>
   )

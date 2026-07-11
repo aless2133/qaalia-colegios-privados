@@ -33,7 +33,7 @@ export default function Settings({ ajustes, onSeleccionar }: SettingsProps) {
               >
                 <div className="flex items-center gap-2.5 min-w-0">
                   <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center flex-shrink-0">
-                    <AjusteIcon size={15} color="currentColor" className="text-foreground" />
+                    <AjusteIcon size={15} color="currentColor" className="text-primary" />
                   </div>
                   <div className="min-w-0">
                     <p className="text-xs font-semibold text-foreground truncate">{ajuste.nombre}</p>

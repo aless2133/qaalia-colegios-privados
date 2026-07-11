@@ -31,7 +31,7 @@ export default function Options({ opciones, procesando, onAlternar }: OptionsPro
               <div key={opcion.id} className="flex items-center justify-between gap-3 py-3">
                 <div className="flex items-center gap-2.5 min-w-0">
                   <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center flex-shrink-0">
-                    <OpcionIcon size={15} color="currentColor" className="text-foreground" />
+                    <OpcionIcon size={15} color="currentColor" className="text-primary" />
                   </div>
                   <div className="min-w-0">
                     <p className="text-xs font-semibold text-foreground truncate">{opcion.nombre}</p>
