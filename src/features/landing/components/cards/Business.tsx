@@ -4,27 +4,27 @@ import { Bank, Building3, Buildings2, Shop } from 'iconsax-react'
 const SEGMENTS = [
   {
     icon:  Building3,
-    name:  'Colegios privados',
-    desc:  'Control de acceso, identidad estudiantil y un asistente IA que responde las mismas 30 preguntas que llegan a secretaría cada día.',
-    range: '200 – 2 000 estudiantes',
+    name:  'Clínicas de Medicina Estética',
+    desc:  'Catálogo visual de tratamientos, agendamiento automatizado y filtro de pacientes sin lidiar con los bloqueos de Meta.',
+    range: 'Alto volumen de leads',
   },
   {
     icon:  Buildings2,
-    name:  'Institutos técnicos y vocacionales',
-    desc:  'Gestiona talleres, laboratorios y horarios rotativos con acceso controlado por QR y agendamiento directo a instructores.',
-    range: '50 – 800 estudiantes',
+    name:  'Dermatología Cosmética',
+    desc:  'Asistente IA que responde dudas frecuentes sobre cuidado de la piel, pre-califica y agenda citas en el calendario del doctor.',
+    range: 'Consultorios privados',
   },
   {
     icon:  Shop,
-    name:  'Academias deportivas y culturales',
-    desc:  'Carnés digitales, control de asistencia a entrenamientos y chatbot para responder dudas de padres y tutores fuera de horario.',
-    range: '30 – 500 miembros',
+    name:  'Cirugía Plástica',
+    desc:  'Recepción de formularios de valoración previa con alta privacidad y atención 24/7 centralizada en un solo enlace.',
+    range: 'Tratamientos premium',
   },
   {
     icon:  Bank,
-    name:  'Centros de formación y cursos',
-    desc:  'Identidad digital por cohorte, acceso a materiales por módulo y asistente IA que guía a los alumnos a lo largo del programa.',
-    range: '20 – 300 alumnos',
+    name:  'Odontología Estética y Spas',
+    desc:  'Centraliza mensajes de Instagram, WhatsApp y TikTok en un embudo ordenado. Cero leads perdidos, más citas concretadas.',
+    range: 'Múltiples especialistas',
   },
 ]
 

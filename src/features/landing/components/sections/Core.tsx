@@ -38,9 +38,9 @@ export default function Core({ variant }: CoreProps) {
       <section id="funciones" className={`py-20 ${px} bg-muted/40`}>
         <div className={cnt}>
           <SectionHeader
-            eyebrow="Funcionalidades"
-            title="Todo lo que tu institución necesita"
-            sub="Del carné digital al asistente con IA. Una sola plataforma, sin papeles."
+            eyebrow="Soluciones"
+            title="Todo el control en un solo enlace"
+            sub="Del caos multicanal al orden absoluto. Atiende, cotiza y agenda sin perder un solo mensaje."
           />
           <Functions />
         </div>
@@ -50,9 +50,9 @@ export default function Core({ variant }: CoreProps) {
       <section id="para-quien" className={`py-20 ${px}`}>
         <div className={cnt}>
           <SectionHeader
-            eyebrow="Para quién"
-            title="Diseñado para instituciones reales"
-            sub="Colegios privados, institutos técnicos, academias y centros de formación."
+            eyebrow="Mercado"
+            title="Diseñado para la industria médica estética"
+            sub="Clínicas estéticas, dermatólogos, cirujanos plásticos y spas médicos que necesitan escalar su atención."
           />
           <Business />
         </div>

@@ -5,33 +5,33 @@ import { Calendar, Category2, Chart2, Messages2, ScanBarcode, ShieldTick } from 
 const FEATURES = [
   {
     icon: ScanBarcode,
-    title: 'Credencial QR dinámica',
-    desc:  'Cada estudiante tiene un QR único que puede activarse, suspenderse o restringirse desde el panel. Reemplaza el carné físico — funciona desde el celular.',
-  },
-  {
-    icon: ShieldTick,
-    title: 'Control de acceso por zona',
-    desc:  'Define zonas dentro de tu institución (biblioteca, laboratorio, cafetería) y decide quién puede entrar a cada una. Registro automático de ingresos y salidas.',
+    title: 'Enlace Único Centralizado',
+    desc:  'Tu embudo definitivo. Un solo enlace en tu bio de Instagram, TikTok o WhatsApp que unifica toda tu comunicación y transmite máximo profesionalismo.',
   },
   {
     icon: Messages2,
-    title: 'Gesty — asistente con IA',
-    desc:  'Chatbot entrenado con la información de tu institución. Responde preguntas de estudiantes y padres 24/7: horarios, bienestar, servicios, calendario académico.',
+    title: 'Agente IA de Atención 24/7',
+    desc:  'Chatbot entrenado con tu tono de marca, reglas y catálogo. Responde dudas, pre-califica al paciente y atiende cuando tu equipo está descansando.',
+  },
+  {
+    icon: ShieldTick,
+    title: 'Catálogo sin bloqueos de Meta',
+    desc:  'Muestra tus tratamientos (bótox, limpiezas, etc.) con fotos y descripciones detalladas en un entorno seguro, eludiendo la estricta censura de WhatsApp.',
   },
   {
     icon: Category2,
-    title: 'Portal del estudiante',
-    desc:  'El estudiante accede a su QR, horario, servicios disponibles y notificaciones desde un solo lugar. Sin apps adicionales que instalar.',
+    title: 'Dashboard Kanban Operativo',
+    desc:  'Adiós al caos. Cada interacción del cliente aparece en tu panel con estados claros (Pendiente, En proceso, Completado). El orden absoluto para tus leads.',
   },
   {
     icon: Calendar,
-    title: 'Agendamiento interno',
-    desc:  'Los estudiantes agendan citas en bienestar estudiantil, enfermería y biblioteca directamente desde su portal. Sin llamadas ni filas.',
+    title: 'Agendamiento Automático',
+    desc:  'El Agente IA muestra tus horarios disponibles, pide los datos necesarios y agenda la cita directamente. Sin cruce de horarios ni fricciones.',
   },
   {
     icon: Chart2,
-    title: 'Analytics de acceso',
-    desc:  'Visualiza patrones de entrada, detecta ausencias recurrentes y genera reportes por salón, área o período. Exportable a PDF.',
+    title: 'Acciones y Formularios',
+    desc:  'Crea flujos específicos: "Cotizar Tratamiento", "Reportar Problema" o "Valoración Previa", pidiendo los datos exactos que necesitas antes de la cita.',
   },
 ]
 

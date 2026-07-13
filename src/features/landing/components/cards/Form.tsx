@@ -113,26 +113,26 @@ export default function Form() {
       >
         {/* Eyebrow */}
         <p className="text-[11px] font-semibold uppercase tracking-widest text-primary">
-          Hablemos de tu situación
+          Hablemos de tu flujo de pacientes
         </p>
 
         {/* Heading */}
         <div className="flex flex-col gap-3">
           <h2 className="text-3xl font-bold text-foreground leading-tight">
             Hola,{' '}
-            <span className="text-primary">¿lista para</span>
-            <br />digitalizar tu centro de salud?
+            <span className="text-primary">¿listo para</span>
+            <br />automatizar tu clínica?
           </h2>
           <p className="text-sm text-muted-foreground leading-relaxed max-w-sm">
             No dudes en contactarnos si tienes preguntas sobre cómo Qaalia puede
-            transformar la gestión de tu centro de salud.
+            ordenar tus mensajes, cotizar por ti y llenar tu agenda.
           </p>
         </div>
 
         {/* Tagline + contact */}
         <div className="flex flex-col gap-4">
           <p className="text-sm font-semibold text-foreground">
-            Identidad digital para centros de salud.
+            El enlace único definitivo para tu negocio.
           </p>
           {CONTACT.map(({ Icon, label }) => (
             <div key={label} className="flex items-center gap-3">
@@ -167,21 +167,21 @@ export default function Form() {
 
         {/* Institución */}
         <motion.div variants={fadeUp(2)} initial="hidden" whileInView="visible" viewport={VP} className="flex flex-col gap-1.5">
-          <Label htmlFor="f-inst" className="text-sm">Nombre de la institución</Label>
-          <Input id="f-inst" placeholder="Ej. Hospital San Andrés" value={form.institution} onChange={set('institution')} />
+          <Label htmlFor="f-inst" className="text-sm">Nombre de la clínica o consultorio</Label>
+          <Input id="f-inst" placeholder="Ej. DermaBeauty Clinic" value={form.institution} onChange={set('institution')} />
         </motion.div>
 
         {/* Tipo + Rol */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <motion.div variants={fadeUp(3)} initial="hidden" whileInView="visible" viewport={VP} className="flex flex-col gap-1.5">
-            <Label className="text-sm">Tipo de centro de salud</Label>
+            <Label className="text-sm">Especialidad</Label>
             <Select onValueChange={setVal('institutionType')}>
               <SelectTrigger><SelectValue placeholder="Selecciona el tipo" /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="colegio">Hospital</SelectItem>
-                <SelectItem value="instituto">Clínica</SelectItem>
-                <SelectItem value="academia">Academia deportiva / cultural</SelectItem>
-                <SelectItem value="centro">Centro de formación</SelectItem>
+                <SelectItem value="estetica">Medicina Estética</SelectItem>
+                <SelectItem value="dermatologia">Dermatología</SelectItem>
+                <SelectItem value="plastica">Cirugía Plástica</SelectItem>
+                <SelectItem value="odontologia">Odontología / Spa</SelectItem>
                 <SelectItem value="otro">Otro</SelectItem>
               </SelectContent>
             </Select>
@@ -191,31 +191,29 @@ export default function Form() {
             <Select onValueChange={setVal('role')}>
               <SelectTrigger><SelectValue placeholder="Selecciona tu rol" /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="rector">Rector / Director</SelectItem>
-                <SelectItem value="coordinador">Coordinador académico</SelectItem>
-                <SelectItem value="admin">Administrativo</SelectItem>
-                <SelectItem value="docente">Docente</SelectItem>
+                <SelectItem value="medico">Médico Especialista</SelectItem>
+                <SelectItem value="gerente">Gerente / Administrador</SelectItem>
+                <SelectItem value="marketing">Marketing / Ventas</SelectItem>
+                <SelectItem value="recepcion">Recepción / Atención</SelectItem>
                 <SelectItem value="otro">Otro</SelectItem>
               </SelectContent>
             </Select>
           </motion.div>
         </div>
 
-        {/* Número de profesionales */}
+        {/* Número de profesionales (reutilizado para volumen de leads) */}
         <motion.div variants={fadeUp(5)} initial="hidden" whileInView="visible" viewport={VP} className="flex flex-col gap-1.5">
-          <Label className="text-sm">Número de profesionales</Label>
+          <Label className="text-sm">Volumen de mensajes al mes</Label>
           <Select onValueChange={setVal('students')}>
-            <SelectTrigger><SelectValue placeholder="¿Cuántos profesionales a cargo?" /></SelectTrigger>
+            <SelectTrigger><SelectValue placeholder="¿Cuántos pacientes escriben?" /></SelectTrigger>
             <SelectContent>
-              <SelectItem value="menos50">Menos de 50</SelectItem>
-              <SelectItem value="50-200">50 – 200</SelectItem>
-              <SelectItem value="200-500">200 – 500</SelectItem>
-              <SelectItem value="500-1000">500 – 1 000</SelectItem>
-              <SelectItem value="mas1000">Más de 1 000</SelectItem>
+              <SelectItem value="menos50">Menos de 100 mensajes</SelectItem>
+              <SelectItem value="50-200">100 – 500 mensajes</SelectItem>
+              <SelectItem value="200-500">500 – 1,000 mensajes</SelectItem>
+              <SelectItem value="500-1000">Más de 1,000 mensajes</SelectItem>
             </SelectContent>
           </Select>
         </motion.div>
-
         {/* ¿Cómo describirías tu institución? */}
         <motion.div variants={fadeUp(6)} initial="hidden" whileInView="visible" viewport={VP} className="flex flex-col gap-1.5">
           <Label htmlFor="f-desc" className="text-sm">

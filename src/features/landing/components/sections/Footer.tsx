@@ -57,7 +57,7 @@ export default function Footer({ variant }: FooterProps) {
             <div className="max-w-xs flex flex-col gap-3">
               <span className="text-lg font-bold text-foreground">Qaalia</span>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                La identidad digital que tu centro de salud necesita. Simple, segura y escalable.
+                El enlace único con IA que tu clínica necesita. Automatiza, cotiza y agenda 24/7 sin bloqueos.
               </p>
             </div>
             <LinkGroups />

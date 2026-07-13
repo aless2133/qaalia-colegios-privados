@@ -25,7 +25,7 @@ function StudentCardMockup() {
         <div className="px-5 pt-5 pb-3 flex items-center justify-between bg-primary/5">
           <div>
             <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
-              Qaalia · ID Estudiantil
+              Qaalia · Cita Confirmada
             </p>
             <p className="text-sm font-bold text-foreground mt-0.5">Colegio San Andrés</p>
           </div>
