@@ -27,7 +27,7 @@ export default function Core({ agent }: CoreProps) {
   if (!hayMensajes) {
     return (
       <div className="flex-1 flex flex-col items-center justify-center px-4 py-8 gap-5">
-        {!loading && <EmptyAgents nombreAgente={nombreAgente} />}
+        {!loading && <EmptyAgents nombreAgente={nombreAgente} fotoAgente={agent.fotoAgente}/>}
 
         <div className="w-full max-w-xl flex flex-col gap-3">
           <ChatBar
@@ -52,13 +52,15 @@ export default function Core({ agent }: CoreProps) {
         {mensajes.map(m =>
           m.rol === 'cliente'
             ? <MessagesCardClient key={m.id} mensaje={m} />
-            : <MessagesCardAgent  key={m.id} mensaje={m} />
+            : <MessagesCardAgent  key={m.id} mensaje={m} fotoAgente={agent.fotoAgente} nombreAgente={nombreAgente} />
         )}
 
         {enviando && (
           <MessagesCardAgent
             mensaje={{ id: 'typing', rol: 'agente', texto: '', fecha: new Date().toISOString() }}
             escribiendo
+            fotoAgente={agent.fotoAgente}
+            nombreAgente={nombreAgente}
           />
         )}
       </div>

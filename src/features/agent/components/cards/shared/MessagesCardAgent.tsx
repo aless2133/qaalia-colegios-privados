@@ -5,19 +5,25 @@ import AgentCard from '@/src/features/agent/components/cards/shared/AgentCard'
 import type { MensajeAgente } from '@/src/features/agent/hooks/useAgent'
 
 interface Props {
-  mensaje:     MensajeAgente
+  mensaje:      MensajeAgente
   escribiendo?: boolean
+  fotoAgente?:  string | null
+  nombreAgente?: string
 }
 
 function formatearHora(iso: string) {
   return new Intl.DateTimeFormat('es-EC', { hour: '2-digit', minute: '2-digit' }).format(new Date(iso))
 }
 
-export default function MessagesCardAgent({ mensaje, escribiendo }: Props) {
+export default function MessagesCardAgent({ mensaje, escribiendo, fotoAgente, nombreAgente }: Props) {
   return (
     <div className="flex items-start gap-2 max-w-[98%]">
-      <div className="w-7 h-7 rounded-full bg-accent flex items-center justify-center flex-shrink-0 mt-0.5">
-        <Cpu size={14} color="currentColor" className="text-primary" />
+      <div className="w-7 h-7 rounded-full bg-accent flex items-center justify-center flex-shrink-0 mt-0.5 overflow-hidden">
+        {fotoAgente ? (
+          <img src={fotoAgente} alt={nombreAgente ?? 'Agente'} className="w-full h-full object-cover" />
+        ) : (
+          <Cpu size={14} color="currentColor" className="text-primary" />
+        )}
       </div>
 
       <div className="flex flex-col gap-2">

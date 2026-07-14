@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { TickCircle, PauseCircle, Copy, Setting4 } from 'iconsax-react'
 import type { Asistente } from '@/src/features/(business)/assistant/hooks/useAssistant'
+import Link from 'next/link'
 
 interface AgentCardProps {
   asistente:      Asistente
@@ -52,9 +53,11 @@ export default function AgentCard({ asistente, copiado, onCopiarEnlace, onPerson
           </div>
         </div>
 
-        <Button className="rounded-2xl font-bold gap-1.5 flex-shrink-0" onClick={onPersonalizar}>
+        <Button asChild className="rounded-2xl font-bold gap-1.5 flex-shrink-0">
+          <Link href="/settings">
           <Setting4 size={16} color="currentColor" />
           Personalizar
+          </Link>
         </Button>
       </CardContent>
     </Card>
