@@ -107,10 +107,14 @@ Responde siempre en español, de forma breve y natural, como parte del equipo de
     const respuesta = await chat.sendMessage({ message: mensaje })
 
     return NextResponse.json({ exito: true, respuesta: respuesta.text })
-  } catch (err: any) {
+  } catch (err) {
     console.error('Error en /api/chat:', err)
     return NextResponse.json(
-      { exito: false, error: err?.message ?? 'Ocurrió un error al procesar el mensaje' },
+      {
+        exito: false,
+        error: 'Ocurrió un error al procesar el mensaje',
+        detalle_debug: err instanceof Error ? err.message : String(err),
+      },
       { status: 500 }
     )
   }
