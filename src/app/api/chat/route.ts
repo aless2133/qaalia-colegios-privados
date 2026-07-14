@@ -99,7 +99,7 @@ Responde siempre en español, de forma breve y natural, como parte del equipo de
 
     // 4. Crear la sesión de chat y enviar el mensaje.
     const chat = ai.chats.create({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3.5-flash',
       history,
       config: { systemInstruction },
     })
