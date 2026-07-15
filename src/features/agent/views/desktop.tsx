@@ -13,7 +13,7 @@ export default function AgentDesktop({ slug }: Props) {
 
   return (
     <div className="min-h-[100dvh] flex flex-col bg-background">
-      <Navbar nombreNegocio={agent.nombreAgente} loading={agent.loading} />
+      <Navbar nombreNegocio={agent.negocio?.nombre ?? ''} loading={agent.loading} />
 
       <Core agent={agent} />
     </div>

@@ -6,7 +6,7 @@ import MessagesCardClient from '@/src/features/agent/components/cards/shared/Mes
 import SharesOption       from '@/src/features/agent/components/cards/shared/ShareOptions'
 import ChatBar            from '@/src/features/agent/components/cards/shared/ChatBar'
 import EmptyAgents        from '@/src/features/agent/components/sections/shared/EmptyAgents'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import ActionsModal from '@/src/features/agent/components/modals/shared/ActionsModal'
 
 interface CoreProps {
@@ -22,6 +22,14 @@ export default function Core({ agent }: CoreProps) {
   const [mostrarAcciones, setMostrarAcciones] = useState(false)
   const hayMensajes = mensajes.length > 0
   const handleEnviar = () => enviarMensaje(texto)
+
+    // Ancla invisible al final del flujo de mensajes: cada vez que se envía
+  // (mensajes.length cambia) o el agente empieza/termina de "escribir"
+  // (enviando cambia), se hace scroll suave hasta ella.
+  const finRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    finRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' })
+  }, [mensajes.length, enviando])
 
   // Estado inicial: sin mensajes -> todo centrado verticalmente en pantalla
   if (!hayMensajes) {
@@ -63,6 +71,7 @@ export default function Core({ agent }: CoreProps) {
             nombreAgente={nombreAgente}
           />
         )}
+        <div ref={finRef} className="h-px scroll-mb-28" />
       </div>
 
     <div className="sticky bottom-0 bg-background pt-1 px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))]">

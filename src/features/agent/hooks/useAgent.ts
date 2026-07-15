@@ -144,14 +144,15 @@ export function useAgent(slug: string) {
     }
 
     // Guardamos el historial actual antes de agregar el mensaje nuevo,
-    // para reenviarlo como contexto a Gemini.
-    setMensajes(prev => {
-      const historialParaGemini = prev
-      enviarAGemini(limpio, historialParaGemini)
-      return [...prev, mensajeCliente]
-    })
+    // para reenviarlo como contexto a Gemini. Se captura fuera de setMensajes
+    // porque llamar a la IA dentro de un updater de setState no es seguro:
+    // React (en modo estricto de desarrollo) puede invocar ese updater dos
+    // veces, duplicando la llamada real y por tanto la respuesta.
+    const historialParaGemini = mensajes
+    setMensajes(prev => [...prev, mensajeCliente])
     setTexto('')
     setEnviando(true)
+    enviarAGemini(limpio, historialParaGemini)
 
     async function enviarAGemini(mensajeTexto: string, historial: MensajeAgente[]) {
       try {
@@ -190,7 +191,7 @@ export function useAgent(slug: string) {
         setEnviando(false)
       }
     }
-  }, [slug])
+    }, [slug, mensajes])
 
   const seleccionarAccion = useCallback((accion: AccionAgente) => {
     enviarMensaje(accion.nombre)

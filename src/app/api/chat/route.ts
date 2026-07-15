@@ -14,7 +14,7 @@ const OPENROUTER_URL = 'https://openrouter.ai/api/v1/chat/completions'
 
 // Modelo por defecto para todos los negocios. Si en el futuro agregas la columna
 // `modelo_ia` a la tabla `negocios`, se usará esa en vez de este default.
-const MODELO_DEFAULT = 'google/gemini-3.5-flash'
+const MODELO_DEFAULT = 'deepseek/deepseek-v4-pro'
 
 // Ventana de contexto: cuántos mensajes previos se reenvían al modelo.
 const MAX_HISTORIAL = 20
@@ -119,6 +119,7 @@ Responde siempre en español, de forma breve y natural, como parte del equipo de
       body: JSON.stringify({
         model: negocio.modelo_ia || MODELO_DEFAULT,
         messages,
+        max_tokens: 1000,
       }),
     })
 
