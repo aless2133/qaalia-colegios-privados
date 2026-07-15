@@ -48,30 +48,37 @@ export default function ChatBar({ texto, setTexto, onEnviar, enviando, centrado 
     return (
       <div
         onClick={enfocar}
-        className="w-full rounded-3xl border border-border bg-card px-4 pt-3.5 pb-3 flex flex-col gap-2 cursor-text
+        className="w-full rounded-full border border-border bg-card/50 pl-2 pr-2 py-2 flex items-center gap-2 cursor-text
                    transition-all duration-200 ease-out
-                   focus-within:-translate-y-1 focus-within:shadow-lg focus-within:border-primary/40"
+                   focus-within:-translate-y-0.5 focus-within:shadow-lg focus-within:border-primary/40"
       >
+        <button
+          type="button"
+          onClick={(e) => { e.stopPropagation(); onAbrirAcciones?.() }}
+          className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 hover:bg-accent transition-colors"
+        >
+          <AddSquare size={18} color="currentColor" className="text-muted-foreground" />
+        </button>
+
         <textarea
           ref={textareaRef}
           value={texto}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
-          placeholder="Escribe un mensaje..."
-          rows={2}
-          className="w-full resize-none bg-transparent text-sm text-foreground placeholder:text-muted-foreground
-                     focus:outline-none min-h-[48px] max-h-40"
+          placeholder="¿Cómo puedo ayudarte hoy?"
+          rows={1}
+          className="flex-1 resize-none bg-transparent text-sm text-foreground placeholder:text-border-foreground
+                     focus:outline-none max-h-28 py-1"
         />
-        <div className="flex justify-end">
-          <Button
-            size="icon"
-            onClick={handleEnviarClick}
-            disabled={!texto.trim() || enviando}
-            className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 w-9 h-9"
-          >
-            <ArrowUpIcon size={16} color="currentColor" />
-          </Button>
-        </div>
+
+        <Button
+          size="icon"
+          onClick={handleEnviarClick}
+          disabled={!texto.trim() || enviando}
+          className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 w-9 h-9 flex-shrink-0"
+        >
+          <ArrowUpIcon size={16} color="currentColor" />
+        </Button>
       </div>
     )
   }
@@ -96,9 +103,9 @@ export default function ChatBar({ texto, setTexto, onEnviar, enviando, centrado 
         value={texto}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
-        placeholder="Escribe un mensaje..."
+        placeholder="¿Cómo puedo ayudarte hoy?"
         rows={1}
-        className="flex-1 resize-none bg-transparent text-sm text-foreground placeholder:text-muted-foreground
+        className="flex-1 resize-none bg-transparent text-sm text-foreground placeholder:text-border-foreground
                    focus:outline-none max-h-28 py-1"
       />
 

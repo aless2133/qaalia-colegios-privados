@@ -3,12 +3,11 @@
 import type { useAgent } from '@/src/features/agent/hooks/useAgent'
 import MessagesCardAgent  from '@/src/features/agent/components/cards/shared/MessagesCardAgent'
 import MessagesCardClient from '@/src/features/agent/components/cards/shared/MessagesCardClient'
-import SharesOption       from '@/src/features/agent/components/cards/shared/ShareOptions'
 import ChatBar            from '@/src/features/agent/components/cards/shared/ChatBar'
 import EmptyAgents        from '@/src/features/agent/components/sections/shared/EmptyAgents'
 import { useEffect, useRef, useState } from 'react'
 import ActionsModal from '@/src/features/agent/components/modals/shared/ActionsModal'
-
+import { useStickyFooter } from '@/src/features/agent/hooks/useStickyFooter'
 interface CoreProps {
   agent: ReturnType<typeof useAgent>
 }
@@ -31,21 +30,30 @@ export default function Core({ agent }: CoreProps) {
     finRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' })
   }, [mensajes.length, enviando])
 
+  const footerRef = useRef<HTMLDivElement>(null)
+  useStickyFooter(footerRef)
+
   // Estado inicial: sin mensajes -> todo centrado verticalmente en pantalla
   if (!hayMensajes) {
     return (
-      <div className="flex-1 flex flex-col items-center justify-center px-4 py-8 gap-5">
+      <div className="flex-1 flex flex-col items-center justify-center px-4 -mt-28 gap-5">
         {!loading && <EmptyAgents nombreAgente={nombreAgente} fotoAgente={agent.fotoAgente}/>}
+        <div className="w-full max-w-xl flex flex-col gap-3 relative">
+          <ActionsModal
+            mostrar={mostrarAcciones}
+            onCerrar={() => setMostrarAcciones(false)}
+            acciones={acciones}
+            onSeleccionar={seleccionarAccion}
+          />
 
-        <div className="w-full max-w-xl flex flex-col gap-3">
           <ChatBar
             texto={texto}
             setTexto={setTexto}
             onEnviar={handleEnviar}
             enviando={enviando}
             centrado
+            onAbrirAcciones={() => setMostrarAcciones(true)}
           />
-          <SharesOption acciones={acciones} onSeleccionar={seleccionarAccion} variant="wrap" />
         </div>
       </div>
     )
@@ -74,7 +82,7 @@ export default function Core({ agent }: CoreProps) {
         <div ref={finRef} className="h-px scroll-mb-28" />
       </div>
 
-    <div className="sticky bottom-0 bg-background pt-1 px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+    <div ref={footerRef} className="bg-background pt-1 px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
         <div className="relative lg:max-w-2xl lg:mx-auto flex flex-col gap-2">
           <ActionsModal
             mostrar={mostrarAcciones}

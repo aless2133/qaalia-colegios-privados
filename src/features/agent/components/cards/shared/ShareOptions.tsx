@@ -28,7 +28,7 @@ export default function SharesOption({ acciones, onSeleccionar, variant = 'wrap'
           <button
             key={accion.id}
             onClick={() => onSeleccionar(accion)}
-            className="flex items-center gap-1.5 rounded-full border border-border bg-primary/10 hover:bg-primary/15
+            className="flex items-center gap-1.5 rounded-full border border-primary/10 bg-primary/10 hover:bg-primary/15
             px-3.5 py-2 text-left transition-colors flex-shrink-0"
           >
             <Icono size={14} color="currentColor" className="text-primary flex-shrink-0" />

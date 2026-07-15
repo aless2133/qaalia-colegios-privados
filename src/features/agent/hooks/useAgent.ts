@@ -29,8 +29,6 @@ export interface InfoAgente {
   activo:   boolean
   orden:    number
 }
-
-// Config completa del agente, tal como la devuelve obtener_negocio_por_slug
 export interface ConfigAgente {
   id:           string
   nombre:       string
@@ -68,7 +66,6 @@ interface NegocioYAgenteCache {
 
 const _negocioCache = new Map<string, NegocioYAgenteCache>()
 
-// TODO: reemplazar por fetch real a una tabla "acciones" cuando exista (creadas por el negocio)
 const MOCK_ACCIONES: AccionAgente[] = [
   { id: 'acc-1', nombre: 'Catálogo',          icono: 'Bag2' },
   { id: 'acc-2', nombre: 'Cotizar producto',  icono: 'DocumentText' },
@@ -84,8 +81,6 @@ export function useAgent(slug: string) {
   const [agente, setAgente]   = useState<ConfigAgente | null>(cacheado?.agente ?? null)
   const [loading, setLoading] = useState(!cacheado)
   const [error, setError]     = useState<string | null>(null)
-
-  // TODO: reemplazar por columna/tabla real cuando exista el on/off del agente
   const [agenteActivo, setAgenteActivo] = useState(true)
 
   const [acciones] = useState<AccionAgente[]>(MOCK_ACCIONES)
@@ -93,8 +88,6 @@ export function useAgent(slug: string) {
   const [texto, setTexto]       = useState('')
   const [enviando, setEnviando] = useState(false)
 
-  // Nombre y foto reales configurados por el negocio para su agente.
-  // Si no hay foto, el resto de la UI cae de vuelta al ícono Cpu de iconsax.
   const nombreAgente = agente?.nombre ?? ''
   const fotoAgente   = agente?.foto_url ?? null
 
@@ -109,8 +102,6 @@ export function useAgent(slug: string) {
 
     setLoading(true)
     setError(null)
-
-    // Una sola llamada: trae negocio + agente + reglas + información activa.
     const { data, error: err } = await supabase.rpc('obtener_negocio_por_slug', {
       p_slug: slug,
     })
@@ -142,12 +133,7 @@ export function useAgent(slug: string) {
       texto: limpio,
       fecha: new Date().toISOString(),
     }
-
-    // Guardamos el historial actual antes de agregar el mensaje nuevo,
-    // para reenviarlo como contexto a Gemini. Se captura fuera de setMensajes
-    // porque llamar a la IA dentro de un updater de setState no es seguro:
-    // React (en modo estricto de desarrollo) puede invocar ese updater dos
-    // veces, duplicando la llamada real y por tanto la respuesta.
+    
     const historialParaGemini = mensajes
     setMensajes(prev => [...prev, mensajeCliente])
     setTexto('')
@@ -198,7 +184,6 @@ export function useAgent(slug: string) {
   }, [enviarMensaje])
 
   const toggleAgente = useCallback(() => {
-    // TODO: reemplazar por RPC real de activar/desactivar agente
     setAgenteActivo(prev => !prev)
   }, [])
 

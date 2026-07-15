@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Varela_Round } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/core/providers/ThemeProvider";
@@ -9,6 +9,12 @@ const varelaRound = Varela_Round({ subsets: ["latin"], weight: "400" });
 export const metadata: Metadata = {
   title: "Qaalia",
   description: "Soluciones digitales para tu institución.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  interactiveWidget: "resizes-content",
 };
 
 export default function RootLayout({

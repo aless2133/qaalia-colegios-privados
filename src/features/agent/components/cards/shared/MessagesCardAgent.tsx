@@ -3,6 +3,7 @@
 import { Cpu } from 'iconsax-react'
 import AgentCard from '@/src/features/agent/components/cards/shared/AgentCard'
 import type { MensajeAgente } from '@/src/features/agent/hooks/useAgent'
+import { useEffect, useState } from 'react'
 
 interface Props {
   mensaje:      MensajeAgente
@@ -16,6 +17,24 @@ function formatearHora(iso: string) {
 }
 
 export default function MessagesCardAgent({ mensaje, escribiendo, fotoAgente, nombreAgente }: Props) {
+  const [textoAnimado, setTextoAnimado] = useState('')
+
+  useEffect(() => {
+    if (escribiendo) return
+
+    setTextoAnimado('')
+    let index = 0
+    const interval = setInterval(() => {
+      index++
+      setTextoAnimado(mensaje.texto.slice(0, index))
+      if (index >= mensaje.texto.length) {
+        clearInterval(interval)
+      }
+    }, 25)
+
+    return () => clearInterval(interval)
+  }, [mensaje.texto, escribiendo])
+
   return (
     <div className="flex items-start gap-2 max-w-[98%]">
       <div className="w-7 h-7 rounded-full bg-accent flex items-center justify-center flex-shrink-0 mt-0.5 overflow-hidden">
@@ -36,7 +55,7 @@ export default function MessagesCardAgent({ mensaje, escribiendo, fotoAgente, no
             </div>
           ) : (
             <>
-              <p className="text-sm text-foreground leading-relaxed">{mensaje.texto}</p>
+              <p className="text-sm text-foreground leading-relaxed">{textoAnimado}</p>
               <span className="text-[10px] text-muted-foreground mt-1 block">{formatearHora(mensaje.fecha)}</span>
             </>
           )}

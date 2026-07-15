@@ -93,11 +93,12 @@ export default function Navbar({ nombreNegocio, loading, onNuevoChat, onEnviados
 
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetContent side="left" className="w-4/5 sm:max-w-sm duration-300 flex flex-col p-0 [&>button]:hidden">
-          <SheetHeader className="border-b border-border px-5 py-4">
+         <SheetHeader className="px-5 py-4 pb-2">
             <SheetTitle className="text-lg font-black text-foreground truncate">
               {nombreNegocio || 'Menú'}
             </SheetTitle>
           </SheetHeader>
+          <div className="mx-5 border-b border-border" />
 
           <nav className="flex flex-col gap-1 px-3 py-3">
             {secciones.map(({ id, label, icon: Icono, activo, onClick }) => (
