@@ -1,8 +1,8 @@
 'use client'
 
-import { useRef, type KeyboardEvent, type ChangeEvent } from 'react'
+import { useEffect, useRef, type KeyboardEvent, type ChangeEvent } from 'react'
 import { Button } from '@/components/ui/button'
-import { Add, AddSquare, ArrowUp, ArrowUp2, ArrowUp3, Send2 } from 'iconsax-react'
+import { AddSquare, Microphone } from 'iconsax-react'
 import { ArrowUpIcon } from 'lucide-react'
 
 interface Props {
@@ -10,25 +10,38 @@ interface Props {
   setTexto:  (v: string) => void
   onEnviar:  () => void
   enviando:  boolean
-  /** Variante grande y centrada (estado sin mensajes). Por defecto es la barra fija/slim. */
+  /** Se mantiene por compatibilidad; el diseño es idéntico en ambos casos. */
   centrado?: boolean
   onAbrirAcciones?: () => void
+  onAbrirVoz?: () => void
 }
 
-export default function ChatBar({ texto, setTexto, onEnviar, enviando, centrado = false, onAbrirAcciones}: Props) {
+const MAX_LINEAS = 9
+
+export default function ChatBar({ texto, setTexto, onEnviar, enviando, centrado = false, onAbrirAcciones, onAbrirVoz }: Props) {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
-  // Auto-crecimiento del textarea según el contenido
+  // Auto-crecimiento del textarea, limitado a 9 líneas; de ahí en adelante hace scroll interno
   const ajustarAltura = () => {
     const el = textareaRef.current
     if (!el) return
+
     el.style.height = 'auto'
-    el.style.height = `${el.scrollHeight}px`
+
+    const lineHeight = parseFloat(getComputedStyle(el).lineHeight || '20')
+    const alturaMaxima = lineHeight * MAX_LINEAS
+    const alturaNueva = Math.min(el.scrollHeight, alturaMaxima)
+
+    el.style.height = `${alturaNueva}px`
+    el.style.overflowY = el.scrollHeight > alturaMaxima ? 'auto' : 'hidden'
   }
+
+  useEffect(() => {
+    ajustarAltura()
+  }, [texto])
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setTexto(e.target.value)
-    ajustarAltura()
   }
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
@@ -44,60 +57,14 @@ export default function ChatBar({ texto, setTexto, onEnviar, enviando, centrado 
 
   const enfocar = () => textareaRef.current?.focus()
 
-  if (centrado) {
-    return (
-      <div
-        onClick={enfocar}
-        className="w-full rounded-[19px] border border-border bg-card/50 pl-2 pr-2 py-2 flex items-center gap-2 cursor-text
-                   transition-all duration-200 ease-out
-                   focus-within:-translate-y-0.5 focus-within:shadow-lg focus-within:border-primary/40"
-      >
-        <button
-          type="button"
-          onClick={(e) => { e.stopPropagation(); onAbrirAcciones?.() }}
-          className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 hover:bg-accent transition-colors"
-        >
-          <AddSquare size={18} color="currentColor" className="text-muted-foreground" />
-        </button>
-
-        <textarea
-          ref={textareaRef}
-          value={texto}
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
-          placeholder="¿Cómo puedo ayudarte hoy?"
-          rows={1}
-          className="flex-1 resize-none bg-transparent text-sm text-foreground placeholder:text-border-foreground
-                     focus:outline-none max-h-28 py-1"
-        />
-
-        <Button
-          size="icon"
-          onClick={handleEnviarClick}
-          disabled={!texto.trim() || enviando}
-          className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 w-9 h-9 flex-shrink-0"
-        >
-          <ArrowUpIcon size={16} color="currentColor" />
-        </Button>
-      </div>
-    )
-  }
-
   return (
     <div
       onClick={enfocar}
-      className="w-full rounded-[19px] border border-border bg-card/50 pl-2 pr-2 py-2 flex items-center gap-2 cursor-text
+      className="w-full rounded-[19px] border border-border bg-card/50 px-2 pt-2.5 pb-2 flex flex-col cursor-text
                  transition-all duration-200 ease-out
                  focus-within:-translate-y-0.5 focus-within:shadow-lg focus-within:border-primary/40"
     >
-      <button
-        type="button"
-        onClick={(e) => { e.stopPropagation(); onAbrirAcciones?.() }}
-        className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 hover:bg-accent transition-colors"
-      >
-        <AddSquare size={18} color="currentColor" className="text-muted-foreground" />
-      </button>
-
+      {/* Sección superior: texto del usuario */}
       <textarea
         ref={textareaRef}
         value={texto}
@@ -105,18 +72,39 @@ export default function ChatBar({ texto, setTexto, onEnviar, enviando, centrado 
         onKeyDown={handleKeyDown}
         placeholder="¿Cómo puedo ayudarte hoy?"
         rows={1}
-        className="flex-1 resize-none bg-transparent text-sm text-foreground placeholder:text-border-foreground
-                   focus:outline-none max-h-28 py-1"
+        className="w-full resize-none bg-transparent text-sm text-foreground placeholder:text-border-foreground
+                   focus:outline-none px-1 pb-2 transition-[height] duration-150 ease-out hide-scrollbar"
       />
 
-      <Button
-        size="icon"
-        onClick={handleEnviarClick}
-        disabled={!texto.trim() || enviando}
-        className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 w-9 h-9 flex-shrink-0"
-      >
-        <ArrowUpIcon size={16} color="currentColor" />
-      </Button>
+      {/* Sección inferior: acciones */}
+      <div className="flex items-center justify-between pt-1">
+        <button
+          type="button"
+          onClick={(e) => { e.stopPropagation(); onAbrirAcciones?.() }}
+          className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 bg-border/50 hover:bg-muted transition-colors"
+        >
+          <AddSquare size={18} color="currentColor" className="text-muted-foreground" />
+        </button>
+
+        <div className="flex items-center gap-1.5">
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); onAbrirVoz?.() }}
+            className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 bg-border/50 hover:bg-muted transition-colors"
+          >
+            <Microphone size={18} color="currentColor" className="text-muted-foreground" />
+          </button>
+
+          <Button
+            size="icon"
+            onClick={handleEnviarClick}
+            disabled={!texto.trim() || enviando}
+            className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 w-9 h-9 flex-shrink-0"
+          >
+            <ArrowUpIcon size={16} color="currentColor" />
+          </Button>
+        </div>
+      </div>
     </div>
   )
 }
