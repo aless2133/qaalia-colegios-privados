@@ -36,7 +36,7 @@ export default function Core({ agent }: CoreProps) {
   // Estado inicial: sin mensajes -> todo centrado verticalmente en pantalla
   if (!hayMensajes) {
     return (
-      <div className="flex-1 flex flex-col items-center justify-center px-4 -mt-28 gap-5">
+      <div className="flex-1 flex flex-col items-center justify-center px-4 pt-8 pb-38 gap-5">
         {!loading && <EmptyAgents nombreAgente={nombreAgente} fotoAgente={agent.fotoAgente}/>}
         <div className="w-full max-w-xl flex flex-col gap-3 relative">
           <ActionsModal

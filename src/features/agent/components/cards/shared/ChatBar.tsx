@@ -48,7 +48,7 @@ export default function ChatBar({ texto, setTexto, onEnviar, enviando, centrado 
     return (
       <div
         onClick={enfocar}
-        className="w-full rounded-full border border-border bg-card/50 pl-2 pr-2 py-2 flex items-center gap-2 cursor-text
+        className="w-full rounded-[19px] border border-border bg-card/50 pl-2 pr-2 py-2 flex items-center gap-2 cursor-text
                    transition-all duration-200 ease-out
                    focus-within:-translate-y-0.5 focus-within:shadow-lg focus-within:border-primary/40"
       >
@@ -86,7 +86,7 @@ export default function ChatBar({ texto, setTexto, onEnviar, enviando, centrado 
   return (
     <div
       onClick={enfocar}
-      className="w-full rounded-full border border-border bg-card/50 pl-2 pr-2 py-2 flex items-center gap-2 cursor-text
+      className="w-full rounded-[19px] border border-border bg-card/50 pl-2 pr-2 py-2 flex items-center gap-2 cursor-text
                  transition-all duration-200 ease-out
                  focus-within:-translate-y-0.5 focus-within:shadow-lg focus-within:border-primary/40"
     >
