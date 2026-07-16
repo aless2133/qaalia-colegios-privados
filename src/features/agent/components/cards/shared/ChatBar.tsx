@@ -79,7 +79,7 @@ export default function ChatBar({ texto, setTexto, onEnviar, enviando, centrado 
     <div
       ref={contenedorRef}
       onClick={enfocar}
-      className="w-full rounded-[19px] border border-border/50 bg-background px-2 pt-2.5 pb-2 flex flex-col cursor-text shadow-lg overflow-hidden
+      className="w-full rounded-[19px] border border-border/50 lg:border-foreground/20 lg:dark:border-border/50 bg-background dark:bg-card px-2 pt-2.5 pb-2 flex flex-col cursor-text shadow-lg lg:shadow-2xl lg:dark:shadow-lg overflow-hidden
                  transition-all duration-200 ease-out
                  focus-within:-translate-y-0.5"
     >
