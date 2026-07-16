@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, type KeyboardEvent, type ChangeEvent } from 'react'
 import { Button } from '@/components/ui/button'
-import { AddSquare, CloseSquare, Microphone, TickSquare } from 'iconsax-react'
+import { AddSquare, CloseCircle, CloseSquare, Microphone, TickSquare } from 'iconsax-react'
 import { ArrowUpIcon } from 'lucide-react'
 import { useSpeechToText } from '@/src/features/agent/hooks/useSpeechToText'
 
@@ -23,7 +23,7 @@ export default function ChatBar({ texto, setTexto, onEnviar, enviando, centrado 
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const contenedorRef = useRef<HTMLDivElement>(null)
 
-    const { estado: estadoVoz, iniciarGrabacion, confirmarGrabacion, cancelarGrabacion } = useSpeechToText()
+  const { estado: estadoVoz, iniciarGrabacion, confirmarGrabacion, cancelarGrabacion } = useSpeechToText()
   const grabando = estadoVoz === 'grabando'
   const procesandoVoz = estadoVoz === 'procesando'
 
@@ -130,7 +130,7 @@ export default function ChatBar({ texto, setTexto, onEnviar, enviando, centrado 
               onClick={(e) => { e.stopPropagation(); cancelarGrabacion() }}
               className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 bg-border/50 lg:bg-foreground/10 lg:dark:bg-border/50 hover:bg-muted transition-colors"
             >
-              <CloseSquare size={18} color="currentColor" className="text-muted-foreground" />
+              <CloseCircle size={18} color="currentColor" className="text-muted-foreground" />
             </button>
           </div>
         </div>
