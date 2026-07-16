@@ -7,11 +7,11 @@ import { useEffect, type RefObject } from 'react'
 // Evita el bug conocido de Safari donde sticky/fixed con bottom: 0 no
 // se recalcula bien cuando el teclado se abre/cierra o la barra del
 // navegador se oculta.
-export function useStickyFooter(ref: RefObject<HTMLElement | null>) {
+export function useStickyFooter(ref: RefObject<HTMLElement | null>, activo: boolean = true) {
   useEffect(() => {
     const vv = window.visualViewport
     const el = ref.current
-    if (!vv || !el) return
+    if (!vv || !el || !activo) return
 
     let raf = 0
     const posicionar = () => {
@@ -33,5 +33,5 @@ export function useStickyFooter(ref: RefObject<HTMLElement | null>) {
       vv.removeEventListener('scroll', posicionar)
       cancelAnimationFrame(raf)
     }
-  }, [ref])
+  }, [ref, activo])
 }

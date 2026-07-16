@@ -1,11 +1,12 @@
 'use client'
 
-import { useState } from 'react'
-import { Menu, X } from 'lucide-react'
-import { Home2, MessageAdd1, Send2, ProfileCircle, Shop, Send } from 'iconsax-react'
+import { useEffect, useState } from 'react'
+import { Menu, Moon, X } from 'lucide-react'
+import { Home2, MessageAdd1, Send2, ProfileCircle, Shop, Send, Sun1 } from 'iconsax-react'
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
+import { useTheme } from 'next-themes'
 
 interface NavbarProps {
   nombreNegocio: string
@@ -21,6 +22,9 @@ export default function Navbar({ nombreNegocio, loading, onNuevoChat, onEnviados
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const { scrollY } = useScroll()
+  const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
 
   useMotionValueEvent(scrollY, 'change', (v) => setScrolled(v > 24))
 
@@ -113,6 +117,24 @@ export default function Navbar({ nombreNegocio, loading, onNuevoChat, onEnviados
               </button>
             ))}
           </nav>
+
+          <div className="mt-auto px-5 py-4">
+            {mounted ? (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                aria-label="Cambiar tema"
+              >
+                {theme === 'dark'
+                  ? <Sun1 color="currentColor" className="text-primary !h-6 !w-6" />
+                  : <Moon className="!h-5 !w-5" />
+                }
+              </Button>
+            ) : (
+              <div className="w-9 h-9" />
+            )}
+          </div>
         </SheetContent>
       </Sheet>
     </>

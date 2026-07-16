@@ -20,10 +20,12 @@ const MAX_LINEAS = 9
 
 export default function ChatBar({ texto, setTexto, onEnviar, enviando, centrado = false, onAbrirAcciones, onAbrirVoz }: Props) {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const contenedorRef = useRef<HTMLDivElement>(null)
 
   // Auto-crecimiento del textarea, limitado a 9 líneas; de ahí en adelante hace scroll interno
   const ajustarAltura = () => {
     const el = textareaRef.current
+    const contenedor = contenedorRef.current
     if (!el) return
 
     el.style.height = 'auto'
@@ -34,6 +36,22 @@ export default function ChatBar({ texto, setTexto, onEnviar, enviando, centrado 
 
     el.style.height = `${alturaNueva}px`
     el.style.overflowY = el.scrollHeight > alturaMaxima ? 'auto' : 'hidden'
+
+    // Anima el marco junto con el texto: se "congela" la altura actual y se
+    // fuerza al navegador a confirmarla (reflow) antes de aplicar la nueva,
+    // para que transition-all tenga un punto de partida real y no salte.
+    if (contenedor) {
+      const alturaPrevia = contenedor.getBoundingClientRect().height
+      contenedor.style.height = `${alturaPrevia}px`
+      void contenedor.offsetHeight
+
+      contenedor.style.height = 'auto'
+      const alturaObjetivo = contenedor.scrollHeight
+      contenedor.style.height = `${alturaPrevia}px`
+      void contenedor.offsetHeight
+
+      contenedor.style.height = `${alturaObjetivo}px`
+    }
   }
 
   useEffect(() => {
@@ -59,10 +77,11 @@ export default function ChatBar({ texto, setTexto, onEnviar, enviando, centrado 
 
   return (
     <div
+      ref={contenedorRef}
       onClick={enfocar}
-      className="w-full rounded-[19px] border border-border bg-card/50 px-2 pt-2.5 pb-2 flex flex-col cursor-text
+      className="w-full rounded-[19px] border border-border/50 bg-background px-2 pt-2.5 pb-2 flex flex-col cursor-text shadow-lg overflow-hidden
                  transition-all duration-200 ease-out
-                 focus-within:-translate-y-0.5 focus-within:shadow-lg focus-within:border-primary/40"
+                 focus-within:-translate-y-0.5"
     >
       {/* Sección superior: texto del usuario */}
       <textarea
