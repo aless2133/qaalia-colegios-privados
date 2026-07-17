@@ -21,10 +21,6 @@ export default function Core({ agent }: CoreProps) {
   const [mostrarAcciones, setMostrarAcciones] = useState(false)
   const hayMensajes = mensajes.length > 0
   const handleEnviar = () => enviarMensaje(texto)
-
-    // Ancla invisible al final del flujo de mensajes: cada vez que se envía
-  // (mensajes.length cambia) o el agente empieza/termina de "escribir"
-  // (enviando cambia), se hace scroll suave hasta ella.
   const finRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
     let raf2 = 0
@@ -42,7 +38,6 @@ export default function Core({ agent }: CoreProps) {
   const footerRef = useRef<HTMLDivElement>(null)
   useStickyFooter(footerRef, hayMensajes)
 
-  // Estado inicial: sin mensajes -> todo centrado verticalmente en pantalla
   if (!hayMensajes) {
     return (
      <div className="flex-1 flex flex-col items-center justify-center px-4 pt-8 pb-[min(9.5rem,calc(var(--app-vh,100dvh)*0.25))] gap-5">
@@ -68,9 +63,6 @@ export default function Core({ agent }: CoreProps) {
     )
   }
 
-  // Estado activo: mensajes en flujo normal (la página scrollea de forma nativa)
-  // y la barra queda "sticky" al fondo del viewport -> no usa fixed/h-[100dvh] calculado,
-  // por eso no se pierde cuando el navegador oculta/muestra su barra superior.
   return (
     <div className="flex-1 flex flex-col">
       <div className="flex-1 flex flex-col gap-3 px-3 pt-4 pb-28 lg:max-w-2xl lg:mx-auto lg:w-full">

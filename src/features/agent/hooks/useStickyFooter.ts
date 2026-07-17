@@ -2,11 +2,6 @@
 
 import { useEffect, type RefObject } from 'react'
 
-// Fija un elemento (la barra de chat inferior) justo en el borde real
-// del visualViewport, usando su altura y offsetTop medidos en vivo.
-// Evita el bug conocido de Safari donde sticky/fixed con bottom: 0 no
-// se recalcula bien cuando el teclado se abre/cierra o la barra del
-// navegador se oculta.
 export function useStickyFooter(ref: RefObject<HTMLElement | null>, activo: boolean = true) {
   useEffect(() => {
     const vv = window.visualViewport

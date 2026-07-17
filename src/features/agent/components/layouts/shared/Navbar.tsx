@@ -49,7 +49,7 @@ export default function Navbar({ nombreNegocio, loading, onNuevoChat, onEnviados
             : { marginLeft: 0, marginRight: 0, marginTop: 0, borderRadius: 0, boxShadow: '0 0 0 rgba(0,0,0,0)' }
           }
           transition={{ duration: 0.35, ease: EASE }}
-          className="bg-background/95 backdrop-blur-md border-t border-x border-border px-5 py-4 overflow-hidden"
+          className={`bg-background/95 backdrop-blur-md border-t border-x border-border px-5 py-4 overflow-hidden ${!scrolled ? 'dark:border-transparent' : ''}`}
         >
           <div className="relative flex items-center justify-between">
             <Button

@@ -10,7 +10,6 @@ interface Props {
   setTexto:  (v: string) => void
   onEnviar:  () => void
   enviando:  boolean
-  /** Se mantiene por compatibilidad; el diseño es idéntico en ambos casos. */
   centrado?: boolean
   onAbrirAcciones?: () => void
   onAbrirVoz?: () => void
@@ -23,7 +22,6 @@ export default function ChatBar({ texto, setTexto, onEnviar, enviando, centrado 
   const contenedorRef = useRef<HTMLDivElement>(null)
   const { escuchando, soportado, alternar } = useSpeechToText(setTexto)
 
-  // Auto-crecimiento del textarea, limitado a 9 líneas; de ahí en adelante hace scroll interno
   const ajustarAltura = () => {
     const el = textareaRef.current
     const contenedor = contenedorRef.current
@@ -38,9 +36,6 @@ export default function ChatBar({ texto, setTexto, onEnviar, enviando, centrado 
     el.style.height = `${alturaNueva}px`
     el.style.overflowY = el.scrollHeight > alturaMaxima ? 'auto' : 'hidden'
 
-    // Anima el marco junto con el texto: se "congela" la altura actual y se
-    // fuerza al navegador a confirmarla (reflow) antes de aplicar la nueva,
-    // para que transition-all tenga un punto de partida real y no salte.
     if (contenedor) {
       const alturaPrevia = contenedor.getBoundingClientRect().height
       contenedor.style.height = `${alturaPrevia}px`
@@ -84,7 +79,6 @@ export default function ChatBar({ texto, setTexto, onEnviar, enviando, centrado 
                  transition-all duration-200 ease-out
                  focus-within:-translate-y-0.5"
     >
-      {/* Sección superior: texto del usuario */}
       <textarea
         ref={textareaRef}
         value={texto}

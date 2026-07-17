@@ -2,12 +2,6 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-// Envuelve el reconocimiento de voz nativo del navegador (Web Speech API)
-// para convertir lo que dice el usuario en texto dentro del ChatBar. No
-// depende de ningún backend ni paquete externo: usa el motor que ya trae
-// Chrome/Safari. En navegadores sin soporte (Firefox, algunos WebView de
-// iOS) `soportado` queda en false para que el botón de micrófono se pueda
-// ocultar en vez de mostrar un error.
 export function useSpeechToText(onTranscripcion: (texto: string) => void) {
   const [escuchando, setEscuchando] = useState(false)
   const [soportado, setSoportado] = useState(false)
