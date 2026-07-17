@@ -4,23 +4,19 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
-import { Bag2, DocumentText, Calendar, MessageQuestion, TickCircle, CloseCircle } from 'iconsax-react'
-import type { Accion, TipoAccion } from '@/src/features/(business)/shares/hooks/useShares'
+import { DocumentText, TickCircle, CloseCircle, Trash } from 'iconsax-react'
+import { etiquetaMetodo } from '@/src/features/(business)/shares/hooks/useShares'
+import type { PropuestaCompleta } from '@/src/features/(business)/shares/hooks/useShares'
 
 interface DetailsActionCardProps {
   mostrar:         boolean
   onCerrar:        () => void
-  accion:          Accion | null
+  propuesta:       PropuestaCompleta | null
+  cargando:        boolean
   onCambiarEstado: (id: string, activa: boolean) => void
+  onEliminar:      (id: string) => void
   procesando:      boolean
   error:           string | null
-}
-
-const TIPO_META: Record<TipoAccion, { label: string; icon: typeof Bag2 }> = {
-  catalogo:      { label: 'Catálogo',      icon: Bag2 },
-  formulario:    { label: 'Formulario',    icon: DocumentText },
-  agenda:        { label: 'Agenda',        icon: Calendar },
-  personalizada: { label: 'Personalizada', icon: MessageQuestion },
 }
 
 function formatearFecha(iso: string) {
@@ -30,23 +26,21 @@ function formatearFecha(iso: string) {
 }
 
 export default function DetailsActionCard({
-  mostrar, onCerrar, accion, onCambiarEstado, procesando, error,
+  mostrar, onCerrar, propuesta, cargando, onCambiarEstado, onEliminar, procesando, error,
 }: DetailsActionCardProps) {
-  if (!accion) return null
+  if (!propuesta) return null
 
-  const tipoMeta = TIPO_META[accion.tipo]
-  const TipoIcon = tipoMeta.icon
-  const EstadoIcon = accion.activa ? TickCircle : CloseCircle
+  const EstadoIcon = propuesta.activo ? TickCircle : CloseCircle
 
   return (
     <Dialog open={mostrar} onOpenChange={(open) => { if (!open) onCerrar() }}>
       <DialogContent className="sm:max-w-lg max-h-[85vh] overflow-y-auto">
         <DialogHeader>
           <div className="flex items-center justify-between gap-2 pr-6">
-            <DialogTitle>{accion.nombre}</DialogTitle>
-            <Badge variant={accion.activa ? 'secondary' : 'outline'} className="text-[10px] gap-1">
+            <DialogTitle>{propuesta.titulo}</DialogTitle>
+            <Badge variant={propuesta.activo ? 'secondary' : 'outline'} className="text-[10px] gap-1">
               <EstadoIcon size={11} color="currentColor" />
-              {accion.activa ? 'Activa' : 'Inactiva'}
+              {propuesta.activo ? 'Activa' : 'Inactiva'}
             </Badge>
           </div>
         </DialogHeader>
@@ -54,29 +48,59 @@ export default function DetailsActionCard({
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
             <Badge variant="secondary" className="w-fit text-[11px] gap-1">
-              <TipoIcon size={12} color="currentColor" />
-              {tipoMeta.label}
+              <DocumentText size={12} color="currentColor" />
+              Propuesta
             </Badge>
-            <p className="text-xs text-muted-foreground leading-relaxed pt-1">{accion.descripcion}</p>
+            {propuesta.descripcion && (
+              <p className="text-xs text-muted-foreground leading-relaxed pt-1">{propuesta.descripcion}</p>
+            )}
           </div>
 
           <div className="grid grid-cols-2 gap-3 rounded-2xl bg-accent/50 border border-border p-3">
             <div className="flex flex-col gap-0.5">
-              <span className="text-[10px] text-muted-foreground">Usos totales</span>
-              <span className="text-sm font-bold text-foreground">{accion.usos}</span>
+              <span className="text-[10px] text-muted-foreground">Preguntas</span>
+              <span className="text-sm font-bold text-foreground">{propuesta.total_preguntas}</span>
             </div>
             <div className="flex flex-col gap-0.5">
               <span className="text-[10px] text-muted-foreground">Creada</span>
-              <span className="text-sm font-bold text-foreground">{formatearFecha(accion.fecha_creacion)}</span>
+              <span className="text-sm font-bold text-foreground">{formatearFecha(propuesta.fecha_creacion)}</span>
             </div>
           </div>
 
-          {accion.campos_solicitados.length > 0 && (
+          {propuesta.metodos_contacto.length > 0 && (
             <div className="flex flex-col gap-1.5">
-              <span className="text-[11px] font-semibold text-foreground">Datos que solicita al cliente</span>
+              <span className="text-[11px] font-semibold text-foreground">Cómo contactan al cliente</span>
               <div className="flex flex-wrap gap-1.5">
-                {accion.campos_solicitados.map(campo => (
-                  <Badge key={campo} variant="outline" className="text-[10px]">{campo}</Badge>
+                {propuesta.metodos_contacto.map(m => (
+                  <Badge key={m.id} variant={m.activo ? 'outline' : 'secondary'} className="text-[10px]">
+                    {etiquetaMetodo(m)}{!m.activo && ' (inactivo)'}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {cargando ? (
+            <div className="flex flex-col gap-2">
+              <div className="h-10 w-full rounded-xl bg-accent animate-pulse" />
+              <div className="h-10 w-full rounded-xl bg-accent animate-pulse" />
+            </div>
+          ) : propuesta.preguntas.length > 0 && (
+            <div className="flex flex-col gap-1.5">
+              <span className="text-[11px] font-semibold text-foreground">Preguntas al cliente</span>
+              <div className="flex flex-col gap-2">
+                {propuesta.preguntas.map(p => (
+                  <div key={p.id} className="rounded-xl border border-border p-2.5">
+                    <p className="text-xs font-semibold text-foreground">{p.titulo}</p>
+                    {p.descripcion && <p className="text-[11px] text-muted-foreground mt-0.5">{p.descripcion}</p>}
+                    {p.tipo === 'cerrada' && p.opciones.length > 0 && (
+                      <div className="flex flex-wrap gap-1 mt-1.5">
+                        {p.opciones.map(o => (
+                          <Badge key={o.id} variant="outline" className="text-[10px]">{o.texto}</Badge>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 ))}
               </div>
             </div>
@@ -85,24 +109,34 @@ export default function DetailsActionCard({
           <div className="flex items-center justify-between rounded-2xl border border-border p-3">
             <div className="flex flex-col">
               <span className="text-xs font-semibold text-foreground">
-                {accion.activa ? 'Visible en tu enlace único' : 'Oculta en tu enlace único'}
+                {propuesta.activo ? 'Visible en tu enlace único' : 'Oculta en tu enlace único'}
               </span>
               <span className="text-[11px] text-muted-foreground">
-                {accion.activa ? 'Los clientes pueden usarla ahora mismo.' : 'Los clientes no la verán hasta activarla.'}
+                {propuesta.activo ? 'Los clientes pueden usarla ahora mismo.' : 'Los clientes no la verán hasta activarla.'}
               </span>
             </div>
             <Switch
-              checked={accion.activa}
+              checked={propuesta.activo}
               disabled={procesando}
-              onCheckedChange={(checked) => onCambiarEstado(accion.id, checked)}
+              onCheckedChange={(checked) => onCambiarEstado(propuesta.id, checked)}
             />
           </div>
 
           {error && <p className="text-xs font-medium text-destructive">{error}</p>}
 
-          <Button variant="secondary" className="w-full rounded-2xl font-bold" onClick={onCerrar}>
-            Cerrar
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              className="rounded-2xl font-bold text-destructive hover:text-destructive"
+              onClick={() => onEliminar(propuesta.id)}
+              disabled={procesando}
+            >
+              <Trash size={16} color="currentColor" />
+            </Button>
+            <Button variant="secondary" className="flex-1 rounded-2xl font-bold" onClick={onCerrar}>
+              Cerrar
+            </Button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>

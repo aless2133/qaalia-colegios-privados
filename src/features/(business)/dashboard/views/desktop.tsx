@@ -11,8 +11,8 @@ export default function DashboardDesktop({ negocio }: Props) {
   const { negocios, activoNegocio, switchNegocio } = useBusinessSelect(negocio)
 
   return (
-    <main className="px-10 py-10">
-      <div className="max-w-6xl mx-auto flex flex-col gap-8">
+    <main className="px-10 py-4">
+      <div className="max-w-8xl flex flex-col gap-8">
         <Hero
           negocio={activoNegocio}
           negocios={negocios}

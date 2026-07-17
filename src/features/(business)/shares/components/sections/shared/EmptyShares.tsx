@@ -2,30 +2,23 @@
 
 import MensajeAnimado from '@/src/features/components/cards/MessageAnimate'
 import LottieNodata    from '@/src/features/components/animations/LottieAnimation'
-import SuggeresCard    from '@/src/features/(business)/shares/components/cards/shared/SuggeresCard'
-import type { TipoAccion } from '@/src/features/(business)/shares/hooks/useShares'
+import { Button } from '@/components/ui/button'
+import { DocumentText, AddSquare } from 'iconsax-react'
 
 interface Props {
-  sinAcciones: boolean
-  busqueda:    string
-  onCrear:     (nombre: string) => void
+  sinPropuestas: boolean
+  busqueda:      string
+  onCrear:       () => void
 }
 
-const SUGERENCIAS: { nombre: string; tipo: TipoAccion }[] = [
-  { nombre: 'Cotizar producto',            tipo: 'catalogo' },
-  { nombre: 'Solicitar proyecto a medida', tipo: 'formulario' },
-  { nombre: 'Reportar problema',           tipo: 'formulario' },
-  { nombre: 'Agendar reunión',             tipo: 'agenda' },
-]
-
-export default function EmptyShares({ sinAcciones, busqueda, onCrear }: Props) {
-  if (!sinAcciones && busqueda) {
+export default function EmptyShares({ sinPropuestas, busqueda, onCrear }: Props) {
+  if (!sinPropuestas && busqueda) {
     return (
       <div className="flex flex-col items-center justify-center py-24 px-6 text-center">
         <div className="lg:-mt-28 -mt-23">
           <MensajeAnimado
             titulo="Sin resultados"
-            descripcion={`No encontramos acciones que coincidan con "${busqueda}".`}
+            descripcion={`No encontramos propuestas que coincidan con "${busqueda}".`}
             animacion={<LottieNodata variant="search" />}
           />
         </div>
@@ -34,19 +27,22 @@ export default function EmptyShares({ sinAcciones, busqueda, onCrear }: Props) {
   }
 
   return (
-    <div className="flex flex-col gap-6 py-6">
-      <div className="flex flex-col items-center text-center gap-1.5 px-6">
-        <h2 className="text-base font-bold text-foreground">Aún no tienes acciones</h2>
+    <div className="flex flex-col items-center text-center gap-4 py-16 px-6">
+      <div className="w-14 h-14 rounded-full bg-accent flex items-center justify-center">
+        <DocumentText size={24} color="currentColor" className="text-muted-foreground" />
+      </div>
+
+      <div className="flex flex-col items-center gap-1.5">
+        <h2 className="text-base font-bold text-foreground">Aún no tienes propuestas</h2>
         <p className="text-[13px] text-muted-foreground max-w-sm">
-          Las acciones son lo que tus clientes pueden hacer dentro de tu enlace único. Empieza con una de estas.
+          Las propuestas son formularios que tus clientes llenan desde tu enlace único para pedirte un proyecto o servicio.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
-        {SUGERENCIAS.map(s => (
-          <SuggeresCard key={s.nombre} nombre={s.nombre} tipo={s.tipo} onCrear={onCrear} />
-        ))}
-      </div>
+      <Button className="rounded-2xl font-bold gap-2" onClick={onCrear}>
+        <AddSquare size={18} color="currentColor" />
+        Crear tu primera propuesta
+      </Button>
     </div>
   )
 }

@@ -9,7 +9,7 @@ interface NavItem { icon: Icon; label: string; href: string }
 const NAV: NavItem[] = [
   { icon: Home2,        label: 'Inicio',    href: '/dashboard' },
   { icon: Activity,   label: 'Actividad',  href: '/activity' },
-  { icon: TaskSquare, label: 'Acciones',  href: '/shares' },
+  { icon: TaskSquare, label: 'Propuestas',  href: '/shares' },
   { icon: Cpu,      label: 'Agente',  href: '/assistant' },
 ]
 

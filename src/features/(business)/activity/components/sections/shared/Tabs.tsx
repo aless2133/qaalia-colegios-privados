@@ -21,9 +21,9 @@ export default function ActivityTabs({ estadoActivo, onSelect, contadores }: Tab
   return (
     <div className="w-full overflow-x-auto hide-scrollbar">
       <Tabs value={estadoActivo} onValueChange={(v) => onSelect(v as EstadoActividad)}>
-        <TabsList className="bg-accent w-max">
+        <TabsList className="bg-transparent gap-2 w-max rounded-full group-data-horizontal/tabs:h-10 lg:group-data-horizontal/tabs:h-12">
           {ESTADOS.map(e => (
-            <TabsTrigger key={e.value} value={e.value} className="gap-1.5">
+         <TabsTrigger key={e.value} value={e.value} className="gap-1.5 rounded-[14px] bg-muted data-active:bg-background px-4 py-2 text-sm lg:px-5 lg:py-2.5 lg:text-base">
               {e.label}
               <Badge
                 variant={e.value === estadoActivo ? 'default' : 'secondary'}

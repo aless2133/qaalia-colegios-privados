@@ -8,7 +8,7 @@ interface CoreProps {
   sh: ReturnType<typeof useShares>
 }
 
-function ActionSkeleton() {
+function PropuestaSkeleton() {
   return (
     <div className="rounded-2xl overflow-hidden border border-border p-3.5 flex flex-col gap-3">
       <div className="flex items-center gap-2.5">
@@ -26,34 +26,34 @@ function ActionSkeleton() {
 
 export default function Core({ sh }: CoreProps) {
   const {
-    loading, acciones, accionesVisibles, busqueda,
-    abrirDetalle, cambiarEstado, crearDesdeSugerencia,
+    loading, propuestas, propuestasVisibles, busqueda,
+    abrirDetalle, cambiarEstado, abrirNuevo,
   } = sh
 
   if (loading) {
     return (
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
-        {[...Array(4)].map((_, i) => <ActionSkeleton key={i} />)}
+        {[...Array(4)].map((_, i) => <PropuestaSkeleton key={i} />)}
       </div>
     )
   }
 
-  if (accionesVisibles.length === 0) {
+  if (propuestasVisibles.length === 0) {
     return (
       <EmptyShares
-        sinAcciones={acciones.length === 0}
+        sinPropuestas={propuestas.length === 0}
         busqueda={busqueda}
-        onCrear={crearDesdeSugerencia}
+        onCrear={abrirNuevo}
       />
     )
   }
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
-      {accionesVisibles.map(accion => (
+      {propuestasVisibles.map(propuesta => (
         <ActionsCard
-          key={accion.id}
-          accion={accion}
+          key={propuesta.id}
+          propuesta={propuesta}
           onAbrir={abrirDetalle}
           onAlternar={cambiarEstado}
           onOpciones={() => {}}

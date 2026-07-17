@@ -8,8 +8,8 @@ export default function AssistantDesktop() {
   const asis = useAssistant()
 
   return (
-    <main className="px-10 py-10">
-      <div className="max-w-6xl mx-auto flex flex-col gap-6">
+    <main className="px-10 py-4">
+      <div className="max-w-8xl flex flex-col gap-4">
         <Hero estado={asis.asistente?.estado ?? null} loading={asis.loading} />
         <Core asis={asis} />
       </div>

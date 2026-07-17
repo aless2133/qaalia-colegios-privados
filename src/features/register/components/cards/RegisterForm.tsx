@@ -49,7 +49,7 @@ export default function RegisterForm() {
                 Crea tu cuenta en segundos<br />No necesitas tarjeta de crédito.
               </p>
             </div>
-            <div className="p-6 rounded-3xl border border-border bg-card space-y-3">
+            <div className="p-6 rounded-3xl border border-border bg-border/30 space-y-3">
               <motion.div
                 animate={{ scale: pressing ? 0.97 : 1 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 15 }}

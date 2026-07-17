@@ -10,14 +10,14 @@ const withSerwist = withSerwistInit({
 });
 
 const nextConfig: NextConfig = {
-  allowedDevOrigins: ["espionage-vantage-ecosphere.ngrok-free.dev"],
+  allowedDevOrigins: ["effects-reversal-trimness.ngrok-free.dev"],
   transpilePackages: ['react-onesignal'],
 
   experimental: {
     serverActions: {
       allowedOrigins: [
         "localhost:3000",
-        "espionage-vantage-ecosphere.ngrok-free.dev"
+        "effects-reversal-trimness.ngrok-free.dev"
       ]
     }
   },

@@ -60,7 +60,7 @@ export default function RegisterDesktop() {
           <Link href="/terms" className="font-semibold text-foreground/80 hover:text-foreground transition-colors">
             Términos
           </Link>{' '}
-          y{' '}
+          y <br />{' '}
           <Link href="/privacy" className="font-semibold text-foreground/80 hover:text-foreground transition-colors">
             Política de privacidad
           </Link>
