@@ -2,10 +2,9 @@
 
 import { useEffect, useRef, type KeyboardEvent, type ChangeEvent } from 'react'
 import { Button } from '@/components/ui/button'
-import { AddSquare, CloseCircle, CloseSquare, Microphone, TickSquare } from 'iconsax-react'
+import { AddSquare, Microphone, Microphone2 } from 'iconsax-react'
 import { ArrowUpIcon } from 'lucide-react'
 import { useSpeechToText } from '@/src/features/agent/hooks/useSpeechToText'
-
 interface Props {
   texto:     string
   setTexto:  (v: string) => void
@@ -22,19 +21,7 @@ const MAX_LINEAS = 9
 export default function ChatBar({ texto, setTexto, onEnviar, enviando, centrado = false, onAbrirAcciones, onAbrirVoz }: Props) {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const contenedorRef = useRef<HTMLDivElement>(null)
-
-  const { estado: estadoVoz, iniciarGrabacion, confirmarGrabacion, cancelarGrabacion } = useSpeechToText()
-  const grabando = estadoVoz === 'grabando'
-  const procesandoVoz = estadoVoz === 'procesando'
-
-  const manejarClicMicrofono = async () => {
-    if (grabando) {
-      const transcripcion = await confirmarGrabacion()
-      if (transcripcion) setTexto(texto ? `${texto} ${transcripcion}` : transcripcion)
-    } else {
-      iniciarGrabacion()
-    }
-  }
+  const { escuchando, soportado, alternar } = useSpeechToText(setTexto)
 
   // Auto-crecimiento del textarea, limitado a 9 líneas; de ahí en adelante hace scroll interno
   const ajustarAltura = () => {
@@ -111,45 +98,24 @@ export default function ChatBar({ texto, setTexto, onEnviar, enviando, centrado 
 
       {/* Sección inferior: acciones */}
       <div className="flex items-center justify-between pt-1">
-        <div className="flex items-center">
-          <button
-            type="button"
-            onClick={(e) => { e.stopPropagation(); onAbrirAcciones?.() }}
-            className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 bg-border/50 lg:bg-foreground/10 lg:dark:bg-border/50 hover:bg-muted transition-colors"
-          >
-            <AddSquare size={18} color="currentColor" className="text-muted-foreground" />
-          </button>
-
-          <div
-            className={`overflow-hidden flex items-center transition-all duration-200 ease-out ${
-              grabando ? 'w-9 ml-1.5 opacity-100 scale-100' : 'w-0 ml-0 opacity-0 scale-75'
-            }`}
-          >
-            <button
-              type="button"
-              onClick={(e) => { e.stopPropagation(); cancelarGrabacion() }}
-              className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 bg-border/50 lg:bg-foreground/10 lg:dark:bg-border/50 hover:bg-muted transition-colors"
-            >
-              <CloseCircle size={18} color="currentColor" className="text-muted-foreground" />
-            </button>
-          </div>
-        </div>
+        <button
+          type="button"
+          onClick={(e) => { e.stopPropagation(); onAbrirAcciones?.() }}
+          className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 bg-border/50 lg:bg-foreground/10 lg:dark:bg-border/50 hover:bg-muted transition-colors"
+        >
+          <AddSquare size={18} color="currentColor" className="text-muted-foreground" />
+        </button>
 
         <div className="flex items-center gap-1.5">
-          <button
-            type="button"
-            onClick={(e) => { e.stopPropagation(); manejarClicMicrofono() }}
-            disabled={procesandoVoz}
-            className={`w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 transition-colors duration-200 ${
-              grabando
-                ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-                : 'bg-border/50 lg:bg-foreground/10 lg:dark:bg-border/50 hover:bg-muted'
-            } ${procesandoVoz ? 'animate-pulse' : ''}`}
-          >
-            {grabando
-              ? <TickSquare size={18} color="currentColor" />
-              : <Microphone size={18} color="currentColor" className="text-muted-foreground" />}
-          </button>
+         {soportado && (
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); alternar(texto) }}
+              className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 bg-border/50 lg:bg-foreground/10 lg:dark:bg-border/50 hover:bg-muted transition-colors"
+            >
+              <Microphone2 size={18} color="currentColor" variant={escuchando ? 'Bold' : 'Linear'} className={escuchando ? 'text-primary' : 'text-muted-foreground'} />
+            </button>
+          )}
 
           <Button
             size="icon"
