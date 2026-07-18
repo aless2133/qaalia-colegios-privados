@@ -6,7 +6,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useAgentSettings } from '@/src/features/(business)/AgentSettings/hooks/useAgentSettings'
-import { Trash, Add } from 'iconsax-react'
+import { Trash, Add, AddSquare, MessageAdd, MessageAdd1 } from 'iconsax-react'
 
 export default function Behavior({ personalidad, reglas }: { personalidad: string, reglas: any[] }) {
   const { actualizarPersonalidad, crearRegla, eliminarRegla } = useAgentSettings()
@@ -27,7 +27,7 @@ export default function Behavior({ personalidad, reglas }: { personalidad: strin
       </CardHeader>
       <CardContent className="flex flex-col gap-6">
         <div className="flex flex-col gap-2">
-          <label className="text-xs font-medium text-foreground">Personalidad</label>
+          <label className="text-xs font-bold text-foreground">Personalidad</label>
           <Textarea 
             value={pers} 
             onChange={(e) => setPers(e.target.value)}
@@ -39,10 +39,10 @@ export default function Behavior({ personalidad, reglas }: { personalidad: strin
         </div>
         
         <div className="flex flex-col gap-3">
-          <label className="text-xs font-medium text-foreground">Reglas de Operación</label>
+          <label className="text-xs font-bold text-foreground">Reglas de Operación</label>
           <div className="flex flex-col gap-2">
             {reglas?.map(r => (
-              <div key={r.id} className="flex items-center gap-3 p-3 rounded-xl bg-accent border border-border">
+              <div key={r.id} className="flex items-center gap-3 p-3 rounded-xl bg-muted/50 border border-border">
                 <p className="text-xs flex-1 text-foreground">{r.regla}</p>
                 <Button variant="ghost" size="icon" onClick={() => eliminarRegla(r.id)} className="h-8 w-8 text-destructive hover:bg-destructive/10">
                   <Trash size={16} color="currentColor" />
@@ -57,8 +57,8 @@ export default function Behavior({ personalidad, reglas }: { personalidad: strin
               placeholder="Ej. Nunca dar descuentos sin autorización" 
               className="h-10 text-xs bg-background"
             />
-            <Button onClick={handleAddRegla} size="icon" className="h-10 w-10 shrink-0">
-              <Add size={20} color="currentColor" />
+            <Button onClick={handleAddRegla} size="icon" className="h-10 w-10 rounded-4xl shrink-0">
+              <MessageAdd1 size={30} color="currentColor" />
             </Button>
           </div>
         </div>

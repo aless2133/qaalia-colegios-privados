@@ -10,6 +10,7 @@ import {
   User,
   Activity,
   Cpu,
+  DirectInbox,
 } from 'iconsax-react'
 import type { NegocioData } from '@/src/lib/auth/UseLogic'
 
@@ -17,8 +18,8 @@ interface NavItem { icon: Icon; label: string; href: string }
 
 const NAV: NavItem[] = [
   { icon: Home2,        label: 'Inicio',    href: '/dashboard' },
-  { icon: Activity,   label: 'Actividad',     href: '/activity' },
-  { icon: TaskSquare, label: 'Propuestas',     href: '/shares' },
+  { icon: DirectInbox,   label: 'Bandeja',     href: '/activity' },
+  { icon: TaskSquare, label: 'Actividad',     href: '/shares' },
   { icon: Cpu, label: 'Agente',     href: '/assistant' },
   { icon: User, label: 'Perfil', href: '/dashboard/presupuestos' },
 ]

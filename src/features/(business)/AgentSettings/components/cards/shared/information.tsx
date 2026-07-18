@@ -29,7 +29,7 @@ export default function Information({ informacion }: { informacion: any[] }) {
       <CardContent className="flex flex-col gap-6">
         <div className="flex flex-col gap-3">
           {informacion?.map(info => (
-            <div key={info.id} className="flex flex-col gap-2 p-4 rounded-xl bg-accent border border-border">
+            <div key={info.id} className="flex flex-col gap-0 p-4 rounded-xl bg-muted/50 border border-border">
               <div className="flex items-start justify-between gap-3">
                 <span className="text-xs font-bold text-primary">{info.titulo || 'Información General'}</span>
                 <Button variant="ghost" size="icon" onClick={() => eliminarInfo(info.id)} className="h-6 w-6 text-muted-foreground hover:text-destructive">

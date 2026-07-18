@@ -27,7 +27,7 @@ export default function ActionsCard({ propuesta, onAbrir, onAlternar, onOpciones
         <div className="flex items-start justify-between gap-2">
           <div className="flex items-center gap-2.5 min-w-0">
             <div className="w-9 h-9 rounded-full bg-accent flex items-center justify-center flex-shrink-0">
-              <DocumentText size={16} color="currentColor" className="text-foreground" />
+              <DocumentText size={16} color="currentColor" className="text-primary" />
             </div>
             <div className="min-w-0">
               <p className="text-sm font-semibold text-foreground truncate">{propuesta.titulo}</p>

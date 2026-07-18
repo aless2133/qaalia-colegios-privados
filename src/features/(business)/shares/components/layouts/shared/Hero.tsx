@@ -45,7 +45,7 @@ export default function Hero({ total, loading, busqueda, onBuscar, onNuevo, isDe
         </div>
       ) : (
         <div>
-          <h1 className="text-xl lg:text-2xl font-black text-foreground leading-tight">Propuestas</h1>
+          <h1 className="text-xl lg:text-2xl font-black text-foreground leading-tight">Actividad</h1>
           <AnimatePresence mode="wait">
             <motion.p
               key={`${total}`}

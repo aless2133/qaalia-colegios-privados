@@ -27,7 +27,6 @@ export default function AgentSettingsPage() {
       <div className="lg:ml-64">
         {isDesktop ? <AgentSettingsDesktop /> : <AgentSettingsMobile />}
       </div>
-      <Navbar />
     </div>
   )
 }

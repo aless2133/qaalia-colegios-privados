@@ -45,7 +45,7 @@ export default function NewProposal({ sh }: NewProposalProps) {
           >
             <ArrowLeft size={20} color="currentColor" />
           </button>
-          <h1 className="text-base font-bold text-foreground">Nueva propuesta</h1>
+          <h1 className="text-base font-bold text-foreground">Nueva actividad</h1>
           <Button
             size="sm"
             className="rounded-2xl font-bold"
@@ -64,7 +64,7 @@ export default function NewProposal({ sh }: NewProposalProps) {
 
         {/* Datos básicos */}
         <section className="flex flex-col gap-3">
-          <h2 className="text-sm font-bold text-foreground">Datos de la propuesta</h2>
+          <h2 className="text-sm font-bold text-foreground">Datos de la actividad</h2>
 
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-semibold text-muted-foreground">Título</label>
@@ -84,7 +84,7 @@ export default function NewProposal({ sh }: NewProposalProps) {
             <Textarea
               value={nuevaDescripcion}
               onChange={(e) => setNuevaDescripcion(e.target.value.slice(0, 120))}
-              placeholder="Cuéntale al cliente para qué sirve esta propuesta"
+              placeholder="Cuéntale al cliente para qué sirve esta actividad"
               className="rounded-2xl bg-card resize-none"
               rows={3}
             />
@@ -197,7 +197,7 @@ export default function NewProposal({ sh }: NewProposalProps) {
         <section className="flex flex-col gap-3">
           <h2 className="text-sm font-bold text-foreground">¿Cómo te contactamos?</h2>
           <p className="text-xs text-muted-foreground">
-            Elige al menos un método para poder activar la propuesta.
+            Elige al menos un método para poder activar la actividad.
           </p>
 
           <div className="flex flex-wrap gap-2">
