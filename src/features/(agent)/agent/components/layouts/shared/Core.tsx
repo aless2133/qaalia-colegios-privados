@@ -40,7 +40,7 @@ export default function Core({ agent }: CoreProps) {
 
   if (!hayMensajes) {
     return (
-     <div key="vista-vacia" className="flex-1 flex flex-col items-center justify-center px-4 pt-8 pb-[min(9.5rem,calc(var(--app-vh,100dvh)*0.25))] gap-5">
+     <div className="flex-1 flex flex-col items-center justify-center px-4 pt-8 pb-[min(9.5rem,calc(var(--app-vh,100dvh)*0.25))] gap-5">
         {!loading && <EmptyAgents nombreAgente={nombreAgente} fotoAgente={agent.fotoAgente}/>}
         <div className="w-full max-w-xl flex flex-col gap-3 relative">
           <ActionsModal
@@ -64,7 +64,7 @@ export default function Core({ agent }: CoreProps) {
   }
 
   return (
-    <div key="vista-activa" className="flex-1 flex flex-col">
+    <div className="flex-1 flex flex-col">
       <div className="flex-1 flex flex-col gap-3 px-3 pt-4 pb-28 lg:max-w-2xl lg:mx-auto lg:w-full">
         {mensajes.map(m =>
           m.rol === 'cliente'

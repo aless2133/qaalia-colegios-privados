@@ -183,24 +183,11 @@ export function useAgent(slug: string) {
     enviarMensaje(accion.nombre)
   }, [enviarMensaje])
 
-  const limpiarChat = useCallback(() => {
-    setMensajes([])
-    setTexto('')
-    setEnviando(false)
-  }, [])
-
-  useEffect(() => {
-    const handleLimpiar = () => limpiarChat()
-    window.addEventListener('limpiar-chat-agente', handleLimpiar)
-    return () => window.removeEventListener('limpiar-chat-agente', handleLimpiar)
-  }, [limpiarChat])
-
   const toggleAgente = useCallback(() => {
     setAgenteActivo(prev => !prev)
   }, [])
 
   return {
-    limpiarChat,
     negocio,
     agente,
     loading,

@@ -3,7 +3,7 @@
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
-import { Profile2User, DocumentText } from 'iconsax-react'
+import { Profile2User, DocumentText, Cpu } from 'iconsax-react'
 import type { ConfigAgente } from '@/src/features/(agent)/agent/hooks/useAgent'
 import type { Actividad } from '@/src/features/(agent)/activity/hooks/useActivity'
 
@@ -52,7 +52,7 @@ export default function DetailsCard({ agente, actividades, loadingActividades }:
         <div className="flex flex-col gap-3 lg:w-1/2">
           <div className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-full bg-accent flex items-center justify-center flex-shrink-0">
-              <Profile2User size={16} color="currentColor" className="text-primary" />
+              <Cpu size={16} color="currentColor" className="text-primary" />
             </div>
             <div className="min-w-0">
               <p className="text-sm font-semibold text-foreground truncate">
@@ -72,13 +72,13 @@ export default function DetailsCard({ agente, actividades, loadingActividades }:
 
         <div className="flex flex-col lg:w-1/2">
           <p className="text-sm font-bold text-muted-foreground tracking-wide mb-1">
-            Actividades activas
+            Actividades
           </p>
 
           {loadingActividades ? (
             <ActividadesSkeleton />
           ) : actividades.length === 0 ? (
-            <p className="text-[13px] text-muted-foreground py-2">Sin actividades activas.</p>
+            <p className="text-[13px] text-muted-foreground py-2">Sin actividades.</p>
           ) : (
             <div className="flex flex-col divide-y divide-border/60">
               {actividades.map(a => <ActividadRow key={a.id} actividad={a} />)}

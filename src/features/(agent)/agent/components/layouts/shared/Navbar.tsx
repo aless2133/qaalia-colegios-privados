@@ -34,13 +34,9 @@ export default function Navbar({ nombreNegocio, loading, onNuevoChat, onEnviados
 
 const secciones = [
     { id: 'inicio',    label: 'Inicio',                                     icon: Home2,       activo: pathname === `/agent/${slug}`,          onClick: () => router.push(`/agent/${slug}`) },
-    { id: 'nuevo',     label: 'Nuevo chat',                                 icon: MessageAdd1, activo: false,                                    onClick: () => {
-        router.push(`/agent/${slug}`)
-        window.dispatchEvent(new CustomEvent('limpiar-chat-agente'))
-        onNuevoChat?.()
-    } },
+    { id: 'nuevo',     label: 'Nuevo chat',                                 icon: MessageAdd1, activo: false,                                    onClick: () => { router.push(`/agent/${slug}`); onNuevoChat?.() } },
     { id: 'actividad', label: 'Actividad',                                  icon: Note1,       activo: pathname === `/agent/${slug}/activity`, onClick: () => router.push(`/agent/${slug}/activity`) },
-    { id: 'perfil',    label: `Perfil de ${nombreNegocio || 'tu negocio'}`, icon: Shop,        activo: pathname === `/agent/${slug}/profile`, onClick: () => router.push(`/agent/${slug}/profile`) },
+    { id: 'perfil',    label: 'Perfil', icon: Shop,        activo: pathname === `/agent/${slug}/profile`, onClick: () => router.push(`/agent/${slug}/profile`) },
   ]
 
   const handleSeleccionar = (accion?: () => void) => {

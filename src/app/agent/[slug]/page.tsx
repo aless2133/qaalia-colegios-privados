@@ -11,6 +11,8 @@ export default function AgentPage({ params }: { params: Promise<{ slug: string }
   const { slug } = use(params)
   const agent = useAgent(slug)
   const [isDesktop, setIsDesktop] = useState<boolean | null>(null)
+  const [chatKey, setChatKey] = useState(0)
+  const handleNuevoChat = () => setChatKey(prev => prev + 1)
 
   useEffect(() => {
     const mq = window.matchMedia('(min-width: 1024px)')
@@ -24,11 +26,11 @@ export default function AgentPage({ params }: { params: Promise<{ slug: string }
 
   return (
     <>
-   <Navbar nombreNegocio={agent.negocio?.nombre ?? ''} loading={agent.loading} />
+   <Navbar nombreNegocio={agent.negocio?.nombre ?? ''} loading={agent.loading} onNuevoChat={handleNuevoChat}/>
     <PageTransition>
       {isDesktop
-        ? <AgentDesktop slug={slug} />
-        : <AgentMobile  slug={slug} />}
+        ? <AgentDesktop key={chatKey} slug={slug} />
+        : <AgentMobile  key={chatKey} slug={slug} />}
     </PageTransition>
     </>
   )
