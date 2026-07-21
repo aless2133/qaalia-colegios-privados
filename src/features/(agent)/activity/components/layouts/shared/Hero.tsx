@@ -11,7 +11,7 @@ interface HeroProps {
 }
 
 export default function Hero({ total, loading, busqueda, onBuscar }: HeroProps) {
-  const label = total === 1 ? 'actividad disponible' : 'actividades disponibles'
+  const label = total === 1 ? 'activa' : 'activas'
 
   return (
     <div className="flex flex-col gap-3">
