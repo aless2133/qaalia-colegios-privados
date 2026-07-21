@@ -4,7 +4,7 @@ import { useEffect, useRef, type KeyboardEvent, type ChangeEvent } from 'react'
 import { Button } from '@/components/ui/button'
 import { AddSquare, Microphone, Microphone2 } from 'iconsax-react'
 import { ArrowUpIcon } from 'lucide-react'
-import { useSpeechToText } from '@/src/features/agent/hooks/useSpeechToText'
+import { useSpeechToText } from '@/src/features/(agent)/agent/hooks/useSpeechToText'
 interface Props {
   texto:     string
   setTexto:  (v: string) => void

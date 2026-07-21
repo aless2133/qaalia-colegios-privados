@@ -1,8 +1,8 @@
 'use client'
 
 import { Cpu } from 'iconsax-react'
-import AgentCard from '@/src/features/agent/components/cards/shared/AgentCard'
-import type { MensajeAgente } from '@/src/features/agent/hooks/useAgent'
+import AgentCard from '@/src/features/(agent)/agent/components/cards/shared/AgentCard'
+import type { MensajeAgente } from '@/src/features/(agent)/agent/hooks/useAgent'
 import { useEffect, useState } from 'react'
 
 interface Props {

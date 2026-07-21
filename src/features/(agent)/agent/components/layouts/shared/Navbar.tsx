@@ -1,8 +1,9 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useRouter, usePathname } from 'next/navigation'
 import { Menu, Moon, X } from 'lucide-react'
-import { Home2, MessageAdd1, Send2, ProfileCircle, Shop, Send, Sun1 } from 'iconsax-react'
+import { Home2, MessageAdd1, Send2, ProfileCircle, Shop, Send, Sun1, Note1 } from 'iconsax-react'
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
@@ -19,6 +20,9 @@ interface NavbarProps {
 const EASE: [number, number, number, number] = [0.17, 0.55, 0.55, 1]
 
 export default function Navbar({ nombreNegocio, loading, onNuevoChat, onEnviados, onPerfil }: NavbarProps) {
+  const router   = useRouter()
+  const pathname = usePathname()
+  const slug     = pathname.split('/')[2] ?? ''
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const { scrollY } = useScroll()
@@ -31,7 +35,7 @@ export default function Navbar({ nombreNegocio, loading, onNuevoChat, onEnviados
   const secciones = [
     { id: 'inicio',   label: 'Inicio',                                       icon: Home2,       activo: true,  onClick: undefined   },
     { id: 'nuevo',    label: 'Nuevo chat',                                   icon: MessageAdd1, activo: false, onClick: onNuevoChat },
-    { id: 'enviados', label: 'Enviados',                                     icon: Send,       activo: false, onClick: onEnviados  },
+    { id: 'actividad', label: 'Actividad',                                     icon: Note1,       activo: false, onClick: () => router.push(`/agent/${slug}/activity`) },
     { id: 'perfil',   label: `Perfil de ${nombreNegocio || 'tu negocio'}`,    icon: Shop, activo: false, onClick: onPerfil  },
   ]
 

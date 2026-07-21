@@ -1,13 +1,13 @@
 'use client'
 
 import { use, useState, useEffect } from 'react'
-import AgentMobile   from '@/src/features/(agent)/agent/views/mobile'
-import AgentDesktop  from '@/src/features/(agent)/agent/views/desktop'
-import PageTransition from '@/src/features/components/animations/page_transition'
-import Navbar from '@/src/features/(agent)/agent/components/layouts/shared/Navbar'
+import ActivityMobile  from '@/src/features/(agent)/activity/views/mobile'
+import ActivityDesktop from '@/src/features/(agent)/activity/views/desktop'
+import PageTransition  from '@/src/features/components/animations/page_transition'
 import { useAgent } from '@/src/features/(agent)/agent/hooks/useAgent'
+import Navbar from '@/src/features/(agent)/agent/components/layouts/shared/Navbar'
 
-export default function AgentPage({ params }: { params: Promise<{ slug: string }> }) {
+export default function ActivityPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = use(params)
   const agent = useAgent(slug)
   const [isDesktop, setIsDesktop] = useState<boolean | null>(null)
@@ -23,13 +23,13 @@ export default function AgentPage({ params }: { params: Promise<{ slug: string }
   if (isDesktop === null) return null
 
   return (
-    <>
-   <Navbar nombreNegocio={agent.negocio?.nombre ?? ''} loading={agent.loading} />
+   <>
+    <Navbar nombreNegocio={agent.negocio?.nombre ?? ''} loading={agent.loading} />
     <PageTransition>
       {isDesktop
-        ? <AgentDesktop slug={slug} />
-        : <AgentMobile  slug={slug} />}
+        ? <ActivityDesktop slug={slug} />
+        : <ActivityMobile  slug={slug} />}
     </PageTransition>
-    </>
+     </>
   )
 }

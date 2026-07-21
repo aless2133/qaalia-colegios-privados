@@ -1,6 +1,6 @@
 'use client'
 
-import type { MensajeAgente } from '@/src/features/agent/hooks/useAgent'
+import type { MensajeAgente } from '@/src/features/(agent)/agent/hooks/useAgent'
 
 interface Props {
   mensaje: MensajeAgente

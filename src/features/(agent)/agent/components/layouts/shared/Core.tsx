@@ -1,13 +1,13 @@
 'use client'
 
-import type { useAgent } from '@/src/features/agent/hooks/useAgent'
-import MessagesCardAgent  from '@/src/features/agent/components/cards/shared/MessagesCardAgent'
-import MessagesCardClient from '@/src/features/agent/components/cards/shared/MessagesCardClient'
-import ChatBar            from '@/src/features/agent/components/cards/shared/ChatBar'
-import EmptyAgents        from '@/src/features/agent/components/sections/shared/EmptyAgents'
+import type { useAgent } from '@/src/features/(agent)/agent/hooks/useAgent'
+import MessagesCardAgent  from '@/src/features/(agent)/agent/components/cards/shared/MessagesCardAgent'
+import MessagesCardClient from '@/src/features/(agent)/agent/components/cards/shared/MessagesCardClient'
+import ChatBar            from '@/src/features/(agent)/agent/components/cards/shared/ChatBar'
+import EmptyAgents        from '@/src/features/(agent)/agent/components/sections/shared/EmptyAgents'
 import { useEffect, useRef, useState } from 'react'
-import ActionsModal from '@/src/features/agent/components/modals/shared/ActionsModal'
-import { useStickyFooter } from '@/src/features/agent/hooks/useStickyFooter'
+import ActionsModal from '@/src/features/(agent)/agent/components/modals/shared/ActionsModal'
+import { useStickyFooter } from '@/src/features/(agent)/agent/hooks/useStickyFooter'
 interface CoreProps {
   agent: ReturnType<typeof useAgent>
 }

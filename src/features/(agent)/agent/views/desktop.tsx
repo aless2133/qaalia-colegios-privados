@@ -1,9 +1,8 @@
 'use client'
 
-import { useAgent } from '@/src/features/agent/hooks/useAgent'
-import Navbar from '@/src/features/agent/components/layouts/shared/Navbar'
-import Core from '@/src/features/agent/components/layouts/shared/Core'
-import NoData from '@/src/features/agent/components/sections/shared/NoData'
+import { useAgent } from '@/src/features/(agent)/agent/hooks/useAgent'
+import Core from '@/src/features/(agent)/agent/components/layouts/shared/Core'
+import NoData from '@/src/features/(agent)/agent/components/sections/shared/NoData'
 interface Props {
   slug: string
 }
@@ -21,7 +20,6 @@ export default function AgentDesktop({ slug }: Props) {
 
   return (
     <div className="min-h-[100dvh] flex flex-col bg-background">
-      <Navbar nombreNegocio={agent.negocio?.nombre ?? ''} loading={agent.loading} />
       <Core agent={agent} />
     </div>
   )

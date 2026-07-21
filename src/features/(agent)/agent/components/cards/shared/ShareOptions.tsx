@@ -1,7 +1,7 @@
 'use client'
 
 import { Bag2, Warning2, Calendar, DocumentText, MessageQuestion } from 'iconsax-react'
-import type { AccionAgente } from '@/src/features/agent/hooks/useAgent'
+import type { AccionAgente } from '@/src/features/(agent)/agent/hooks/useAgent'
 
 interface Props {
   acciones:      AccionAgente[]

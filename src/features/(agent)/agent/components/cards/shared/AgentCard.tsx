@@ -1,7 +1,7 @@
 'use client'
 
 import { Card, CardContent } from '@/components/ui/card'
-import type { ProductoAgente } from '@/src/features/agent/hooks/useAgent'
+import type { ProductoAgente } from '@/src/features/(agent)/agent/hooks/useAgent'
 
 interface Props {
   producto: ProductoAgente
