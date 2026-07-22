@@ -12,8 +12,10 @@ interface Props {
 export default function AgentBrandLayout({ slug, children, onNuevoChat }: Props) {
   const agent = useAgent(slug)
 
-  const colorMarca = agent.negocio?.branding?.color_marca || '#7C3AED'
-  const fontFamily = agent.negocio?.branding?.font_family || 'var(--font-sans)'
+ const colorMarca = agent.negocio?.branding?.color_marca || '#7C3AED'
+  // tipografia_catalogo.font_family siempre llega como stack CSS completo
+  // (ej. "Varela Round, sans-serif"), ya validado por el catálogo — se usa tal cual.
+  const cssFontFamily = agent.negocio?.branding?.font_family || 'var(--font-sans), sans-serif'
 
   return (
     <div
@@ -21,12 +23,14 @@ export default function AgentBrandLayout({ slug, children, onNuevoChat }: Props)
       style={{
         '--brand-color': colorMarca,
         '--primary': 'oklch(from var(--brand-color) l c h)',
-        fontFamily,
+        fontFamily: cssFontFamily,
       } as React.CSSProperties}
       className="min-h-screen flex flex-col"
     >
       {/* Inyección CSS Global para Portales (Sheet, Modales) y herencia de fuentes */}
-      <style>{`
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
         :root, [data-agent-root] {
           --brand-color: ${colorMarca} !important;
           --primary: oklch(from var(--brand-color) l c h) !important;
@@ -38,9 +42,11 @@ export default function AgentBrandLayout({ slug, children, onNuevoChat }: Props)
         input, 
         textarea, 
         select {
-          font-family: ${fontFamily}, var(--font-sans), sans-serif !important;
+          font-family: ${cssFontFamily} !important;
         }
-      `}</style>
+      `,
+        }}
+      />
 
       <Navbar
         nombreNegocio={agent.negocio?.nombre ?? ''}
