@@ -41,7 +41,7 @@ export default function Core({ agent }: CoreProps) {
   if (!hayMensajes) {
     return (
      <div className="flex-1 flex flex-col items-center justify-center px-4 pt-8 pb-[min(9.5rem,calc(var(--app-vh,100dvh)*0.25))] gap-5">
-        {!loading && <EmptyAgents nombreAgente={nombreAgente} fotoAgente={agent.fotoAgente}/>}
+        {!loading && <EmptyAgents nombreAgente={nombreAgente} fotoAgente={agent.fotoAgente} mensajeBienvenida={agent.negocio?.branding?.mensaje_bienvenida}/>}
         <div className="w-full max-w-xl flex flex-col gap-3 relative">
           <ActionsModal
             mostrar={mostrarAcciones}

@@ -26,7 +26,7 @@ const PERFIL_VACIO: EditPagePerfil = {
   foto_url:           null,
   descripcion:        '',
   color_marca:        '#7C3AED',
-  tipografia_slug:    'inter',
+  tipografia_slug:    'varela-round',
   mensaje_bienvenida: '',
 }
 
@@ -86,7 +86,7 @@ export function useEditPageAgent() {
       foto_url:           perfilData.foto_url ?? null,
       descripcion:        perfilData.descripcion ?? '',
       color_marca:        perfilData.color_marca ?? '#7C3AED',
-      tipografia_slug:    perfilData.tipografia_slug ?? 'inter',
+      tipografia_slug:    perfilData.tipografia_slug ?? 'varela-round',
       mensaje_bienvenida: perfilData.mensaje_bienvenida ?? '',
     })
   }, [perfilData])

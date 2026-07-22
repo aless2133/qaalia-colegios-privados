@@ -6,10 +6,12 @@ import { useEffect, useState } from 'react'
 interface Props {
   nombreAgente: string
   fotoAgente?: string | null
+  mensajeBienvenida?: string | null
 }
 
-export default function EmptyAgents({ nombreAgente, fotoAgente }: Props) {
+export default function EmptyAgents({ nombreAgente, fotoAgente, mensajeBienvenida }: Props) {
   const textoCompleto =
+    mensajeBienvenida?.trim() ||
     'Pregunta lo que quieras y te responderé con la información disponible en este momento.'
   const [textoAnimado, setTextoAnimado] = useState('')
 

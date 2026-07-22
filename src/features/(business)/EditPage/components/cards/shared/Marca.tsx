@@ -54,7 +54,7 @@ export default function Marca({ perfil, setPerfil, tipografias }: MarcaProps) {
                     className="text-base text-foreground truncate"
                     style={{ fontFamily: tipo.font_family }}
                   >
-                    Aa Bb Cc — Vista previa
+                    Vista previa del estilo
                   </span>
                 </div>
                 <div

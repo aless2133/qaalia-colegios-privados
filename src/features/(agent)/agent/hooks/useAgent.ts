@@ -2,7 +2,13 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { createClient } from '@/src/lib/supabase/client'
-
+export interface BrandingAgente {
+  logo_url:           string | null
+  descripcion:        string | null
+  color_marca:        string | null
+  mensaje_bienvenida: string | null
+  font_family:        string | null
+}
 export interface NegocioAgente {
   id:           string
   nombre:       string
@@ -13,6 +19,7 @@ export interface NegocioAgente {
   correo:       string
   nombre_dueno: string
   foto_dueno:   string | null
+  branding?:    BrandingAgente
 }
 
 export interface ReglaAgente {

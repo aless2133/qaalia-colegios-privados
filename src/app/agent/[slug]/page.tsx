@@ -24,14 +24,24 @@ export default function AgentPage({ params }: { params: Promise<{ slug: string }
 
   if (isDesktop === null) return null
 
+  const colorMarca = agent.negocio?.branding?.color_marca || '#5865F2'
+  const fontFamily = agent.negocio?.branding?.font_family || 'var(--font-sans)'
+
   return (
-    <>
-   <Navbar nombreNegocio={agent.negocio?.nombre ?? ''} loading={agent.loading} onNuevoChat={handleNuevoChat}/>
-    <PageTransition>
-      {isDesktop
-        ? <AgentDesktop key={chatKey} slug={slug} />
-        : <AgentMobile  key={chatKey} slug={slug} />}
-    </PageTransition>
-    </>
+    <div
+      style={{
+        '--brand-color': colorMarca,
+        '--primary': 'oklch(from var(--brand-color) l c h)',
+        fontFamily,
+      } as React.CSSProperties}
+      className="min-h-screen flex flex-col"
+    >
+      <Navbar nombreNegocio={agent.negocio?.nombre ?? ''} loading={agent.loading} onNuevoChat={handleNuevoChat}/>
+      <PageTransition>
+        {isDesktop
+          ? <AgentDesktop key={chatKey} slug={slug} />
+          : <AgentMobile  key={chatKey} slug={slug} />}
+      </PageTransition>
+    </div>
   )
 }
