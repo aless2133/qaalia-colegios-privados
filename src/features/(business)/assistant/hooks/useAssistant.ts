@@ -62,6 +62,7 @@ export function useAssistant() {
   const [procesando, setProcesando] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [copiado, setCopiado] = useState(false)
+    const [editandoPagina, setEditandoPagina] = useState(false)
 
   useEffect(() => {
     // TODO: reemplazar por el fetch real
@@ -92,8 +93,16 @@ export function useAssistant() {
   }
 
   const abrirAjuste = (tipo: TipoAjuste) => {
-    // TODO: abrir el formulario/página correspondiente a cada ajuste
+    // TODO: abrir el formulario/página correspondiente a cada ajuste (perfil, marca, notificaciones)
+    if (tipo === 'enlace') {
+      setEditandoPagina(true)
+      return
+    }
     void tipo
+  }
+
+  const cerrarEditorPagina = () => {
+    setEditandoPagina(false)
   }
 
   const copiarEnlace = async () => {
@@ -115,9 +124,11 @@ export function useAssistant() {
     procesando,
     error,
     copiado,
+    editandoPagina,
     alternarOpcion,
     personalizar,
     abrirAjuste,
     copiarEnlace,
+    cerrarEditorPagina,
   }
 }
