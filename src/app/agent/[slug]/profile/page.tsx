@@ -6,6 +6,7 @@ import ProfileDesktop from '@/src/features/(agent)/profile/views/desktop'
 import PageTransition  from '@/src/features/components/animations/page_transition'
 import { useAgent } from '@/src/features/(agent)/agent/hooks/useAgent'
 import Navbar from '@/src/features/(agent)/agent/components/layouts/shared/Navbar'
+import AgentBrandLayout from '@/src/features/(agent)/agent/components/layouts/shared/AgentBrandLayout'
 
 export default function ProfilePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = use(params)
@@ -23,13 +24,12 @@ export default function ProfilePage({ params }: { params: Promise<{ slug: string
   if (isDesktop === null) return null
 
   return (
-   <>
-    <Navbar nombreNegocio={agent.negocio?.nombre ?? ''} loading={agent.loading} />
-    <PageTransition>
-      {isDesktop
-        ? <ProfileDesktop slug={slug} />
-        : <ProfileMobile  slug={slug} />}
-    </PageTransition>
-     </>
+    <AgentBrandLayout slug={slug}>
+      <PageTransition>
+        {isDesktop
+          ? <ProfileDesktop slug={slug} />
+          : <ProfileMobile  slug={slug} />}
+      </PageTransition>
+    </AgentBrandLayout>
   )
 }

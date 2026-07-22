@@ -16,7 +16,7 @@ interface DetailsCardProps {
 function ActividadRow({ actividad }: { actividad: Actividad }) {
   return (
     <div className="flex items-center gap-2.5 py-2">
-      <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center flex-shrink-0">
+      <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
         <DocumentText size={14} color="currentColor" className="text-primary" />
       </div>
       <div className="min-w-0 flex-1">
@@ -51,7 +51,7 @@ export default function DetailsCard({ agente, actividades, loadingActividades }:
       <CardContent className="p-4 flex flex-col lg:flex-row gap-4 lg:gap-4">
         <div className="flex flex-col gap-3 lg:w-1/2">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-full bg-accent flex items-center justify-center flex-shrink-0">
+            <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
               <Cpu size={16} color="currentColor" className="text-primary" />
             </div>
             <div className="min-w-0">

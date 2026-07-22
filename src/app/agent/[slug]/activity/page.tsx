@@ -5,7 +5,7 @@ import ActivityMobile  from '@/src/features/(agent)/activity/views/mobile'
 import ActivityDesktop from '@/src/features/(agent)/activity/views/desktop'
 import PageTransition  from '@/src/features/components/animations/page_transition'
 import { useAgent } from '@/src/features/(agent)/agent/hooks/useAgent'
-import Navbar from '@/src/features/(agent)/agent/components/layouts/shared/Navbar'
+import AgentBrandLayout from '@/src/features/(agent)/agent/components/layouts/shared/AgentBrandLayout'
 
 export default function ActivityPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = use(params)
@@ -23,13 +23,12 @@ export default function ActivityPage({ params }: { params: Promise<{ slug: strin
   if (isDesktop === null) return null
 
   return (
-   <>
-    <Navbar nombreNegocio={agent.negocio?.nombre ?? ''} loading={agent.loading} />
-    <PageTransition>
-      {isDesktop
-        ? <ActivityDesktop slug={slug} />
-        : <ActivityMobile  slug={slug} />}
-    </PageTransition>
-     </>
+    <AgentBrandLayout slug={slug}>
+      <PageTransition>
+        {isDesktop
+          ? <ActivityDesktop slug={slug} />
+          : <ActivityMobile  slug={slug} />}
+      </PageTransition>
+    </AgentBrandLayout>
   )
 }
