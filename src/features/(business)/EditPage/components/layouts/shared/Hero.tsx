@@ -41,7 +41,7 @@ export default function Hero({ perfil, fotoPreview, tipografias, negocioNombre }
             </p>
 
             {perfil.mensaje_bienvenida && (
-              <p className="text-xs font-semibold" style={{ color: perfil.color_marca }}>
+              <p className="text-xs font-medium text-foreground">
                 {perfil.mensaje_bienvenida}
               </p>
             )}
