@@ -1,11 +1,12 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { useAgentSettings } from '@/src/features/(business)/AgentSettings/hooks/useAgentSettings'
 export type EstadoAsistente = 'activo' | 'pausado'
 export type TipoOpcion = 'desactivar' | 'enlace' | 'antispam' | 'multiidioma'
 export type TipoAjuste = 'personalizar_agente' | 'personalizar_pagina' | 'marca' | 'clave'
-
+import { useRouter } from 'next/navigation'
+import { useBusiness } from '@/src/features/(business)/dashboard/hooks/useBusiness'
 export interface Asistente {
   id:          string
   nombre:      string
@@ -56,6 +57,8 @@ const MOCK_AJUSTES: AjusteAsistente[] = [
 
 export function useAssistant() {
   const { agente } = useAgentSettings()
+  const negocio = useBusiness()
+  const router = useRouter()
   const [loading, setLoading] = useState(true)
   const [asistenteBase, setAsistenteBase] = useState<Asistente | null>(null)
   const [opciones, setOpciones] = useState<OpcionAsistente[]>([])
@@ -63,7 +66,16 @@ export function useAssistant() {
   const [procesando, setProcesando] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [copiado, setCopiado] = useState(false)
-    const [editandoPagina, setEditandoPagina] = useState(false)
+  const [editandoPagina, setEditandoPagina] = useState(false)
+
+  const enlaceReal = useMemo(() => {
+    if (!negocio?.slug) return null
+    return `${typeof window !== 'undefined' ? window.location.origin : ''}/agent/${negocio.slug}`
+  }, [negocio?.slug])
+
+  const enlaceCorto = useMemo(() =>
+    enlaceReal ? enlaceReal.replace(/^https?:\/\//, '') : 'Sin enlace configurado'
+  , [enlaceReal])
 
   useEffect(() => {
     // TODO: reemplazar por el fetch real
@@ -93,35 +105,40 @@ export function useAssistant() {
     // TODO: abrir el flujo de personalización del asistente (nombre, reglas, contexto)
   }
 
-  const abrirAjuste = (tipo: TipoAjuste) => {
-    // TODO: abrir el formulario/página correspondiente a cada ajuste (personalizar_agente, marca, clave)
+    const abrirAjuste = (tipo: TipoAjuste) => {
+    // TODO: abrir el formulario/página correspondiente a cada ajuste (marca, clave)
+    if (tipo === 'personalizar_agente') {
+      router.push('/settings')
+      return
+    }
     if (tipo === 'personalizar_pagina') {
       setEditandoPagina(true)
       return
     }
     void tipo
   }
-
+  
   const cerrarEditorPagina = () => {
     setEditandoPagina(false)
   }
 
   const copiarEnlace = async () => {
-    if (!asistente) return
+    if (!enlaceReal) return
     try {
-      await navigator.clipboard.writeText(`https://${asistente.enlace}`)
+      await navigator.clipboard.writeText(enlaceReal)
       setCopiado(true)
       setTimeout(() => setCopiado(false), 2000)
     } catch {
       setError('No se pudo copiar el enlace.')
     }
   }
-
+  
   const asistente: Asistente | null = asistenteBase
     ? {
         ...asistenteBase,
         nombre:   agente?.marca?.nombre   || asistenteBase.nombre,
         foto_url: agente?.marca?.foto_url ?? asistenteBase.foto_url,
+        enlace:   enlaceCorto,
       }
     : null
 

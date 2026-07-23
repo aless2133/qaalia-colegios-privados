@@ -42,7 +42,7 @@ export default function Information({ informacion }: { informacion: any[] }) {
         </div>
 
         <div className="flex flex-col gap-3 p-4 rounded-xl border border-dashed border-border bg-background/50">
-          <p className="text-xs font-semibold">Agregar nuevo bloque</p>
+          <p className="text-xs font-semibold">Agregar nueva información</p>
           <Input 
             value={titulo} 
             onChange={(e) => setTitulo(e.target.value)} 

@@ -40,10 +40,12 @@ export default function AgentCard({ asistente, copiado, onCopiarEnlace, onPerson
             <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">{asistente.descripcion}</p>
             <button
               onClick={onCopiarEnlace}
-              className="flex items-center gap-1.5 text-[11px] font-semibold text-primary w-fit mt-0.5"
+              className="flex items-center gap-1.5 text-[11px] font-semibold text-primary max-w-full mt-0.5"
             >
-              {copiado ? <TickCircle size={12} color="currentColor" /> : <Copy size={12} color="currentColor" />}
-              {copiado ? 'Enlace copiado' : asistente.enlace}
+              {copiado ? <TickCircle size={12} color="currentColor" className="flex-shrink-0" /> : <Copy size={12} color="currentColor" className="flex-shrink-0" />}
+              <span className="max-[640px]:truncate max-[640px]:max-w-[200px]">
+                {copiado ? 'Enlace copiado' : asistente.enlace}
+              </span>
             </button>
           </div>
         </div>

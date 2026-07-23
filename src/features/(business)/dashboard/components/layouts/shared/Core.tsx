@@ -33,7 +33,7 @@ export default function Core({ negocio }: CoreProps) {
   const [copiado, setCopiado] = useState(false)
   const enlace = useMemo(() => {
     if (!negocio?.slug) return null
-    return `${typeof window !== 'undefined' ? window.location.origin : ''}/r/${negocio.slug}`
+    return `${typeof window !== 'undefined' ? window.location.origin : ''}/agent/${negocio.slug}`
   }, [negocio?.slug])
 
   const enlaceCorto = useMemo(() =>
