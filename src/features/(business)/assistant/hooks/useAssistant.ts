@@ -1,10 +1,10 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-
+import { useAgentSettings } from '@/src/features/(business)/AgentSettings/hooks/useAgentSettings'
 export type EstadoAsistente = 'activo' | 'pausado'
-export type TipoOpcion = 'auto_respuesta' | 'contacto' | 'urgencia' | 'idioma'
-export type TipoAjuste = 'perfil' | 'enlace' | 'marca' | 'notificaciones'
+export type TipoOpcion = 'desactivar' | 'enlace' | 'antispam' | 'multiidioma'
+export type TipoAjuste = 'personalizar_agente' | 'personalizar_pagina' | 'marca' | 'clave'
 
 export interface Asistente {
   id:          string
@@ -35,28 +35,29 @@ const MOCK_ASISTENTE: Asistente = {
   id: 'asis-1',
   nombre: 'Sofía',
   foto_url: null,
-  descripcion: 'Asistente virtual de tu enlace único. Responde dudas, cotiza productos y agenda reuniones por ti.',
+  descripcion: 'Asistente virtual de tu enlace único. Responde dudas, de todos tus clientes por ti.',
   estado: 'activo',
   enlace: 'qaalia.com/e/elian-dev',
 }
 
 const MOCK_OPCIONES: OpcionAsistente[] = [
-  { id: 'op-1', tipo: 'auto_respuesta', nombre: 'Respuesta automática', descripcion: 'El asistente responde solo, sin esperar tu aprobación.', activa: true },
-  { id: 'op-2', tipo: 'contacto',       nombre: 'Solicitar datos de contacto', descripcion: 'Pide WhatsApp o correo antes de finalizar una solicitud.', activa: true },
-  { id: 'op-3', tipo: 'urgencia',       nombre: 'Detección de urgencia', descripcion: 'Marca como prioritarias las solicitudes con lenguaje urgente.', activa: false },
-  { id: 'op-4', tipo: 'idioma',         nombre: 'Multiidioma', descripcion: 'Responde automáticamente en el idioma del cliente.', activa: false },
+  { id: 'op-4', tipo: 'multiidioma',         nombre: 'Multiidioma', descripcion: 'Responde automáticamente en el idioma del cliente.', activa: false },
+  { id: 'op-2', tipo: 'enlace',       nombre: 'Convertir enlaces en botones', descripcion: 'Transforma automáticamente cualquier URL que mencione el agente en un botón interactivo dentro del chat.', activa: true },
+  { id: 'op-3', tipo: 'antispam',       nombre: 'Límite antispam por usuario', descripcion: 'Finaliza automáticamente la conversación si un mismo usuario envía demasiados mensajes.', activa: true },
+  { id: 'op-1', tipo: 'desactivar', nombre: 'Desactivar agente', descripcion: 'Desactiva temporalmente el agente. Se mostrará un mensaje indicando que estás fuera de servicio.', activa: true },
 ]
 
 const MOCK_AJUSTES: AjusteAsistente[] = [
-  { id: 'aj-1', tipo: 'perfil',         nombre: 'Editar perfil del asistente', descripcion: 'Nombre, foto, personalidad y reglas de respuesta.' },
-  { id: 'aj-2', tipo: 'enlace',         nombre: 'Editar página de enlace único', descripcion: 'Textos, catálogo visible y orden de las acciones.' },
-  { id: 'aj-3', tipo: 'marca',          nombre: 'Editar marca y colores', descripcion: 'Logo, color principal y estilo visual del enlace.' },
-  { id: 'aj-4', tipo: 'notificaciones', nombre: 'Notificaciones', descripcion: 'Cuándo y cómo te avisamos de nuevas solicitudes.' },
+  { id: 'aj-1', tipo: 'personalizar_agente',         nombre: 'Personalizar agente', descripcion: 'Nombre, foto, personalidad, reglas de respuesta y contexto de tu negocio.' },
+  { id: 'aj-2', tipo: 'personalizar_pagina',         nombre: 'Personalizar página del negocio', descripcion: 'Foto, descripción, tipografía, color, mensaje personalizado.' },
+  { id: 'aj-3', tipo: 'marca',          nombre: 'Dominio personalizado', descripcion: 'Conecta tu propia dominio para reemplazar el enlace generado por defecto.' },
+  { id: 'aj-4', tipo: 'clave', nombre: 'Protección con clave', descripcion: 'Exige una clave al entrar para que solo clientes autorizados puedan hablar con tu agente.' },
 ]
 
 export function useAssistant() {
+  const { agente } = useAgentSettings()
   const [loading, setLoading] = useState(true)
-  const [asistente, setAsistente] = useState<Asistente | null>(null)
+  const [asistenteBase, setAsistenteBase] = useState<Asistente | null>(null)
   const [opciones, setOpciones] = useState<OpcionAsistente[]>([])
   const [ajustes] = useState<AjusteAsistente[]>(MOCK_AJUSTES)
   const [procesando, setProcesando] = useState(false)
@@ -67,7 +68,7 @@ export function useAssistant() {
   useEffect(() => {
     // TODO: reemplazar por el fetch real
     const timer = setTimeout(() => {
-      setAsistente(MOCK_ASISTENTE)
+      setAsistenteBase(MOCK_ASISTENTE)
       setOpciones(MOCK_OPCIONES)
       setLoading(false)
     }, 350)
@@ -93,8 +94,8 @@ export function useAssistant() {
   }
 
   const abrirAjuste = (tipo: TipoAjuste) => {
-    // TODO: abrir el formulario/página correspondiente a cada ajuste (perfil, marca, notificaciones)
-    if (tipo === 'enlace') {
+    // TODO: abrir el formulario/página correspondiente a cada ajuste (personalizar_agente, marca, clave)
+    if (tipo === 'personalizar_pagina') {
       setEditandoPagina(true)
       return
     }
@@ -115,6 +116,14 @@ export function useAssistant() {
       setError('No se pudo copiar el enlace.')
     }
   }
+
+  const asistente: Asistente | null = asistenteBase
+    ? {
+        ...asistenteBase,
+        nombre:   agente?.marca?.nombre   || asistenteBase.nombre,
+        foto_url: agente?.marca?.foto_url ?? asistenteBase.foto_url,
+      }
+    : null
 
   return {
     loading,

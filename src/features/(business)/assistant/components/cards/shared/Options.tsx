@@ -2,9 +2,8 @@
 
 import { Card, CardContent } from '@/components/ui/card'
 import { Switch } from '@/components/ui/switch'
-import { Send2, ProfileCircle, Danger, Global } from 'iconsax-react'
+import { Send2, Global, Slash, MessageRemove, Convertshape2 } from 'iconsax-react'
 import type { OpcionAsistente, TipoOpcion } from '@/src/features/(business)/assistant/hooks/useAssistant'
-
 interface OptionsProps {
   opciones:   OpcionAsistente[]
   procesando: boolean
@@ -12,18 +11,17 @@ interface OptionsProps {
 }
 
 const TIPO_META: Record<TipoOpcion, { icon: typeof Send2 }> = {
-  auto_respuesta: { icon: Send2 },
-  contacto:        { icon: ProfileCircle },
-  urgencia:        { icon: Danger },
-  idioma:          { icon: Global },
+  desactivar: { icon: Slash },
+  enlace:        { icon: Convertshape2 },
+  antispam:        { icon: MessageRemove },
+  multiidioma:          { icon: Global },
 }
 
 export default function Options({ opciones, procesando, onAlternar }: OptionsProps) {
   return (
     <Card className="bg-card border border-border overflow-hidden py-0 gap-0">
       <CardContent className="p-4 flex flex-col gap-1">
-        <p className="text-xs font-bold text-foreground pb-2">Opciones del asistente</p>
-
+        <p className="text-xs font-bold text-foreground pb-2">Opciones del agente</p>
         <div className="flex flex-col divide-y divide-border">
           {opciones.map(opcion => {
             const OpcionIcon = TIPO_META[opcion.tipo].icon
@@ -38,7 +36,6 @@ export default function Options({ opciones, procesando, onAlternar }: OptionsPro
                     <p className="text-[11px] text-muted-foreground truncate">{opcion.descripcion}</p>
                   </div>
                 </div>
-
                 <Switch
                   checked={opcion.activa}
                   disabled={procesando}

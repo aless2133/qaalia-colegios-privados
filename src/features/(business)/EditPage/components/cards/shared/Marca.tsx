@@ -1,7 +1,7 @@
 'use client'
 
 import { Card, CardHeader, CardContent } from '@/components/ui/card'
-import { Text, TextBlock } from 'iconsax-react'
+import { Text, TextBlock, TickCircle } from 'iconsax-react'
 import ColorsBranding from '@/src/features/(business)/EditPage/components/cards/shared/BrandingColors'
 import type { EditPagePerfil, TipografiaOption } from '@/src/features/(business)/EditPage/hooks/useEditPageAgent'
 
@@ -13,14 +13,14 @@ interface MarcaProps {
 
 export default function Marca({ perfil, setPerfil, tipografias }: MarcaProps) {
   return (
-    <div className="flex flex-col gap-6">
+   <div className="flex flex-col gap-6 lg:contents">
       {/* Color de marca */}
       <Card className="bg-card border border-border py-0 gap-0 overflow-hidden">
         <ColorsBranding perfil={perfil} setPerfil={setPerfil} />
       </Card>
 
       {/* Tipografía */}
-      <Card className="bg-card border border-border">
+      <Card className="bg-card border border-border lg:col-span-2">
         <CardHeader className="pb-4">
           <div className="flex items-center gap-2">
             <TextBlock size={16} color="currentColor" className="text-muted-foreground" />
@@ -31,7 +31,7 @@ export default function Marca({ perfil, setPerfil, tipografias }: MarcaProps) {
           </p>
         </CardHeader>
 
-        <CardContent className="flex flex-col gap-2">
+       <CardContent className="flex flex-col gap-2 lg:grid lg:grid-cols-2 lg:gap-2">
           {tipografias.length === 0 && (
             <p className="text-xs text-muted-foreground">No hay tipografías disponibles.</p>
           )}
@@ -57,11 +57,16 @@ export default function Marca({ perfil, setPerfil, tipografias }: MarcaProps) {
                     Vista previa del estilo
                   </span>
                 </div>
-                <div
-                  className={`w-4 h-4 rounded-full border-2 flex-shrink-0 ${
-                    active ? 'border-primary bg-primary' : 'border-muted-foreground'
-                  }`}
-                />
+                {active ? (
+                  <TickCircle
+                    size={20}
+                    color="currentColor"
+                    variant="Bold"
+                    className="text-primary flex-shrink-0"
+                  />
+                ) : (
+                  <div className="w-4 h-4 rounded-full border-1 border-muted-foreground flex-shrink-0" />
+                )}
               </button>
             )
           })}

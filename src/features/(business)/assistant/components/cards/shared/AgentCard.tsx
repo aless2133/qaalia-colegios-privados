@@ -3,7 +3,7 @@
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { TickCircle, PauseCircle, Copy, Setting4 } from 'iconsax-react'
+import { TickCircle, PauseCircle, Copy, Setting4, Cpu } from 'iconsax-react'
 import type { Asistente } from '@/src/features/(business)/assistant/hooks/useAssistant'
 import Link from 'next/link'
 
@@ -14,10 +14,6 @@ interface AgentCardProps {
   onPersonalizar: () => void
 }
 
-function iniciales(nombre: string) {
-  return nombre.split(' ').filter(Boolean).slice(0, 2).map(p => p[0]!.toUpperCase()).join('')
-}
-
 export default function AgentCard({ asistente, copiado, onCopiarEnlace, onPersonalizar }: AgentCardProps) {
   const EstadoIcon = asistente.estado === 'activo' ? TickCircle : PauseCircle
 
@@ -25,15 +21,14 @@ export default function AgentCard({ asistente, copiado, onCopiarEnlace, onPerson
     <Card className="bg-card border border-border overflow-hidden py-0 gap-0">
       <CardContent className="p-4 flex flex-col sm:flex-row sm:items-center gap-4">
         <div className="flex items-center gap-4 min-w-0 flex-1">
-          <div className="w-16 h-16 rounded-full bg-accent flex items-center justify-center flex-shrink-0 overflow-hidden">
+         <div className="w-16 h-16 rounded-full bg-accent flex items-center justify-center flex-shrink-0 overflow-hidden">
             {asistente.foto_url ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={asistente.foto_url} alt={asistente.nombre} className="w-full h-full object-cover" />
             ) : (
-              <span className="text-base font-bold text-foreground">{iniciales(asistente.nombre)}</span>
+              <Cpu size={28} color="currentColor" className="text-muted-foreground" />
             )}
           </div>
-
           <div className="min-w-0 flex flex-col gap-1">
             <div className="flex items-center gap-2">
               <p className="text-sm font-bold text-foreground truncate">{asistente.nombre}</p>

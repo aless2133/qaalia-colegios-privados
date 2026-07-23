@@ -41,7 +41,7 @@ export default function Sidebar({ negocio }: SidebarProps) {
     <aside className="hidden lg:flex flex-col w-64 h-screen fixed inset-y-0 left-0 z-20 border-r border-border bg-card">
       {/* Marca */}
       <div className="px-6 py-6">
-        <span className="text-xl font-black text-foreground">Servys</span>
+        <span className="text-xl font-black text-foreground">Qaalia</span>
       </div>
 
       {/* Navegación */}

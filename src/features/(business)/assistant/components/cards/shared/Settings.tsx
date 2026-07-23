@@ -1,7 +1,7 @@
 'use client'
 
 import { Card, CardContent } from '@/components/ui/card'
-import { ProfileCircle, Link1, Brush2, Notification, ArrowRight2 } from 'iconsax-react'
+import { ProfileCircle, Link1, Brush2, Notification, ArrowRight2, Setting, Edit, Import, ImportCurve, LinkSquare, PasswordCheck, Lock } from 'iconsax-react'
 import type { AjusteAsistente, TipoAjuste } from '@/src/features/(business)/assistant/hooks/useAssistant'
 
 interface SettingsProps {
@@ -10,10 +10,10 @@ interface SettingsProps {
 }
 
 const TIPO_META: Record<TipoAjuste, { icon: typeof ProfileCircle }> = {
-  perfil:         { icon: ProfileCircle },
-  enlace:         { icon: Link1 },
-  marca:          { icon: Brush2 },
-  notificaciones: { icon: Notification },
+  personalizar_agente:         { icon: Setting },
+  personalizar_pagina:         { icon: Edit },
+  marca:          { icon: LinkSquare },
+  clave: { icon: Lock },
 }
 
 export default function Settings({ ajustes, onSeleccionar }: SettingsProps) {
