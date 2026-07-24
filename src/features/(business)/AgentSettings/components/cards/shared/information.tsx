@@ -1,12 +1,66 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
+import { motion } from 'framer-motion'
 import { Card, CardHeader, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { useAgentSettings } from '@/src/features/(business)/AgentSettings/hooks/useAgentSettings'
-import { Trash, AddCircle } from 'iconsax-react'
+import { Trash, AddCircle, ArrowDown2, ArrowUp2 } from 'iconsax-react'
+
+const COLLAPSED_LINES = 3
+
+function InfoBlock({ info, onDelete }: { info: any; onDelete: (id: string) => void }) {
+  const [expanded, setExpanded] = useState(false)
+  const [overflows, setOverflows] = useState(false)
+  const [collapsedHeight, setCollapsedHeight] = useState(0)
+  const contentRef = useRef<HTMLParagraphElement>(null)
+
+  useEffect(() => {
+    const el = contentRef.current
+    if (!el) return
+    const lineHeight = parseFloat(getComputedStyle(el).lineHeight || '16')
+    const maxHeight = lineHeight * COLLAPSED_LINES
+    setCollapsedHeight(maxHeight)
+    setOverflows(el.scrollHeight > maxHeight + 1)
+  }, [info.detalles])
+
+  return (
+    <div className="flex flex-col gap-0 p-4 rounded-xl bg-muted/50 border border-border">
+      <div className="flex items-start justify-between gap-3">
+        <span className="text-xs font-bold text-primary">{info.titulo || 'Información General'}</span>
+        <Button variant="ghost" size="icon" onClick={() => onDelete(info.id)} className="h-6 w-6 text-muted-foreground hover:text-destructive">
+          <Trash size={14} color="currentColor" />
+        </Button>
+      </div>
+
+      <motion.div
+        initial={false}
+        animate={{ height: expanded || !overflows ? 'auto' : collapsedHeight }}
+        transition={{ duration: 0.25 }}
+        className="overflow-hidden"
+      >
+        <p ref={contentRef} className="text-xs text-foreground whitespace-pre-wrap">
+          {info.detalles}
+        </p>
+      </motion.div>
+
+      {overflows && (
+        <button
+          onClick={() => setExpanded(!expanded)}
+          className="w-full flex items-center justify-center gap-1.5 text-[11px] font-semibold text-muted-foreground mt-1.5"
+        >
+          {expanded ? (
+            <>Ver menos <ArrowUp2 size={12} color="currentColor" /></>
+          ) : (
+            <>Ver más <ArrowDown2 size={12} color="currentColor" /></>
+          )}
+        </button>
+      )}
+    </div>
+  )
+}
 
 export default function Information({ informacion }: { informacion: any[] }) {
   const { crearInfo, eliminarInfo } = useAgentSettings()
@@ -29,15 +83,7 @@ export default function Information({ informacion }: { informacion: any[] }) {
       <CardContent className="flex flex-col gap-6">
         <div className="flex flex-col gap-3">
           {informacion?.map(info => (
-            <div key={info.id} className="flex flex-col gap-0 p-4 rounded-xl bg-muted/50 border border-border">
-              <div className="flex items-start justify-between gap-3">
-                <span className="text-xs font-bold text-primary">{info.titulo || 'Información General'}</span>
-                <Button variant="ghost" size="icon" onClick={() => eliminarInfo(info.id)} className="h-6 w-6 text-muted-foreground hover:text-destructive">
-                  <Trash size={14} color="currentColor" />
-                </Button>
-              </div>
-              <p className="text-xs text-foreground whitespace-pre-wrap">{info.detalles}</p>
-            </div>
+            <InfoBlock key={info.id} info={info} onDelete={eliminarInfo} />
           ))}
         </div>
 
