@@ -81,24 +81,27 @@ export function useShares() {
       if (!negocioId) return [] as Propuesta[]
 
       const { data } = await supabase
-        .from('propuestas')
+        .from('acciones')
         .select(`
-          id, titulo, descripcion, activo, orden, created_at,
-          propuesta_preguntas ( id ),
-          propuesta_metodos_contacto ( id, tipo, etiqueta_personalizada, activo, orden )
+          id, nombre, descripcion_corta, activo, orden, created_at,
+          propuestas (
+            propuesta_preguntas ( id ),
+            propuesta_metodos_contacto ( id, tipo, etiqueta_personalizada, activo, orden )
+          )
         `)
         .eq('negocio_id', negocioId)
+        .eq('tipo', 'propuesta')
         .order('orden', { ascending: true })
 
       return ((data ?? []) as any[]).map((row): Propuesta => ({
         id:               row.id,
-        titulo:           row.titulo,
-        descripcion:      row.descripcion,
+        titulo:           row.nombre,
+        descripcion:      row.descripcion_corta,
         activo:           row.activo,
         orden:            row.orden,
         fecha_creacion:   row.created_at,
-        total_preguntas:  row.propuesta_preguntas?.length ?? 0,
-        metodos_contacto: (row.propuesta_metodos_contacto ?? [])
+        total_preguntas:  row.propuestas?.propuesta_preguntas?.length ?? 0,
+        metodos_contacto: (row.propuestas?.propuesta_metodos_contacto ?? [])
           .slice()
           .sort((a: MetodoContacto, b: MetodoContacto) => a.orden - b.orden),
       }))
@@ -119,7 +122,7 @@ export function useShares() {
     const channel = supabase
       .channel(`propuestas-${negocioId}`)
       .on('postgres_changes', {
-        event: '*', schema: 'public', table: 'propuestas',
+        event: '*', schema: 'public', table: 'acciones',
         filter: `negocio_id=eq.${negocioId}`,
       }, () => fetchPropuestas())
       .on('postgres_changes', {

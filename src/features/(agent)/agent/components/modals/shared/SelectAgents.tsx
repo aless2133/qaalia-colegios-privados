@@ -40,7 +40,7 @@ export default function SelectAgents({ mostrar, onCerrar, agentes, activoId, onS
                       onClick={() => { if (!isActive) { onSwitch(ag); onCerrar() } }}
                       disabled={isActive}
                       className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-colors w-full ${
-                        isActive ? 'bg-primary/10 cursor-default' : 'hover:bg-accent cursor-pointer'
+                        isActive ? 'bg-primary/10 cursor-default' : 'hover:bg-primary/10 cursor-pointer'
                       }`}
                     >
                     <div className="w-9 h-9 rounded-2xl flex items-center justify-center flex-shrink-0 overflow-hidden bg-primary/10">

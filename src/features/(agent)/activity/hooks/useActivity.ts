@@ -64,27 +64,38 @@ export function useActivity(slug: string) {
       if (!negocioId) return [] as Actividad[]
 
       const { data } = await supabase
-        .from('propuestas')
+        .from('acciones')
         .select(`
-          id, titulo, descripcion, orden,
-          propuesta_preguntas ( id ),
-          propuesta_metodos_contacto ( id, tipo, etiqueta_personalizada, activo, orden )
+          id, 
+          nombre, 
+          descripcion_corta, 
+          orden,
+          propuestas!inner (
+            propuesta_preguntas ( id ),
+            propuesta_metodos_contacto ( id, tipo, etiqueta_personalizada, activo, orden )
+          )
         `)
         .eq('negocio_id', negocioId)
+        .eq('tipo', 'propuesta')
         .eq('activo', true)
         .order('orden', { ascending: true })
 
-      return ((data ?? []) as any[]).map((row): Actividad => ({
-        id:               row.id,
-        titulo:           row.titulo,
-        descripcion:      row.descripcion,
-        orden:            row.orden,
-        total_preguntas:  row.propuesta_preguntas?.length ?? 0,
-        metodos_contacto: (row.propuesta_metodos_contacto ?? [])
-          .filter((m: MetodoContacto) => m.activo)
-          .slice()
-          .sort((a: MetodoContacto, b: MetodoContacto) => a.orden - b.orden),
-      }))
+      return ((data ?? []) as any[]).map((row): Actividad => {
+        // Extraemos la data de la tabla hija (Supabase puede devolver objeto o arreglo)
+        const propuestaData = Array.isArray(row.propuestas) ? row.propuestas[0] : row.propuestas;
+
+        return {
+          id:               row.id,
+          titulo:           row.nombre,
+          descripcion:      row.descripcion_corta,
+          orden:            row.orden,
+          total_preguntas:  propuestaData?.propuesta_preguntas?.length ?? 0,
+          metodos_contacto: (propuestaData?.propuesta_metodos_contacto ?? [])
+            .filter((m: MetodoContacto) => m.activo)
+            .slice()
+            .sort((a: MetodoContacto, b: MetodoContacto) => a.orden - b.orden),
+        }
+      })
     },
     enabled:   !!negocioId,
     staleTime: 1000 * 60 * 2,

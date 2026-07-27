@@ -100,7 +100,7 @@ const secciones = [
               <button
                 onClick={() => setMostrarAgentes(true)}
                 disabled={loadingAgente}
-                className="pointer-events-auto flex items-center gap-1 max-w-full px-2 py-1 rounded-full hover:bg-accent transition-colors disabled:pointer-events-none"
+                className="pointer-events-auto flex items-center gap-1 max-w-full px-2 py-1 rounded-full hover:bg-primary/10 transition-colors disabled:pointer-events-none"
               >
                 <h1 className="text-base font-black text-foreground leading-tight truncate">
                   {loadingAgente ? '' : nombreAgente}
@@ -146,7 +146,7 @@ const secciones = [
                 key={id}
                 onClick={() => handleSeleccionar(onClick)}
                 className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-colors
-                  ${activo ? 'bg-primary/10 text-primary' : 'text-foreground hover:bg-accent'}`}
+                  ${activo ? 'bg-primary/10 text-primary' : 'text-foreground hover:bg-primary/10'}`}
               >
                 <Icono size={20} color="currentColor" className={activo ? 'text-primary' : 'text-muted-foreground'} />
                 <span className="text-sm font-medium truncate">{label}</span>
