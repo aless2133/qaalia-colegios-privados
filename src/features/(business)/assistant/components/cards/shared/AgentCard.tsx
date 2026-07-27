@@ -3,7 +3,7 @@
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { TickCircle, PauseCircle, Copy, Setting4, Cpu } from 'iconsax-react'
+import { TickCircle, PauseCircle, Copy, Setting4, Cpu, Slash } from 'iconsax-react'
 import type { Asistente } from '@/src/features/(business)/assistant/hooks/useAssistant'
 import Link from 'next/link'
 
@@ -15,7 +15,7 @@ interface AgentCardProps {
 }
 
 export default function AgentCard({ asistente, copiado, onCopiarEnlace, onPersonalizar }: AgentCardProps) {
-  const EstadoIcon = asistente.estado === 'activo' ? TickCircle : PauseCircle
+  const EstadoIcon = asistente.estado === 'activo' ? TickCircle : Slash
 
   return (
     <Card className="bg-card border border-border overflow-hidden py-0 gap-0">
@@ -34,7 +34,7 @@ export default function AgentCard({ asistente, copiado, onCopiarEnlace, onPerson
               <p className="text-sm font-bold text-foreground truncate">{asistente.nombre}</p>
               <Badge variant={asistente.estado === 'activo' ? 'secondary' : 'outline'} className="text-[10px] gap-1">
                 <EstadoIcon size={11} color="currentColor" />
-                {asistente.estado === 'activo' ? 'Activo' : 'Pausado'}
+                {asistente.estado === 'activo' ? 'Activo' : 'Desactivado'}
               </Badge>
             </div>
             <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">{asistente.descripcion}</p>

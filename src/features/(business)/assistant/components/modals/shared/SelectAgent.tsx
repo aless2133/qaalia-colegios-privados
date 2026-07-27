@@ -88,7 +88,7 @@ export default function SelectAgent({ open, onOpenChange }: SelectAgentProps) {
                   <div className="min-w-0 flex-1">
                     <p className="text-sm font-semibold text-foreground truncate">{a.nombre}</p>
                     {!a.activo && (
-                      <Badge variant="outline" className="text-[10px] mt-0.5">Inactivo</Badge>
+                      <Badge variant="outline" className="text-[10px] mt-0.5">Desactivado</Badge>
                     )}
                   </div>
                   {a.id === agenteId && (
@@ -101,7 +101,7 @@ export default function SelectAgent({ open, onOpenChange }: SelectAgentProps) {
                     variant="ghost"
                     size="icon"
                     onClick={() => setPorEliminar(a.id)}
-                    className="h-8 w-8 flex-shrink-0 text-muted-foreground hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="h-8 w-8 flex-shrink-0 text-muted-foreground hover:text-destructive hover:bg-destructive/10"
                   >
                     <Trash size={15} color="currentColor" />
                   </Button>
@@ -122,7 +122,7 @@ export default function SelectAgent({ open, onOpenChange }: SelectAgentProps) {
           <AlertDialogHeader>
             <AlertDialogTitle>¿Estás seguro de eliminar a este agente?</AlertDialogTitle>
             <AlertDialogDescription>
-              Esta acción no se puede deshacer. Se eliminará toda su configuración: personalidad, reglas, información y acciones asignadas.
+              Se eliminará toda su configuración: personalidad, reglas, información y acciones asignadas.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

@@ -11,7 +11,7 @@ export default function Hero() {
   const [open, setOpen] = useState(false)
 
   const estado = agenteActivo ? (agenteActivo.activo ? 'activo' : 'pausado') : null
-  const label  = estado === 'activo' ? 'Activo y respondiendo' : estado === 'pausado' ? 'Pausado' : ''
+  const label  = estado === 'activo' ? 'Activo y respondiendo' : estado === 'pausado' ? 'Desactivado' : ''
 
   return (
     <div className="flex items-center justify-between">

@@ -58,7 +58,7 @@ const MOCK_AJUSTES: AjusteAsistente[] = [
 
 export function useAssistant() {
   const { agente } = useAgentSettings()
-  const { agenteActivo } = useAgentBusiness()
+  const { agenteActivo, toggleAgente } = useAgentBusiness()
   const negocio = useBusiness()
   const router = useRouter()
   const [loading, setLoading] = useState(true)
@@ -90,6 +90,27 @@ export function useAssistant() {
   }, [])
 
   const alternarOpcion = async (id: string, activa: boolean) => {
+    const opcion = opciones.find(o => o.id === id)
+
+    // "Desactivar agente" va conectado al backend real: afecta únicamente
+    // al agente que está activo en este momento para este negocio.
+    if (opcion?.tipo === 'desactivar') {
+      if (!agenteActivo) return
+      setProcesando(true)
+      setError(null)
+      try {
+        const data = await toggleAgente(agenteActivo.id, !activa)
+        if (!data?.exito) {
+          setError('No se pudo actualizar el agente. Intenta de nuevo.')
+        }
+      } catch {
+        setError('No se pudo actualizar el agente. Intenta de nuevo.')
+      } finally {
+        setProcesando(false)
+      }
+      return
+    }
+
     setProcesando(true)
     setError(null)
     try {
@@ -146,10 +167,18 @@ export function useAssistant() {
       }
     : null
 
+    const opcionesConEstado = useMemo(() => (
+    opciones.map(o =>
+      o.tipo === 'desactivar' && agenteActivo
+        ? { ...o, activa: !agenteActivo.activo }
+        : o
+    )
+  ), [opciones, agenteActivo])
+
   return {
     loading,
     asistente,
-    opciones,
+    opciones: opcionesConEstado,
     ajustes,
     procesando,
     error,
