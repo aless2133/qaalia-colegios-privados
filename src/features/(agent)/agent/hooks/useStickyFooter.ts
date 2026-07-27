@@ -1,9 +1,11 @@
 'use client'
 
-import { useEffect, type RefObject } from 'react'
+import { useEffect, useLayoutEffect, type RefObject } from 'react'
+
+const useLayoutEffectSeguro = typeof window !== 'undefined' ? useLayoutEffect : useEffect
 
 export function useStickyFooter(ref: RefObject<HTMLElement | null>, activo: boolean = true) {
-  useEffect(() => {
+  useLayoutEffectSeguro(() => {
     const vv = window.visualViewport
     const el = ref.current
     if (!vv || !el || !activo) return
@@ -27,6 +29,11 @@ export function useStickyFooter(ref: RefObject<HTMLElement | null>, activo: bool
       vv.removeEventListener('resize', posicionar)
       vv.removeEventListener('scroll', posicionar)
       cancelAnimationFrame(raf)
+      el.style.position  = ''
+      el.style.left      = ''
+      el.style.right     = ''
+      el.style.top       = ''
+      el.style.transform = ''
     }
   }, [ref, activo])
 }

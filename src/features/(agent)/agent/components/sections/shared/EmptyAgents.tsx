@@ -31,11 +31,11 @@ export default function EmptyAgents({ nombreAgente, fotoAgente, mensajeBienvenid
 
   return (
     <div className="flex flex-col items-center text-center">
-      <div className="w-26 h-26 rounded-[80px] bg-accent flex items-center justify-center mb-6 overflow-hidden">
+      <div className="w-26 h-26 rounded-[80px] bg-primary/10 flex items-center justify-center mb-6 overflow-hidden">
         {fotoAgente ? (
           <img src={fotoAgente} alt={nombreAgente} className="w-full h-full object-cover" />
         ) : (
-          <Cpu size={28} color="currentColor" className="text-primary" />
+          <Cpu size={30} color="currentColor" className="text-primary" />
         )}
       </div>
       <p className="text-lg font-semibold text-foreground">

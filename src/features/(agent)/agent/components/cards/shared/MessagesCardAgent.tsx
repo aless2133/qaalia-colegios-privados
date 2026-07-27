@@ -37,7 +37,7 @@ export default function MessagesCardAgent({ mensaje, escribiendo, fotoAgente, no
 
   return (
     <div className="flex items-start gap-2 max-w-[98%]">
-      <div className="w-7 h-7 rounded-full bg-accent flex items-center justify-center flex-shrink-0 mt-0.5 overflow-hidden">
+      <div className="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5 overflow-hidden">
         {fotoAgente ? (
           <img src={fotoAgente} alt={nombreAgente ?? 'Agente'} className="w-full h-full object-cover" />
         ) : (

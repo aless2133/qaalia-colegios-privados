@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { createClient } from '@/src/lib/supabase/client'
 export interface BrandingAgente {
   logo_url:           string | null
@@ -40,6 +40,9 @@ export interface ConfigAgente {
   id:           string
   nombre:       string
   foto_url:     string | null
+  descripcion:        string | null
+  activo:             boolean
+  es_predeterminado:  boolean
   personalidad: string
   reglas:       ReglaAgente[]
   informacion:  InfoAgente[]
@@ -66,13 +69,25 @@ export interface MensajeAgente {
   productos?: ProductoAgente[]
 }
 
-interface NegocioYAgenteCache {
+interface NegocioYAgentesCache {
   negocio: NegocioAgente
-  agente:  ConfigAgente
+  agentes: ConfigAgente[]
 }
 
-const _negocioCache = new Map<string, NegocioYAgenteCache>()
+const _negocioCache = new Map<string, NegocioYAgentesCache>()
 
+// Sincroniza agenteActivoId entre todas las instancias de useAgent(slug)
+// montadas al mismo tiempo (ej. la del Navbar y la del Core), para que el
+// cambio de agente sea instantáneo sin necesidad de recargar la página.
+const _agenteActivoListeners = new Map<string, Set<(id: string) => void>>()
+
+function emitirCambioAgenteActivo(slug: string, id: string) {
+  _agenteActivoListeners.get(slug)?.forEach(fn => fn(id))
+}
+
+function storageKeyAgenteCliente(slug: string) {
+  return `agente_activo_cliente:${slug}`
+}
 const MOCK_ACCIONES: AccionAgente[] = [
   { id: 'acc-1', nombre: 'Catálogo',          icono: 'Bag2' },
   { id: 'acc-2', nombre: 'Cotizar producto',  icono: 'DocumentText' },
@@ -85,7 +100,14 @@ export function useAgent(slug: string) {
   const cacheado = _negocioCache.get(slug)
 
   const [negocio, setNegocio] = useState<NegocioAgente | null>(cacheado?.negocio ?? null)
-  const [agente, setAgente]   = useState<ConfigAgente | null>(cacheado?.agente ?? null)
+  const [agentes, setAgentes] = useState<ConfigAgente[]>(cacheado?.agentes ?? [])
+  const [agenteActivoId, setAgenteActivoIdState] = useState<string | null>(() => {
+    if (!cacheado?.agentes?.length) return null
+    let preferido: string | null = null
+    try { preferido = sessionStorage.getItem(storageKeyAgenteCliente(slug)) } catch {}
+    const existe = preferido && cacheado.agentes.some(a => a.id === preferido)
+    return existe ? preferido! : (cacheado.agentes.find(a => a.es_predeterminado)?.id ?? cacheado.agentes[0].id)
+  })
   const [loading, setLoading] = useState(!cacheado)
   const [error, setError]     = useState<string | null>(null)
   const [agenteActivo, setAgenteActivo] = useState(true)
@@ -95,6 +117,31 @@ export function useAgent(slug: string) {
   const [texto, setTexto]       = useState('')
   const [enviando, setEnviando] = useState(false)
 
+    // Se suscribe a cambios de agente activo disparados por CUALQUIER
+  // instancia de useAgent(slug) (ej. el Navbar), no solo la propia.
+  useEffect(() => {
+    const listeners = _agenteActivoListeners.get(slug) ?? new Set()
+    const listener = (id: string) => setAgenteActivoIdState(id)
+    listeners.add(listener)
+    _agenteActivoListeners.set(slug, listeners)
+    return () => { listeners.delete(listener) }
+  }, [slug])
+
+  const primerRenderAgenteActivo = useRef(true)
+  useEffect(() => {
+    if (primerRenderAgenteActivo.current) {
+      primerRenderAgenteActivo.current = false
+      return
+    }
+    // Nueva conversación: el agente que entra tiene su propio entrenamiento
+    // (personalidad, reglas, información), así que no se arrastra el
+    // historial armado para el agente anterior. Corre sin importar si el
+    // cambio vino de esta instancia o de otra sincronizada.
+    setMensajes([])
+    setTexto('')
+  }, [agenteActivoId])
+
+  const agente = agentes.find(a => a.id === agenteActivoId) ?? agentes.find(a => a.es_predeterminado) ?? agentes[0] ?? null
   const nombreAgente = agente?.nombre ?? ''
   const fotoAgente   = agente?.foto_url ?? null
 
@@ -102,7 +149,7 @@ export function useAgent(slug: string) {
     const cache = _negocioCache.get(slug)
     if (cache) {
       setNegocio(cache.negocio)
-      setAgente(cache.agente)
+      setAgentes(cache.agentes)
       setLoading(false)
       return
     }
@@ -119,12 +166,21 @@ export function useAgent(slug: string) {
       return
     }
 
-    const negocioData: NegocioAgente = data.negocio
-    const agenteData: ConfigAgente = data.agente
+    const negocioData: NegocioAgente  = data.negocio
+    const agentesData: ConfigAgente[] = data.agentes ?? []
 
     setNegocio(negocioData)
-    setAgente(agenteData)
-    _negocioCache.set(slug, { negocio: negocioData, agente: agenteData })
+    setAgentes(agentesData)
+    _negocioCache.set(slug, { negocio: negocioData, agentes: agentesData })
+
+    setAgenteActivoIdState(prev => {
+      if (prev && agentesData.some(a => a.id === prev)) return prev
+      let preferido: string | null = null
+      try { preferido = sessionStorage.getItem(storageKeyAgenteCliente(slug)) } catch {}
+      const existe = preferido && agentesData.some(a => a.id === preferido)
+      return existe ? preferido! : (agentesData.find(a => a.es_predeterminado)?.id ?? agentesData[0]?.id ?? null)
+    })
+
     setLoading(false)
   }, [slug])
 
@@ -154,6 +210,7 @@ export function useAgent(slug: string) {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             slug,
+            agente_id: agenteActivoId,
             mensaje: mensajeTexto,
             historial: historial.map(m => ({ rol: m.rol, texto: m.texto })),
           }),
@@ -184,7 +241,7 @@ export function useAgent(slug: string) {
         setEnviando(false)
       }
     }
-    }, [slug, mensajes])
+    }, [slug, mensajes, agenteActivoId])
 
   const seleccionarAccion = useCallback((accion: AccionAgente) => {
     enviarMensaje(accion.nombre)
@@ -194,9 +251,19 @@ export function useAgent(slug: string) {
     setAgenteActivo(prev => !prev)
   }, [])
 
+const seleccionarAgente = useCallback((id: string) => {
+    if (id === agenteActivoId) return
+    setAgenteActivoIdState(id)
+    try { sessionStorage.setItem(storageKeyAgenteCliente(slug), id) } catch {}
+    emitirCambioAgenteActivo(slug, id)
+  }, [slug, agenteActivoId])
+
   return {
     negocio,
     agente,
+    agentes,
+    agenteActivoId,
+    seleccionarAgente,
     loading,
     error,
     nombreAgente,

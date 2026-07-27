@@ -7,6 +7,7 @@ export type TipoOpcion = 'desactivar' | 'enlace' | 'antispam' | 'multiidioma'
 export type TipoAjuste = 'personalizar_agente' | 'personalizar_pagina' | 'marca' | 'clave'
 import { useRouter } from 'next/navigation'
 import { useBusiness } from '@/src/features/(business)/dashboard/hooks/useBusiness'
+import { useAgentBusiness } from '@/src/features/(business)/assistant/hooks/useAgentBusiness'
 export interface Asistente {
   id:          string
   nombre:      string
@@ -57,6 +58,7 @@ const MOCK_AJUSTES: AjusteAsistente[] = [
 
 export function useAssistant() {
   const { agente } = useAgentSettings()
+  const { agenteActivo } = useAgentBusiness()
   const negocio = useBusiness()
   const router = useRouter()
   const [loading, setLoading] = useState(true)
@@ -136,9 +138,11 @@ export function useAssistant() {
   const asistente: Asistente | null = asistenteBase
     ? {
         ...asistenteBase,
-        nombre:   agente?.marca?.nombre   || asistenteBase.nombre,
-        foto_url: agente?.marca?.foto_url ?? asistenteBase.foto_url,
-        enlace:   enlaceCorto,
+        nombre:      agente?.marca?.nombre   || asistenteBase.nombre,
+        foto_url:    agente?.marca?.foto_url ?? asistenteBase.foto_url,
+        descripcion: agente?.descripcion     || asistenteBase.descripcion,
+        estado:      agenteActivo ? (agenteActivo.activo ? 'activo' : 'pausado') : asistenteBase.estado,
+        enlace:      enlaceCorto,
       }
     : null
 

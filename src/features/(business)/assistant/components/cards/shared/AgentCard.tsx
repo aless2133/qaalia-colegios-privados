@@ -26,7 +26,7 @@ export default function AgentCard({ asistente, copiado, onCopiarEnlace, onPerson
               // eslint-disable-next-line @next/next/no-img-element
               <img src={asistente.foto_url} alt={asistente.nombre} className="w-full h-full object-cover" />
             ) : (
-              <Cpu size={28} color="currentColor" className="text-muted-foreground" />
+              <Cpu size={28} color="currentColor" className="text-primary/80" />
             )}
           </div>
           <div className="min-w-0 flex flex-col gap-1">

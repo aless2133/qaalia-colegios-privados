@@ -10,7 +10,7 @@ export default function AssistantDesktop() {
   return (
     <main className="px-10 py-4">
       <div className="max-w-8xl flex flex-col gap-4">
-        <Hero estado={asis.asistente?.estado ?? null} loading={asis.loading} />
+        <Hero />
         <Core asis={asis} />
       </div>
     </main>

@@ -28,6 +28,7 @@ export async function POST(req: Request) {
   try {
     const body = await req.json()
     const slug: string | undefined = body?.slug
+    const agenteId: string | undefined = body?.agente_id
     const mensaje: string | undefined = body?.mensaje
     const historial: MensajeEntrada[] = Array.isArray(body?.historial) ? body.historial : []
 
@@ -52,7 +53,7 @@ export async function POST(req: Request) {
       )
     }
 
-    const { negocio, agente } = data as {
+    const { negocio, agentes } = data as {
       negocio: {
         nombre: string
         tipo_negocio: string
@@ -61,12 +62,26 @@ export async function POST(req: Request) {
         correo: string
         modelo_ia?: string // opcional: solo existe si agregaste la columna sugerida
       }
-      agente: {
+      agentes: {
+        id: string
         nombre: string
         personalidad: string
         reglas: { regla: string }[]
         informacion: { titulo: string | null; detalles: string }[]
-      }
+        es_predeterminado: boolean
+      }[]
+    }
+
+    // Un negocio ya puede tener varios agentes: se resuelve exactamente con
+    // cuál está hablando el cliente. Si no llega agenteId o ya no existe
+    // (fue eliminado/desactivado a mitad de sesión), cae al predeterminado.
+    const agente = agentes.find(a => a.id === agenteId) ?? agentes.find(a => a.es_predeterminado) ?? agentes[0]
+
+    if (!agente) {
+      return NextResponse.json(
+        { exito: false, error: 'Este negocio no tiene ningún agente disponible' },
+        { status: 404 }
+      )
     }
 
     // 2. Construir el system prompt a partir de la config real del negocio.

@@ -3,27 +3,36 @@
 import { useEffect, useState } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { Menu, Moon, X } from 'lucide-react'
-import { Home2, MessageAdd1, Send2, ProfileCircle, Shop, Send, Sun1, Note1 } from 'iconsax-react'
+import { Home2, MessageAdd1, Send2, ProfileCircle, Shop, Send, Sun1, Note1, ArrowDown2 } from 'iconsax-react'
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import { useTheme } from 'next-themes'
-
+import type { ConfigAgente } from '@/src/features/(agent)/agent/hooks/useAgent'
+import SelectAgents from '@/src/features/(agent)/agent/components/modals/shared/SelectAgents'
 interface NavbarProps {
   nombreNegocio: string
   loading?:      boolean
   onNuevoChat?:  () => void
   onEnviados?:   () => void
   onPerfil?:     () => void
+  nombreAgente:         string
+  agentes:              ConfigAgente[]
+  agenteActivoId:       string | null
+  loadingAgente?:       boolean
+  onSeleccionarAgente:  (id: string) => void
 }
 
 const EASE: [number, number, number, number] = [0.17, 0.55, 0.55, 1]
 
-export default function Navbar({ nombreNegocio, loading, onNuevoChat, onEnviados, onPerfil }: NavbarProps) {
+export default function Navbar({ nombreNegocio, loading, onNuevoChat, onEnviados, onPerfil,
+  nombreAgente, agentes, agenteActivoId, loadingAgente, onSeleccionarAgente,
+ }: NavbarProps) {
   const router   = useRouter()
   const pathname = usePathname()
   const slug     = pathname.split('/')[2] ?? ''
   const [open, setOpen] = useState(false)
+  const [mostrarAgentes, setMostrarAgentes] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const { scrollY } = useScroll()
   const { theme, setTheme } = useTheme()
@@ -87,16 +96,39 @@ const secciones = [
               </AnimatePresence>
             </Button>
 
-            <div className="absolute inset-x-0 flex justify-center px-12 pointer-events-none">
-              <h1 className="text-base font-black text-foreground leading-tight truncate">
-                {loading ? '' : nombreNegocio}
-              </h1>
+             <div className="absolute inset-x-0 flex justify-center px-12 pointer-events-none">
+              <button
+                onClick={() => setMostrarAgentes(true)}
+                disabled={loadingAgente}
+                className="pointer-events-auto flex items-center gap-1 max-w-full px-2 py-1 rounded-full hover:bg-accent transition-colors disabled:pointer-events-none"
+              >
+                <h1 className="text-base font-black text-foreground leading-tight truncate">
+                  {loadingAgente ? '' : nombreAgente}
+                </h1>
+                <motion.span
+                  animate={{ rotate: mostrarAgentes ? 180 : 0 }}
+                  transition={{ duration: 0.25, ease: EASE }}
+                  className="flex-shrink-0 flex items-center justify-center"
+                >
+                  <ArrowDown2 size={16} color="currentColor" className="text-foreground" />
+                </motion.span>
+              </button>
             </div>
 
             {/* Spacer para mantener el nombre centrado respecto al botón izquierdo */}
             <div className="w-9 h-9" />
           </div>
         </motion.div>
+       <div className="absolute inset-x-0 top-full mt-2 flex justify-center px-12">
+          <SelectAgents
+            mostrar={mostrarAgentes}
+            onCerrar={() => setMostrarAgentes(false)}
+            agentes={agentes}
+            activoId={agenteActivoId}
+            onSwitch={(agente) => onSeleccionarAgente(agente.id)}
+            loading={loadingAgente}
+          />
+        </div>
       </div>
 
       <Sheet open={open} onOpenChange={setOpen}>
@@ -117,7 +149,7 @@ const secciones = [
                   ${activo ? 'bg-primary/10 text-primary' : 'text-foreground hover:bg-accent'}`}
               >
                 <Icono size={20} color="currentColor" className={activo ? 'text-primary' : 'text-muted-foreground'} />
-                <span className="text-sm font-semibold truncate">{label}</span>
+                <span className="text-sm font-medium truncate">{label}</span>
               </button>
             ))}
           </nav>
@@ -141,6 +173,6 @@ const secciones = [
           </div>
         </SheetContent>
       </Sheet>
-    </>
+      </>
   )
 }

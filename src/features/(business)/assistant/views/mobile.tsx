@@ -10,7 +10,7 @@ export default function AssistantMobile() {
   return (
     <main className="px-4 pt-5 pb-24">
       <div className="flex flex-col gap-5">
-        <Hero estado={asis.asistente?.estado ?? null} loading={asis.loading} />
+        <Hero />
         <Core asis={asis} />
       </div>
     </main>

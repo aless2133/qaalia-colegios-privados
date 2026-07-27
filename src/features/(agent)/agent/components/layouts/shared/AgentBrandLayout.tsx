@@ -52,6 +52,11 @@ export default function AgentBrandLayout({ slug, children, onNuevoChat }: Props)
         nombreNegocio={agent.negocio?.nombre ?? ''}
         loading={agent.loading}
         onNuevoChat={onNuevoChat}
+        nombreAgente={agent.nombreAgente}
+        agentes={agent.agentes}
+        agenteActivoId={agent.agenteActivoId}
+        loadingAgente={agent.loading}
+        onSeleccionarAgente={agent.seleccionarAgente}
       />
 
       <main className="flex-1 flex flex-col">

@@ -14,11 +14,11 @@ export default function Core() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
       <div className="flex flex-col gap-6">
-        <Marca marca={agente.marca} />
+        <Marca marca={agente.marca} descripcion={agente.descripcion} />
         <Behavior personalidad={agente.personalidad} reglas={agente.reglas} />
       </div>
       <div className="flex flex-col gap-6">
-        <Information informacion={agente.informacion} />
+      <Information informacion={agente.informacion} acciones={agente.acciones} />
       </div>
     </div>
   )
