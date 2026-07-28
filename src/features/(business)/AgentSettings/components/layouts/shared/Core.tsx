@@ -18,7 +18,7 @@ export default function Core() {
         <Behavior personalidad={agente.personalidad} reglas={agente.reglas} />
       </div>
       <div className="flex flex-col gap-6">
-      <Information informacion={agente.informacion} acciones={agente.acciones} />
+      <Information informacion={agente.informacion} acciones={agente.acciones} documentos={agente.documentos}/>
       </div>
     </div>
   )

@@ -10,14 +10,14 @@ const withSerwist = withSerwistInit({
 });
 
 const nextConfig: NextConfig = {
-  allowedDevOrigins: ["species-drudge-nerd.ngrok-free.dev"],
+  allowedDevOrigins: ["sigrid-cardiographic-lula.ngrok-free.dev"],
   transpilePackages: ['react-onesignal'],
 
   experimental: {
     serverActions: {
       allowedOrigins: [
         "localhost:3000",
-        "species-drudge-nerd.ngrok-free.dev"
+        "sigrid-cardiographic-lula.ngrok-free.dev"
       ]
     }
   },

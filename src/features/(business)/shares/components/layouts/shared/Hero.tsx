@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { SearchNormal1, AddSquare, CloseCircle } from 'iconsax-react'
+import { SearchNormal1, AddSquare, CloseCircle, AddCircle } from 'iconsax-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
@@ -25,7 +25,7 @@ export default function Hero({ total, loading, busqueda, onBuscar, onNuevo, isDe
   }
 
   return (
-    <div className="flex items-center justify-between gap-3">
+    <div className={`flex items-center gap-3 ${isDesktop ? 'relative' : 'justify-between'}`}>
       {buscando && !isDesktop ? (
         <div className="relative flex-1">
           <SearchNormal1 size={16} color="currentColor" className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
@@ -61,9 +61,9 @@ export default function Hero({ total, loading, busqueda, onBuscar, onNuevo, isDe
         </div>
       )}
 
-      <div className="flex items-center gap-2 flex-shrink-0">
+      <div className={`flex items-center gap-2 flex-shrink-0 ${isDesktop ? 'absolute left-1/2 -translate-x-1/2' : ''}`}>
         {isDesktop ? (
-          <div className="relative w-64">
+          <div className="relative w-96">
             <SearchNormal1 size={16} color="currentColor" className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
             <Input
               value={busqueda}
@@ -78,8 +78,13 @@ export default function Hero({ total, loading, busqueda, onBuscar, onNuevo, isDe
           </Button>
         ) : null}
 
-        <Button size="icon" className="rounded-2xl" onClick={onNuevo}>
-          <AddSquare size={18} color="currentColor" />
+        <Button
+          size={isDesktop ? 'default' : 'icon'}
+          className={`rounded-2xl ${isDesktop ? 'gap-2 font-semibold' : ''}`}
+          onClick={onNuevo}
+        >
+          <AddCircle size={18} color="currentColor" />
+          {isDesktop && 'Nueva actividad'}
         </Button>
       </div>
     </div>

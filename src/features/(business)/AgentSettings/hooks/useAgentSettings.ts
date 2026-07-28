@@ -102,6 +102,58 @@ export function useAgentSettings() {
     refetch()
   }
 
+    const subirDocumento = async (file: File) => {
+    if (!agenteId) return
+    const ext  = file.name.split('.').pop() || 'pdf'
+    const path = `${agenteId}/${Date.now()}.${ext}`
+
+    const { error: upErr } = await supabase.storage
+      .from('documentos-agentes')
+      .upload(path, file, { upsert: true, cacheControl: '3600' })
+
+    if (upErr) {
+      throw new Error('Error al subir el documento: ' + upErr.message)
+    }
+
+    const { data: { publicUrl } } = supabase.storage
+      .from('documentos-agentes')
+      .getPublicUrl(path)
+
+    const { data, error } = await supabase.rpc('agregar_documento_agente', {
+      p_agente_id: agenteId,
+      p_nombre_archivo: file.name,
+      p_url: publicUrl,
+      p_tipo_archivo: file.type || ext,
+      p_tamano_bytes: file.size,
+    })
+
+    if (error || !data?.exito) {
+      throw new Error(data?.error || 'Error al registrar el documento')
+    }
+    
+    const { data: { session } } = await supabase.auth.getSession()
+    fetch('/api/documentos/procesar', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {}),
+      },
+      body: JSON.stringify({
+        agente_id: agenteId,
+        path,
+        url: publicUrl,
+        tipo_archivo: file.type || ext,
+      }),
+    }).catch((e) => console.error('No se pudo procesar el documento:', e))
+
+    refetch()
+  }
+
+  const eliminarDocumento = async (id: string) => {
+    await supabase.rpc('eliminar_documento_agente', { p_documento_id: id })
+    refetch()
+  }
+
   return {
     agente,
     isLoading,
@@ -114,5 +166,7 @@ export function useAgentSettings() {
     eliminarInfo,
     asignarAccion,
     quitarAccion,
+    subirDocumento,
+    eliminarDocumento,
   }
 }

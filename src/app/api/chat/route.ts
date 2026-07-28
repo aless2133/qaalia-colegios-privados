@@ -84,6 +84,10 @@ export async function POST(req: Request) {
       )
     }
 
+    const { data: documentosData } = await supabase.rpc('obtener_documentos_contenido_agente', {
+      p_agente_id: agente.id,
+    })
+
     // 2. Construir el system prompt a partir de la config real del negocio.
     const reglasTexto = (agente.reglas ?? [])
       .map((r) => `- ${r.regla}`)
@@ -92,6 +96,10 @@ export async function POST(req: Request) {
     const infoTexto = (agente.informacion ?? [])
       .map((i) => (i.titulo ? `${i.titulo}: ${i.detalles}` : i.detalles))
       .join('\n')
+
+    const documentosTexto = (documentosData ?? [])
+      .map((d: { contenido: string }) => d.contenido)
+      .join('\n\n---\n\n')
 
     const systemInstruction = `
 Eres ${agente.nombre}, el asistente virtual de atención al cliente de "${negocio.nombre}" (${negocio.tipo_negocio}), ubicado en ${negocio.ciudad}.
@@ -104,6 +112,8 @@ ${reglasTexto || '- Ninguna regla adicional definida por el negocio.'}
 
 INFORMACIÓN DEL NEGOCIO (úsala para responder con precisión, no inventes datos que no estén aquí):
 ${infoTexto || 'El negocio aún no ha cargado información adicional.'}
+DOCUMENTOS DEL NEGOCIO (contenido extraído de los archivos que el negocio subió, úsalo con la misma prioridad que la información de arriba):
+${documentosTexto || 'El negocio no ha subido documentos con información adicional.'}
 
 Datos de contacto: teléfono ${negocio.telefono}, correo ${negocio.correo}.
 

@@ -8,7 +8,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { useAgentSettings } from '@/src/features/(business)/AgentSettings/hooks/useAgentSettings'
-import { Trash, AddCircle, ArrowDown2, ArrowUp2, TaskSquare, CloseCircle } from 'iconsax-react'
+import { Trash, AddCircle, ArrowDown2, ArrowUp2, TaskSquare, CloseCircle, DocumentText } from 'iconsax-react'
 import SelectActions from '@/src/features/(business)/AgentSettings/components/modals/shared/SelectActions'
 
 const COLLAPSED_LINES = 3
@@ -64,11 +64,13 @@ function InfoBlock({ info, onDelete }: { info: any; onDelete: (id: string) => vo
   )
 }
 
-export default function Information({ informacion, acciones }: { informacion: any[]; acciones: any[] }) {
-  const { crearInfo, eliminarInfo, quitarAccion } = useAgentSettings()
+export default function Information({ informacion, acciones, documentos }: { informacion: any[]; acciones: any[]; documentos?: any[] }) {
+  const { crearInfo, eliminarInfo, quitarAccion, subirDocumento, eliminarDocumento } = useAgentSettings()
   const [titulo, setTitulo] = useState('')
   const [detalles, setDetalles] = useState('')
   const [selectorAbierto, setSelectorAbierto] = useState(false)
+  const [isUploading, setIsUploading] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handleAddInfo = () => {
     if (!detalles.trim()) return
@@ -77,6 +79,20 @@ export default function Information({ informacion, acciones }: { informacion: an
     setDetalles('')
   }
 
+    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setIsUploading(true)
+    try {
+      await subirDocumento(file)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setIsUploading(false)
+      e.target.value = ''
+    }
+  }
+  
   return (
     <>
       <Card className="bg-card border border-border">
@@ -109,6 +125,54 @@ export default function Information({ informacion, acciones }: { informacion: an
               <AddCircle size={16} /> Agregar Información
             </Button>
           </div>
+
+          <div className="flex flex-col gap-3 p-4 rounded-xl border border-dashed border-border bg-background/50">
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex flex-col gap-0.5">
+                <p className="text-xs font-semibold">Subir Documentos</p>
+                <p className="text-[11px] text-muted-foreground">El agente podrá leerlos para obtener información detallada de tu negocio.</p>
+              </div>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={isUploading || (documentos?.length ?? 0) >= 2}
+                className="h-8 w-8 shrink-0"
+              >
+                <AddCircle size={16} color="currentColor" />
+              </Button>
+              <input
+                type="file"
+                ref={fileInputRef}
+                accept=".pdf,.doc,.docx,.txt"
+                onChange={handleFileChange}
+                className="hidden"
+              />
+            </div>
+
+            {documentos && documentos.length > 0 && (
+              <div className="flex flex-col gap-2 lg:grid lg:grid-cols-2 lg:gap-3">
+                {documentos.map(doc => (
+                  <div key={doc.id} className="flex items-center gap-3 p-3 rounded-xl bg-muted/50 border border-border">
+                    <DocumentText size={16} color="currentColor" className="text-primary flex-shrink-0" />
+                    <p className="text-xs flex-1 text-foreground font-medium truncate">{doc.nombre_archivo}</p>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => eliminarDocumento(doc.id)}
+                      className="h-7 w-7 text-muted-foreground hover:text-destructive flex-shrink-0"
+                    >
+                      <CloseCircle size={15} color="currentColor" />
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {(documentos?.length ?? 0) >= 2 && (
+              <p className="text-[11px] text-muted-foreground">Ya alcanzaste el máximo de 2 documentos.</p>
+            )}
+          </div>
         </CardContent>
       </Card>
 
@@ -119,7 +183,7 @@ export default function Information({ informacion, acciones }: { informacion: an
         </CardHeader>
         <CardContent className="flex flex-col gap-3">
           {acciones && acciones.length > 0 ? (
-            <div className="flex flex-col gap-2">
+           <div className="flex flex-col gap-2 lg:grid lg:grid-cols-2 lg:gap-3">
               {acciones.map(a => (
                 <div key={a.accion_id} className="flex items-center gap-3 p-3 rounded-xl bg-muted/50 border border-border">
                   <TaskSquare size={16} color="currentColor" className="text-primary flex-shrink-0" />

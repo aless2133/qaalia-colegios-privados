@@ -63,12 +63,11 @@ export default function Core({ negocio }: CoreProps) {
           />
         ))}
       </div>
-
       <Separator />
-
       {/* Enlace + sugerencias + plan */}
      <div className="grid grid-cols-1 lg:grid-cols-5 gap-5 items-start">
-       <div className="lg:col-start-4 lg:col-span-2 lg:row-start-1">
+       <div className="contents lg:flex lg:flex-col lg:gap-6 lg:col-start-4 lg:col-span-2 lg:row-start-1">
+       <div className="order-1 lg:order-none">
           <Card className="bg-card border border-border">
             <CardHeader className="pb-0">
               <h3 className="text-sm font-semibold text-foreground">Enlace del negocio</h3>
@@ -98,13 +97,12 @@ export default function Core({ negocio }: CoreProps) {
             </CardContent>
           </Card>
         </div>
-
-        <div className="lg:col-start-1 lg:col-span-3 lg:row-start-1 lg:row-span-2">
-          <Suggeres />
-        </div>
-
-        <div className="lg:col-start-4 lg:col-span-2 lg:row-start-2">
+        <div className="order-3 lg:order-none">
           <PlanCard />
+        </div>
+       </div>
+        <div className="order-2 lg:order-none lg:col-start-1 lg:col-span-3 lg:row-start-1">
+          <Suggeres />
         </div>
       </div>
     </div>

@@ -3,7 +3,7 @@
 import { useShares } from '@/src/features/(business)/shares/hooks/useShares'
 import Hero from '@/src/features/(business)/shares/components/layouts/shared/Hero'
 import Core from '@/src/features/(business)/shares/components/layouts/shared/Core'
-import DetailsActionCard from '@/src/features/(business)/shares/components/modals/shared/DetailsActionCard'
+import DetailsActionCard from '@/src/features/(business)/shares/views/shared/DetailsActionCard'
 import NewProposal from '@/src/features/(business)/shares/views/shared/NewProposal'
 
 export default function SharesDesktop() {

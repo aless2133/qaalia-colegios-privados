@@ -54,7 +54,7 @@ export default function Behavior({ personalidad, reglas }: { personalidad: strin
             <Input 
               value={nuevaRegla} 
               onChange={(e) => setNuevaRegla(e.target.value)}
-              placeholder="Ej. Nunca dar descuentos sin autorización" 
+              placeholder="Ej. No responder si no tienes contexto." 
               className="h-10 text-xs bg-background"
             />
             <Button onClick={handleAddRegla} size="icon" className="h-10 w-10 rounded-4xl shrink-0">

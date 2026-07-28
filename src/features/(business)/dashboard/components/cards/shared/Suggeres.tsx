@@ -2,7 +2,7 @@
 
 import { Card, CardHeader, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { AddCircle, Messages2, ProfileCircle, ArrowRight2, Icon, BrushBig } from 'iconsax-react'
+import { AddCircle, Messages2, ProfileCircle, ArrowRight2, Icon, BrushBig, Edit, TaskSquare } from 'iconsax-react'
 
 interface Suggestion {
   icon:  Icon
@@ -13,21 +13,21 @@ interface Suggestion {
 
 const SUGGESTIONS: Suggestion[] = [
   {
-    icon:  Messages2,
+    icon:  Edit,
     title: 'Personaliza tu agente IA',
     desc:  'Define nombre, reglas y contexto para que responda como tú lo harías.',
     cta:   'Personalizar agente',
   },
   {
-    icon:  AddCircle,
+    icon:  TaskSquare,
     title: 'Crea tu primera acción',
-    desc:  "Ej: 'Cotizar producto' o 'Reportar problema' para guiar a tus clientes.",
+    desc:  "Ej: 'Solicitud de proyecto' o 'Reportar problema' para tus clientes.",
     cta:   'Crear acción',
   },
   {
     icon:  BrushBig,
-    title: 'Completa el branding de tu enlace',
-    desc:  'Logo, colores y datos de tu negocio en tu enlace único.',
+    title: 'Completa el branding de tu negocio',
+    desc:  'Logo, colores, tipografía y datos de tu negocio en tu enlace único.',
     cta:   'Editar branding',
   },
 ]
