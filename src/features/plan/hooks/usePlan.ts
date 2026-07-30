@@ -151,10 +151,15 @@ export function usePlan() {
     abrirCheckout(plan, paddle, ownerId)
   }, [paddle, ownerId, loginWithGoogle, abrirCheckout])
 
-  // Al volver de Google con ?checkout=<slug> en la URL, termina el pago automáticamente
+  // Al volver de Google con ?checkout=<slug> en la URL, termina el pago automáticamente.
+  // Espera también a que 'suscripcionData' haya resuelto (no solo ownerId/paddle/planes):
+  // sin esto, un usuario que YA tiene cuenta podía disparar el checkout automático antes
+  // de saber si ya tenía suscripción, dejando esPrimeraSuscripcionRef en true por error
+  // y mandándolo a /register en vez de quedarse en su cuenta.
   useEffect(() => {
     const slug = searchParams.get('checkout')
     if (!slug || autoAbierto || !ownerId || !paddle || !planes || planes.length === 0) return
+    if (typeof suscripcionData === 'undefined') return // aún no sabemos si ya tiene suscripción
 
     const plan = planes.find(p => p.slug === slug)
     if (plan) {
@@ -165,7 +170,7 @@ export function usePlan() {
     const url = new URL(window.location.href)
     url.searchParams.delete('checkout')
     router.replace(url.pathname + url.search)
-  }, [searchParams, ownerId, paddle, planes, autoAbierto, abrirCheckout, router])
+  }, [searchParams, ownerId, paddle, planes, suscripcionData, autoAbierto, abrirCheckout, router])
 
   return {
     planes:          planes ?? [],
