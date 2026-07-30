@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import PlanMobile  from '@/src/features/plan/views/mobile'
 import PlanDesktop from '@/src/features/plan/views/desktop'
 
@@ -18,7 +18,9 @@ export default function PlanPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      {isDesktop ? <PlanDesktop /> : <PlanMobile />}
+      <Suspense fallback={null}>
+        {isDesktop ? <PlanDesktop /> : <PlanMobile />}
+      </Suspense>
     </div>
   )
 }
