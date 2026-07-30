@@ -72,10 +72,10 @@ export default function Marca({ marca, descripcion }: { marca: any; descripcion?
             {fotoPreview ? (
               <img src={fotoPreview} alt="Agente" className="w-full h-full object-cover" />
             ) : (
-              <GalleryAdd size={28} className="text-muted-foreground" />
+              <GalleryAdd size={28} color="currentColor" className="text-muted-foreground" />
             )}
             <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-              <GalleryAdd size={20} className="text-white" />
+              <GalleryAdd size={20} color="currentColor" className="text-white" />
             </div>
           </div>
           <div className="flex-1 flex flex-col gap-2">

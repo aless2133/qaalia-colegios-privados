@@ -1,22 +1,11 @@
 'use client'
 
+import Link from 'next/link'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Crown1, ArrowRight2 } from 'iconsax-react'
-import { useRouter } from 'next/navigation'
 
-interface Props {
-  onPress?: () => void
-}
-
-export default function PlanCard({ onPress }: Props) {
-  const router = useRouter()
-
-  const handleClick = () => {
-    if (onPress) { onPress(); return }
-    router.push('/plan')
-  }
-
+export default function PlanCard() {
   return (
     <Card className="bg-primary/5 border border-primary/20 overflow-hidden">
       <CardContent className="flex items-center gap-4 p-4">
@@ -29,11 +18,13 @@ export default function PlanCard({ onPress }: Props) {
           </p>
           <Button
             size="sm"
-            onClick={handleClick}
+            asChild
             className="mt-3 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold gap-1"
           >
-            Ver opciones
-            <ArrowRight2 size={14} color="currentColor" />
+            <Link href="/plan">
+              Ver opciones
+              <ArrowRight2 size={14} color="currentColor" />
+            </Link>
           </Button>
         </div>
 

@@ -121,11 +121,13 @@ export function useGoogleAuth() {
   const [loading, setLoading] = useState(false)
   const [error, setError]     = useState('')
 
-  const loginWithGoogle = async () => {
+  const loginWithGoogle = async (redirectPath?: string) => {
     setLoading(true)
     setError('')
     try {
-      const redirectTo = `${window.location.origin}/auth/callback`
+      const redirectTo = redirectPath
+        ? `${window.location.origin}/auth/callback?redirect=${encodeURIComponent(redirectPath)}`
+        : `${window.location.origin}/auth/callback`
 
       const { error: oauthError } = await supabase.auth.signInWithOAuth({
         provider: 'google',

@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import mammoth from 'mammoth'
-import pdfParse from 'pdf-parse'
-
+// unpdf: alternativa moderna a pdf-parse, sin dependencias nativas y hecha
+// para entornos serverless/Next.js — no tiene el bug de ENOENT de pdf-parse.
+import { extractText, getDocumentProxy } from 'unpdf'
 export const runtime = 'nodejs'
 
 // Service role: necesario porque documentos-agentes es un bucket privado y
@@ -79,7 +80,9 @@ export async function POST(req: Request) {
     let contenido = ''
 
     if (tipo_archivo?.includes('pdf')) {
-      contenido = (await pdfParse(buffer)).text
+      const pdf = await getDocumentProxy(new Uint8Array(buffer))
+      const { text } = await extractText(pdf, { mergePages: true })
+      contenido = text
     } else if (tipo_archivo?.includes('word') || path.toLowerCase().endsWith('.docx')) {
       contenido = (await mammoth.extractRawText({ buffer })).value
     } else {

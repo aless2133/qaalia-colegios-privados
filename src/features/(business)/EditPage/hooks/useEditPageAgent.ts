@@ -131,7 +131,10 @@ export function useEditPageAgent() {
         })
         .eq('negocio_id', negocioId)
 
-      if (updErr) throw new Error('Error al guardar los cambios')
+      // P0001 = RAISE EXCEPTION intencional de un trigger nuestro (ej. bloqueo
+      // por plan) — ese mensaje ya está escrito para que lo lea el usuario tal
+      // cual. Cualquier otro código de error se queda con el mensaje genérico.
+      if (updErr) throw new Error(updErr.code === 'P0001' ? updErr.message : 'Error al guardar los cambios')
 
       setFotoFile(null)
       setPerfil(prev => ({ ...prev, foto_url: fotoUrl }))

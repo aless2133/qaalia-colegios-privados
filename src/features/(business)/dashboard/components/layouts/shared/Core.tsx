@@ -9,6 +9,7 @@ import Suggeres    from '@/src/features/(business)/dashboard/components/cards/sh
 import type { NegocioData } from '@/src/lib/auth/UseLogic'
 import PlanCard from '@/src/features/(business)/dashboard/components/cards/shared/PlanCard'
 import { useState, useMemo } from 'react'
+import EditPageAgent from '@/src/features/(business)/EditPage/EditPageAgent'
 interface CoreProps {
   negocio: NegocioData | null
 }
@@ -31,6 +32,7 @@ const STATS: Stat[] = [
 
 export default function Core({ negocio }: CoreProps) {
   const [copiado, setCopiado] = useState(false)
+  const [editandoPagina, setEditandoPagina] = useState(false)
   const enlace = useMemo(() => {
     if (!negocio?.slug) return null
     return `${typeof window !== 'undefined' ? window.location.origin : ''}/agent/${negocio.slug}`
@@ -102,9 +104,10 @@ export default function Core({ negocio }: CoreProps) {
         </div>
        </div>
         <div className="order-2 lg:order-none lg:col-start-1 lg:col-span-3 lg:row-start-1">
-          <Suggeres />
+          <Suggeres onPersonalizarPagina={() => setEditandoPagina(true)} />
         </div>
       </div>
+      {editandoPagina && <EditPageAgent onClose={() => setEditandoPagina(false)} />}
     </div>
   )
 }

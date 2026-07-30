@@ -45,7 +45,7 @@ const MOCK_ASISTENTE: Asistente = {
 const MOCK_OPCIONES: OpcionAsistente[] = [
   { id: 'op-4', tipo: 'multiidioma',         nombre: 'Multiidioma', descripcion: 'Responde automáticamente en el idioma del cliente.', activa: false },
   { id: 'op-2', tipo: 'enlace',       nombre: 'Convertir enlaces en botones', descripcion: 'Transforma automáticamente cualquier URL que mencione el agente en un botón interactivo dentro del chat.', activa: true },
-  { id: 'op-3', tipo: 'antispam',       nombre: 'Límite antispam por usuario', descripcion: 'Finaliza automáticamente la conversación si un mismo usuario envía demasiados mensajes.', activa: true },
+  { id: 'op-3', tipo: 'antispam',       nombre: 'Filtro de contenido inapropiado', descripcion: 'Finaliza el chat y bloquea al usuario al detectar lenguaje ofensivo, de odio o contenido ilícito.', activa: true },
   { id: 'op-1', tipo: 'desactivar', nombre: 'Desactivar agente', descripcion: 'Desactiva temporalmente el agente. Se mostrará un mensaje indicando que estás fuera de servicio.', activa: true },
 ]
 

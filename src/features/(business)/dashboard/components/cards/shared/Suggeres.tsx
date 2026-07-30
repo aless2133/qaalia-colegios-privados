@@ -3,8 +3,10 @@
 import { Card, CardHeader, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { AddCircle, Messages2, ProfileCircle, ArrowRight2, Icon, BrushBig, Edit, TaskSquare } from 'iconsax-react'
+import Link from 'next/link'
 
 interface Suggestion {
+  id:    'personalizar_agente' | 'crear_accion' | 'personalizar_pagina'
   icon:  Icon
   title: string
   desc:  string
@@ -13,26 +15,33 @@ interface Suggestion {
 
 const SUGGESTIONS: Suggestion[] = [
   {
+    id:    'personalizar_agente',
     icon:  Edit,
-    title: 'Personaliza tu agente IA',
-    desc:  'Define nombre, reglas y contexto para que responda como tú lo harías.',
+    title: 'Personalizar agente',
+    desc:  'Nombre, foto, personalidad, reglas de respuesta y contexto de tu negocio.',
     cta:   'Personalizar agente',
   },
   {
+    id:    'crear_accion',
     icon:  TaskSquare,
-    title: 'Crea tu primera acción',
+    title: 'Crea tu primera actividad',
     desc:  "Ej: 'Solicitud de proyecto' o 'Reportar problema' para tus clientes.",
     cta:   'Crear acción',
   },
   {
+    id:    'personalizar_pagina',
     icon:  BrushBig,
-    title: 'Completa el branding de tu negocio',
-    desc:  'Logo, colores, tipografía y datos de tu negocio en tu enlace único.',
+    title: 'Personalizar página del negocio',
+    desc:  'Foto, descripción, tipografía, color, mensaje personalizado.',
     cta:   'Editar branding',
   },
 ]
 
-export default function Suggeres() {
+interface SuggeresProps {
+  onPersonalizarPagina: () => void
+}
+
+export default function Suggeres({ onPersonalizarPagina }: SuggeresProps) {
   return (
     <Card className="bg-card border border-border h-fit">
       <CardHeader className="pb-3">
@@ -51,14 +60,29 @@ export default function Suggeres() {
               <div className="flex-1 flex flex-col gap-1 min-w-0">
                 <p className="text-sm font-medium text-foreground">{s.title}</p>
                 <p className="text-xs text-muted-foreground leading-relaxed">{s.desc}</p>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-auto p-0 w-fit text-xs font-semibold text-primary hover:bg-transparent gap-1"
-                >
-                  {s.cta}
-                  <ArrowRight2 size={12} color="currentColor" />
-                </Button>
+                {s.id === 'personalizar_pagina' ? (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={onPersonalizarPagina}
+                    className="h-auto p-0 w-fit text-xs font-semibold text-primary hover:bg-transparent gap-1"
+                  >
+                    {s.cta}
+                    <ArrowRight2 size={12} color="currentColor" />
+                  </Button>
+                ) : (
+                  <Button
+                    asChild
+                    variant="ghost"
+                    size="sm"
+                    className="h-auto p-0 w-fit text-xs font-semibold text-primary hover:bg-transparent gap-1"
+                  >
+                    <Link href={s.id === 'personalizar_agente' ? '/settings' : '/shares'}>
+                      {s.cta}
+                      <ArrowRight2 size={12} color="currentColor" />
+                    </Link>
+                  </Button>
+                )}
               </div>
             </div>
             {i < SUGGESTIONS.length - 1 && <div className="h-px bg-border" />}

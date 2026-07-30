@@ -22,7 +22,7 @@ interface NavbarProps {
 
 const NAV_LINKS = [
   { label: 'Funciones',  href: '#funciones'  },
-  { label: 'Precios',    href: '#precios'    },
+  { label: 'Precios',    href: '/plan'    },
   { label: 'Para quién', href: '#para-quien' },
 ]
 

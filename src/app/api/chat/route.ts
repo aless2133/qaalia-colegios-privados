@@ -8,6 +8,13 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 )
 
+// Cliente con Service Role: SOLO para intentar_consumir_mensaje. Esa función
+// decide cupo/plata y está otorgada a service_role, no a anon, a propósito.
+const supabaseService = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+)
+
 // OpenRouter: un solo endpoint, formato OpenAI-compatible, acceso a cualquier modelo
 // (Gemini, Claude, GPT, DeepSeek, etc.) cambiando solo el string "model".
 const OPENROUTER_URL = 'https://openrouter.ai/api/v1/chat/completions'
@@ -55,6 +62,7 @@ export async function POST(req: Request) {
 
     const { negocio, agentes } = data as {
       negocio: {
+        id: string
         nombre: string
         tipo_negocio: string
         ciudad: string
@@ -72,11 +80,20 @@ export async function POST(req: Request) {
       }[]
     }
 
+        // Límite de mensajes del plan: se verifica y se consume en un solo paso,
+    // ANTES de gastar la llamada al modelo. Sin cupo, el agente no responde.
+    const { data: uso, error: usoError } = await supabaseService.rpc('intentar_consumir_mensaje', {
+      p_negocio_id: negocio.id,
+    })
+
+    if (usoError || !uso?.puede_enviar) {
+      return NextResponse.json({ exito: false, error: 'Límite de mensajes alcanzado' }, { status: 200 })
+    }
+
     // Un negocio ya puede tener varios agentes: se resuelve exactamente con
     // cuál está hablando el cliente. Si no llega agenteId o ya no existe
     // (fue eliminado/desactivado a mitad de sesión), cae al predeterminado.
     const agente = agentes.find(a => a.id === agenteId) ?? agentes.find(a => a.es_predeterminado) ?? agentes[0]
-
     if (!agente) {
       return NextResponse.json(
         { exito: false, error: 'Este negocio no tiene ningún agente disponible' },
