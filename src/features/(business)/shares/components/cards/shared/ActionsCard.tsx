@@ -3,7 +3,7 @@
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Switch } from '@/components/ui/switch'
-import { DocumentText, TickCircle, CloseCircle, MoreCircle } from 'iconsax-react'
+import { DocumentText, TickCircle, CloseCircle, MoreCircle, More } from 'iconsax-react'
 import { etiquetaMetodo } from '@/src/features/(business)/shares/hooks/useShares'
 import type { Propuesta } from '@/src/features/(business)/shares/hooks/useShares'
 
@@ -11,7 +11,7 @@ interface ActionsCardProps {
   propuesta:  Propuesta
   onAbrir:    (propuesta: Propuesta) => void
   onAlternar: (id: string, activa: boolean) => void
-  onOpciones: (propuesta: Propuesta) => void
+  onOpciones: (propuesta: Propuesta, rect: DOMRect) => void
 }
 
 export default function ActionsCard({ propuesta, onAbrir, onAlternar, onOpciones }: ActionsCardProps) {
@@ -38,10 +38,10 @@ export default function ActionsCard({ propuesta, onAbrir, onAlternar, onOpciones
           </div>
 
           <button
-            onClick={(e) => { e.stopPropagation(); onOpciones(propuesta) }}
+            onClick={(e) => { e.stopPropagation(); onOpciones(propuesta, e.currentTarget.getBoundingClientRect()) }}
             className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 hover:bg-accent transition-colors"
           >
-            <MoreCircle size={16} color="currentColor" className="text-muted-foreground" />
+            <More size={20} color="currentColor" className="text-muted-foreground" />
           </button>
         </div>
 

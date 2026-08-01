@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { ArrowDown2, Add, TickCircle, AddCircle } from 'iconsax-react'
 import type { NegocioData } from '@/src/lib/auth/UseLogic'
+import Link from 'next/link'
 
 interface HeroProps {
   negocio:      NegocioData | null
@@ -78,13 +79,15 @@ export default function Hero({ negocio, negocios, onSwitch, onNuevoTrabajo }: He
         </p>
       </div>
 
-      <Button
+     <Button
+        asChild
         size="lg"
-        onClick={onNuevoTrabajo}
         className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold px-6 gap-2 w-fit"
       >
-        <AddCircle size={18} color="currentColor" />
-        Personalizar agente
+        <Link href="/settings">
+          <AddCircle size={18} color="currentColor" />
+          Personalizar agente
+        </Link>
       </Button>
     </div>
   )

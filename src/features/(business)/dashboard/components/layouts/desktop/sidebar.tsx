@@ -54,7 +54,7 @@ export default function Sidebar({ negocio }: SidebarProps) {
               className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
                 active
                   ? 'bg-accent text-primary'
-                  : 'text-muted-foreground hover:bg-accent/60 hover:text-foreground'
+                  : 'text-muted-foreground hover:bg-muted/60 hover:text-foreground'
               }`}
             >
               <IconCmp size={18} color="currentColor" />
@@ -66,7 +66,7 @@ export default function Sidebar({ negocio }: SidebarProps) {
 
       {/* Ajustes + cuenta */}
       <div className="px-3 pb-4 flex flex-col gap-1 border-t border-border pt-3 mx-3">
-        <div className="flex items-center gap-3 py-2 rounded-2xl transition-colors hover:bg-accent/60">
+        <div className="flex items-center gap-3 py-2 rounded-2xl transition-colors hover:bg-muted/60">
           <div className="w-8 h-8 rounded-3xl bg-accent flex items-center justify-center overflow-hidden flex-shrink-0">
             {negocio?.foto_dueno ? (
               <img src={negocio.foto_dueno} alt={negocio.nombre_dueno} className="w-full h-full object-cover" />

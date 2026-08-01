@@ -48,7 +48,7 @@ export default function ActionsModal({ mostrar, onCerrar, acciones, onSelecciona
                     transition={{ delay: i * 0.05 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => handleSeleccionar(accion)}
-                    className="flex items-center gap-3 px-2 py-2 rounded-xl text-left transition-colors w-full hover:bg-primary/10"
+                   className="flex items-center gap-3 px-2 py-2 rounded-xl text-left transition-colors w-full hover:bg-muted/60"
                   >
                     <div className="w-9 h-9 rounded-2xl flex items-center justify-center flex-shrink-0 bg-primary/10">
                       <Icono size={16} color="currentColor" className="text-primary" variant="Linear" />

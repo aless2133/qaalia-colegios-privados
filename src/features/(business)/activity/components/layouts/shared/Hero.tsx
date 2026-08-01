@@ -11,6 +11,7 @@ interface HeroProps {
 
 const LABELS: Record<EstadoActividad, { singular: string; plural: string }> = {
   pendiente:  { singular: 'pendiente',  plural: 'pendientes' },
+  confirmada:  { singular: 'confirmada',  plural: 'confirmadas' },
   en_proceso: { singular: 'en proceso', plural: 'en proceso' },
   completada: { singular: 'completada', plural: 'completadas' },
   rechazada:  { singular: 'rechazada',  plural: 'rechazadas' },

@@ -1,8 +1,10 @@
 'use client'
 
-import type { useShares } from '@/src/features/(business)/shares/hooks/useShares'
+import type { Propuesta, useShares } from '@/src/features/(business)/shares/hooks/useShares'
 import ActionsCard from '@/src/features/(business)/shares/components/cards/shared/ActionsCard'
 import EmptyShares  from '@/src/features/(business)/shares/components/sections/shared/EmptyShares'
+import { useState } from 'react'
+import OptionsActivityModal from '@/src/features/(business)/shares/components/modals/shared/OptionsActivityModal'
 
 interface CoreProps {
   sh: ReturnType<typeof useShares>
@@ -27,8 +29,10 @@ function PropuestaSkeleton() {
 export default function Core({ sh }: CoreProps) {
   const {
     loading, propuestas, propuestasVisibles, busqueda,
-    abrirDetalle, cambiarEstado, abrirNuevo,
+    abrirDetalle, cambiarEstado, abrirNuevo, eliminarPropuesta,
   } = sh
+
+  const [menuAbierto, setMenuAbierto] = useState<{ propuesta: Propuesta; rect: DOMRect } | null>(null)
 
   if (loading) {
     return (
@@ -49,16 +53,27 @@ export default function Core({ sh }: CoreProps) {
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
-      {propuestasVisibles.map(propuesta => (
-        <ActionsCard
-          key={propuesta.id}
-          propuesta={propuesta}
-          onAbrir={abrirDetalle}
-          onAlternar={cambiarEstado}
-          onOpciones={() => {}}
-        />
-      ))}
-    </div>
+    <>
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+        {propuestasVisibles.map(propuesta => (
+          <ActionsCard
+            key={propuesta.id}
+            propuesta={propuesta}
+            onAbrir={abrirDetalle}
+            onAlternar={cambiarEstado}
+            onOpciones={(p, rect) => setMenuAbierto({ propuesta: p, rect })}
+          />
+        ))}
+      </div>
+
+      <OptionsActivityModal
+        mostrar={!!menuAbierto}
+        onCerrar={() => setMenuAbierto(null)}
+        anchorRect={menuAbierto?.rect ?? null}
+        onVerDetalles={() => menuAbierto && abrirDetalle(menuAbierto.propuesta)}
+        onEditar={() => { /* pendiente: ver pregunta abajo */ }}
+        onEliminar={() => menuAbierto && eliminarPropuesta(menuAbierto.propuesta.id)}
+      />
+    </>
   )
 }

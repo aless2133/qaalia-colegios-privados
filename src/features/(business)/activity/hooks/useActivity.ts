@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 
-export type EstadoActividad = 'pendiente' | 'en_proceso' | 'completada' | 'rechazada'
+export type EstadoActividad = 'pendiente' |'confirmada' | 'en_proceso' | 'completada' | 'rechazada'
 
 export interface MensajeChat {
   id:    string
@@ -165,6 +165,7 @@ export function useActivity() {
 
   const contadores: Record<EstadoActividad, number> = {
     pendiente:  solicitudes.filter(s => s.estado === 'pendiente').length,
+    confirmada:  solicitudes.filter(s => s.estado === 'confirmada').length,
     en_proceso: solicitudes.filter(s => s.estado === 'en_proceso').length,
     completada: solicitudes.filter(s => s.estado === 'completada').length,
     rechazada:  solicitudes.filter(s => s.estado === 'rechazada').length,

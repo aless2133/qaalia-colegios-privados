@@ -6,6 +6,7 @@ import type { EstadoActividad } from '@/src/features/(business)/activity/hooks/u
 
 const ESTADOS: { value: EstadoActividad; label: string }[] = [
   { value: 'pendiente',  label: 'Pendientes' },
+  { value: 'confirmada',  label: 'Confirmadas' },
   { value: 'en_proceso', label: 'En proceso' },
   { value: 'completada', label: 'Completadas' },
   { value: 'rechazada',  label: 'Rechazadas' },
@@ -27,7 +28,7 @@ export default function ActivityTabs({ estadoActivo, onSelect, contadores }: Tab
               {e.label}
               <Badge
                 variant={e.value === estadoActivo ? 'default' : 'secondary'}
-                className="h-5 min-w-5 px-1.5 text-[10px]"
+                className={`h-5 min-w-5 px-1.5 text-[10px] ${e.value !== estadoActivo ? 'bg-border/70' : ''}`}
               >
                 {contadores[e.value]}
               </Badge>
