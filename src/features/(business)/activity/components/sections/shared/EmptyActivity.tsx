@@ -13,10 +13,6 @@ const COPY: Record<EstadoActividad, { titulo: string; descripcion: string }> = {
     titulo: 'Sin solicitudes pendientes',
     descripcion: 'Aquí aparecerán los mensajes de tus clientes quienes ayan realizado alguna actividad.',
   },
-  confirmada: {
-    titulo: 'Sin solicitudes confirmadas',
-    descripcion: 'Aquí aparecerán los mensajes de tus clientes en cuanto te escriban a través de tu enlace único.',
-  },
   en_proceso: {
     titulo: 'Nada en proceso todavía',
     descripcion: 'Las solicitudes que marques como "en proceso" se mostrarán en esta sección.',

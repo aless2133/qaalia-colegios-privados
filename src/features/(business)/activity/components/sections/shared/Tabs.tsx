@@ -6,7 +6,6 @@ import type { EstadoActividad } from '@/src/features/(business)/activity/hooks/u
 
 const ESTADOS: { value: EstadoActividad; label: string }[] = [
   { value: 'pendiente',  label: 'Pendientes' },
-  { value: 'confirmada',  label: 'Confirmadas' },
   { value: 'en_proceso', label: 'En proceso' },
   { value: 'completada', label: 'Completadas' },
   { value: 'rechazada',  label: 'Rechazadas' },
