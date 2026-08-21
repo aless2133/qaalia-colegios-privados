@@ -30,8 +30,6 @@ export default function RegisterForm() {
   const {
     step, setStep, form, setForm, user,
     loading, error, setError,
-    tipos, showTipos, loadingTipos,
-    buscarTipos, seleccionarTipo,
     loginWithGoogle, initUser,
     handleStep1, handleSubmit, irAlPanel,
   } = useRegister()
@@ -91,38 +89,6 @@ export default function RegisterForm() {
             <div className="p-6 rounded-3xl border border-border bg-card space-y-3">
               <Field icon={<Shop size={18} color="currentColor" />} placeholder="Nombre del negocio"
                 value={form.nombre} onChange={(v: string) => setForm(f => ({ ...f, nombre: v }))} />
-
-              <div className="relative">
-                <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none z-10">
-                  <Category2 size={18} color="currentColor" />
-                </span>
-                <Input
-                  placeholder="Tipo de negocio"
-                  value={form.tipo}
-                  onChange={e => buscarTipos(e.target.value)}
-                  className="pl-11 h-12 rounded-2xl"
-                  onBlur={() => setTimeout(() => { showTipos && null }, 200)}
-                />
-                {loadingTipos && (
-                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-primary">
-                    <Refresh2 size={16} color="currentColor" className="animate-spin" />
-                  </span>
-                )}
-                {showTipos && tipos.length > 0 && (
-                  <div className="absolute top-full left-0 right-0 mt-1 rounded-2xl overflow-hidden z-50 max-h-44 overflow-y-auto bg-card border border-border shadow-lg">
-                    {tipos.map(t => (
-                      <button key={t.id} onMouseDown={() => seleccionarTipo(t)}
-                        className="w-full text-left px-4 py-3 text-sm text-foreground transition-colors hover:bg-accent">
-                        {t.nombre}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              <Field icon={<Location size={18} color="currentColor" />} placeholder="Ciudad (Loja, Quito...)"
-                value={form.ciudad} onChange={(v: string) => setForm(f => ({ ...f, ciudad: v }))} />
-
               <Button onClick={handleStep1} size="lg"
                 className="w-full rounded-2xl font-semibold gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
                 Siguiente <Send size={15} color="currentColor" variant="Bold" />
