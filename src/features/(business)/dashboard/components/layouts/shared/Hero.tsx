@@ -38,7 +38,7 @@ export default function Hero({ negocio, negocios, onSwitch, onNuevoTrabajo }: He
             />
           </button>
           <p className="text-sm font-medium text-muted-foreground mt-0.5">
-            {negocio?.tipo_negocio ?? ''}
+            Empieza cuando quieras.
           </p>
 
           <AnimatePresence>
