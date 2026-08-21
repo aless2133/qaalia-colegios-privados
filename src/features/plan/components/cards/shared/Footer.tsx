@@ -1,10 +1,10 @@
 'use client'
 
-import { Card } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import { Card } from '@/components/landing/card'
+import { Button } from '@/components/landing/button'
 import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
-} from '@/components/ui/accordion'
+} from '@/components/landing/accordion'
 import { MessageQuestion, DocumentText } from 'iconsax-react'
 
 const FAQS = [

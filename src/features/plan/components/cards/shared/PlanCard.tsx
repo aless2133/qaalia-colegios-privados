@@ -1,8 +1,8 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/landing/button'
+import { Card, CardContent, CardHeader } from '@/components/landing/card'
+import { Badge } from '@/components/landing/badge'
 import { TickCircle, Flash, Crown, Star } from 'iconsax-react'
 import type { Plan, EstadoSuscripcion } from '@/src/features/plan/hooks/usePlan'
 

@@ -1,6 +1,6 @@
 'use client'
 
-import { Card } from '@/components/ui/card'
+import { Card } from '@/components/landing/card'
 import { Flash } from 'iconsax-react'
 
 export default function Details() {
