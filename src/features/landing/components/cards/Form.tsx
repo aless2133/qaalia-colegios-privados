@@ -3,17 +3,18 @@
 import { useState } from 'react'
 import { motion, type Variants } from 'framer-motion'
 import { TickCircle, Refresh2, Location, Sms, ArrowRight2, Call } from 'iconsax-react'
-import { Input    } from '@/components/ui/input'
-import { Label    } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
-import { Button   } from '@/components/ui/button'
+import { Input    } from '@/components/landing/input'
+import { Label    } from '@/components/landing/label'
+import { Textarea } from '@/components/landing/textarea'
+import { Button   } from '@/components/landing/button'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
+} from '@/components/landing/select'
+import { ArrowRight } from 'lucide-react'
 interface FormState {
   name:            string
   email:           string
@@ -246,7 +247,7 @@ export default function Form() {
             ) : (
               <>
                 Enviar
-                <ArrowRight2 size={16} color="currentColor" />
+                <ArrowRight size={16} color="currentColor" />
               </>
             )}
           </Button>

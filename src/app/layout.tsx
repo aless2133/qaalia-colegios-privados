@@ -1,14 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import { Varela_Round } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/core/providers/ThemeProvider";
 import Providers from "./providers";
+import { Inter } from "next/font/google";
 
-const varelaRound = Varela_Round({ subsets: ["latin"], weight: "400" });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Qaalia",
-  description: "Soluciones digitales para tu institución.",
+  description: "Soluciones digitales para tus proyectos.",
 };
 
 export const viewport: Viewport = {
@@ -36,7 +36,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className={`min-h-full flex flex-col antialiased tracking-tight ${varelaRound.className}`}>
+      <body className={`min-h-full flex flex-col antialiased tracking-tight ${inter.className}`}>
         <Providers>
         <ThemeProvider>{children}</ThemeProvider>
         </Providers>

@@ -1,0 +1,50 @@
+/* Paleta exclusiva de Landing — actualizada con los colores exactos
+   extraídos de la ilustración (PDF de LottieFiles Color Extractor) */
+.landing {
+  --background: #F3F6F8;
+  --foreground: #000000;
+  --card: #FFFFFF;
+  --card-foreground: #000000;
+  --popover: #FFFFFF;
+  --popover-foreground: #000000;
+
+  --brand-color: #EF6931;
+
+  --primary: oklch(from var(--brand-color) l c h);
+  --primary-foreground: #000000;
+
+  --secondary: #E6E9F4;
+  --secondary-foreground: #000000;
+  --muted: #D9E0E6;
+  --muted-foreground: #63727E;
+  --accent: #777D15;
+  --accent-foreground: #FFFFFF;
+  --destructive: #BB4000;
+  --border: #2A2318;
+  --input: #2A2318;
+  --ring: #000000;
+
+  --chart-1: #EFAD1A;
+  --chart-2: #00DDB3;
+  --chart-3: #9A9FB2;
+  --chart-4: #C7CAD8;
+  --chart-5: #777D15;
+  --chart-6: #FFFFFF;
+  --chart-7: #F3F6F8;
+
+  --radius: 0.625rem;
+
+  --sidebar: #F3F6F8;
+  --sidebar-foreground: #000000;
+  --sidebar-primary: #EF6931;
+  --sidebar-primary-foreground: #000000;
+  --sidebar-accent: #00C1A2;
+  --sidebar-accent-foreground: #FFFFFF;
+  --sidebar-border: #000000;
+  --sidebar-ring: #000000;
+
+  --success: #777D15;
+  --warning: #EFAD1A;
+  --error: #BB4000;
+  --info: #9A9FB2;
+}

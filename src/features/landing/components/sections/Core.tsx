@@ -1,8 +1,12 @@
-import Functions from '../cards/Functions'
-import Business  from '../cards/Business'
-import Pricing   from '../cards/Pricing'
-import Form      from '../cards/Form'
-import type { LayoutVariant } from '../layouts/LandingOverview'
+import type { LayoutVariant } from '@/src/features/landing/components/layouts/LandingOverview'
+import WaveDivider from '@/src/features/landing/components/sections/WaveDivider'
+import StarFree from '@/src/features/landing/components/cards/StarFree/StarFree'
+import Tree from '@/src/features/landing/components/cards/Tree'
+import Details from '@/src/features/landing/components/cards/Details/Details'
+import Demos from '@/src/features/landing/components/cards/Demos/Demos'
+import MultipleModels from '@/src/features/landing/components/cards/MultipleModels'
+import Reviews from '@/src/features/landing/components/cards/Reviews'
+import DetailsTwo from '@/src/features/landing/components/cards/DetailsTwo/DetailsTwo'
 
 interface CoreProps {
   variant: LayoutVariant
@@ -29,52 +33,59 @@ function SectionHeader({ eyebrow, title, sub, center }: SectionHeaderProps) {
 
 export default function Core({ variant }: CoreProps) {
   const desktop = variant === 'desktop'
-  const px  = desktop ? 'px-8' : 'px-5'
+    const px  = desktop ? 'px-8' : 'px-5'
   const cnt = desktop ? 'max-w-6xl mx-auto' : ''
+  const pb  = desktop ? 'pb-40' : 'pb-32'
 
   return (
     <>
-      {/* ── Funcionalidades ───────────────────────────── */}
-      <section id="funciones" className={`py-20 ${px} bg-muted/40`}>
+     {/* ── Árbol (3 badges) ──────────────────────────── */}
+      <section id="funciones" className={`relative pt-20 ${pb} ${px} bg-chart-4`}>
+      <WaveDivider fill="var(--chart-4)" />
         <div className={cnt}>
-          <SectionHeader
-            eyebrow="Soluciones"
-            title="Todo el control en un solo enlace"
-            sub="Del caos multicanal al orden absoluto. Atiende, cotiza y agenda sin perder un solo mensaje."
-          />
-          <Functions />
+          <Tree variant={variant} />
         </div>
       </section>
 
-      {/* ── Para quién ────────────────────────────────── */}
-      <section id="para-quien" className={`py-20 ${px}`}>
-        <div className={cnt}>
-          <SectionHeader
-            eyebrow="Mercado"
-            title="Diseñado para la industria médica estética"
-            sub="Clínicas estéticas, dermatólogos, cirujanos plásticos y spas médicos que necesitan escalar su atención."
-          />
-          <Business />
+      {/* ── Detalles (2 bloques) ─────────────────────── */}
+     <section id="para-quien" className={`relative pt-20 ${pb} ${px} bg-[var(--chart-6)]`}>
+         <WaveDivider fill="var(--chart-6)" />
+         <div className={`${cnt} ${desktop ? 'translate-x-11' : ''}`}>
+          <Details variant={variant} />
         </div>
       </section>
 
-      {/* ── Precios ───────────────────────────────────── */}
-      <section id="precios" className={`py-20 ${px} bg-muted/40`}>
-        <div className={cnt}>
-          <SectionHeader
-            eyebrow="Precios"
-            title="Empieza gratis. Crece con tu institución."
-            sub="Sin contratos ni sorpresas. Cancela cuando quieras."
-            center={desktop}
-          />
-          <Pricing />
+
+
+      {/* ── Demos ─────────────────────────────────────── */}
+      <section id="demos" className={`relative pt-20 ${pb} ${px} bg-[var(--chart-7)]`}>
+         <WaveDivider fill="var(--chart-7)" />
+       <div className={`${cnt} ${desktop ? 'translate-x-11' : ''}`}>
+          <Demos variant={variant} />
         </div>
       </section>
 
-      {/* ── Demo ──────────────────────────────────────── */}
-      <section id="demo" className={`py-20 ${px}`}>
+      {/* ── Modelos ───────────────────────────────────── */}
+     <section id="modelos" className={`relative pt-20 ${pb} ${px} bg-[var(--chart-1)]`}>
+         <WaveDivider fill="var(--chart-1)" />
         <div className={cnt}>
-          <Form />
+          <MultipleModels variant={variant} />
+        </div>
+      </section>
+
+      {/* ── Reviews ───────────────────────────────────── */}
+     <section id="reviews" className={`relative pt-20 ${pb} ${px} bg-[var(--chart-3)]`}>
+         <WaveDivider fill="var(--chart-3)" />
+        <div className={cnt}>
+          <Reviews variant={variant} />
+        </div>
+      </section>
+
+       {/* ── Empieza gratis ────────────────────────────── */}
+      <section id="empieza-gratis" className={`relative pt-12 pb-20 ${px} bg-[var(--chart-6)]`}>
+        <WaveDivider fill="var(--chart-6)" />
+        <div className={`${cnt} ${desktop ? 'translate-x-11' : ''}`}>
+          <StarFree variant={variant} />
         </div>
       </section>
     </>

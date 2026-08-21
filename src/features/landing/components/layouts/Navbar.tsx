@@ -2,18 +2,13 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState, useEffect } from 'react'
-import { Moon, Menu, X } from 'lucide-react'
-import { Sun1 } from 'iconsax-react'
-import { useTheme } from 'next-themes'
+import { useState } from 'react'
 import {
   motion,
   AnimatePresence,
-  useScroll,
-  useMotionValueEvent,
   type Variants,
 } from 'framer-motion'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/landing/button'
 import type { LayoutVariant } from './LandingOverview'
 
 interface NavbarProps {
@@ -23,16 +18,11 @@ interface NavbarProps {
 const NAV_LINKS = [
   { label: 'Funciones',  href: '#funciones'  },
   { label: 'Precios',    href: '/plan'    },
-  { label: 'Para quién', href: '#para-quien' },
+  { label: 'FAQs', href: '#para-quien' },
 ]
 
 const EASE: [number, number, number, number] = [0.17, 0.55, 0.55, 1]
 
-/* ─────────────────────────────────────────────────────────
-   SUB-COMPONENTES
-   ───────────────────────────────────────────────────────── */
-
-/** Link con subrayado animado — sólo el trazo, sin contenedor */
 function NavLink({
   href,
   label,
@@ -48,7 +38,7 @@ function NavLink({
     <Link
       href={href}
       onClick={onClick}
-      className="relative text-sm text-muted-foreground hover:text-foreground transition-colors py-1"
+      className="relative text-lg text-foreground hover:text-foreground transition-colors py-1"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -65,49 +55,21 @@ function NavLink({
   )
 }
 
-/** Toggle de tema — suppressHydrationWarning pattern */
-function ThemeToggle() {
-  const { theme, setTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
-  useEffect(() => setMounted(true), [])
-
-  if (!mounted) return <div className="w-9 h-9" />
-
-  return (
-    <Button
-      variant="ghost"
-      size="icon"
-      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-      aria-label="Cambiar tema"
-    >
-      {theme === 'dark'
-        ? <Sun1 color="currentColor" className="text-primary !h-6 !w-6" />
-        : <Moon className="!h-5 !w-5" />
-      }
-    </Button>
-  )
-}
-
-/**
- * Logo — asegúrate de que el archivo esté en:
- * public/assets/logo/qaalia_splash.png
- */
 function Logo() {
   return (
     <Link href="/" aria-label="Qaalia">
       <Image
-        src="/assets/logo/qaalia_dos.png"
+        src="/assets/logo/qaalia_logo_a.webp"
         alt="Qaalia"
         width={110}
         height={36}
-        className="h-8 w-auto object-contain scale-[3.25] origin-left"
+        className="h-10 w-auto object-contain scale-[3.25] origin-left"
         priority
       />
     </Link>
   )
 }
 
-/* ── Variants para el menú mobile ────────────────── */
 const menuContainer: Variants = {
   closed: { opacity: 0, height: 0   },
   open:   { opacity: 1, height: 'auto' },
@@ -122,72 +84,18 @@ const menuItem = (i: number): Variants => ({
   },
 })
 
-/* ─────────────────────────────────────────────────────────
-   NAVBAR PRINCIPAL
-   ───────────────────────────────────────────────────────── */
 export default function Navbar({ variant }: NavbarProps) {
   const [open,     setOpen]     = useState(false)
-  const [scrolled, setScrolled] = useState(false)
-  const { scrollY } = useScroll()
-
-  useMotionValueEvent(scrollY, 'change', (v) => {
-    setScrolled(v > 24)
-  })
-
-  /* ── Estilos animados compartidos ── */
-  const pillBase = {
-    from: { marginLeft: 0, marginRight: 0, marginTop: 0, borderRadius: 0, boxShadow: '0 0 0 rgba(0,0,0,0)' },
-  }
-
-  /* ══════════════════ MOBILE ══════════════════════ */
   if (variant === 'mobile') {
-    return (
-      <div className="sticky top-0 z-50">
-        <motion.div
-          animate={scrolled
-            ? { marginLeft: 14, marginRight: 14, marginTop: 10, borderRadius: 20, boxShadow: '0 4px 20px rgba(0,0,0,0.09)' }
-            : pillBase.from
-          }
-          transition={{ duration: 0.35, ease: EASE }}
-          className="bg-background/95 backdrop-blur-md border border-border px-5 py-4 overflow-hidden"
-        >
+return (
+ <div className="relative z-50">
+ <motion.div
+className="backdrop-blur-md border px-5 py-4 overflow-hidden bg-primary border-transparent"
+ >
           {/* Header row */}
           <div className="flex items-center justify-between">
             <Logo />
             <div className="flex items-center gap-1">
-              <ThemeToggle />
-
-              {/* Hamburger/X con swap animado */}
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setOpen(prev => !prev)}
-                aria-label="Menú"
-              >
-                <AnimatePresence mode="wait" initial={false}>
-                  {open ? (
-                    <motion.span
-                      key="x"
-                      initial={{ rotate: -90, opacity: 0 }}
-                      animate={{ rotate: 0,   opacity: 1 }}
-                      exit={{    rotate:  90, opacity: 0 }}
-                      transition={{ duration: 0.15 }}
-                    >
-                      <X className="!h-5 !w-5" />
-                    </motion.span>
-                  ) : (
-                    <motion.span
-                      key="menu"
-                      initial={{ rotate:  90, opacity: 0 }}
-                      animate={{ rotate: 0,   opacity: 1 }}
-                      exit={{    rotate: -90, opacity: 0 }}
-                      transition={{ duration: 0.15 }}
-                    >
-                      <Menu className="!h-5 !w-5" />
-                    </motion.span>
-                  )}
-                </AnimatePresence>
-              </Button>
             </div>
           </div>
 
@@ -220,7 +128,6 @@ export default function Navbar({ variant }: NavbarProps) {
                       </Link>
                     </motion.div>
                   ))}
-
                   <motion.div
                     variants={menuItem(NAV_LINKS.length)}
                     initial="closed"
@@ -245,51 +152,29 @@ export default function Navbar({ variant }: NavbarProps) {
     )
   }
 
-  /* ══════════════════ DESKTOP ═════════════════════ */
   return (
-    <div className="sticky top-0 z-50">
-      <motion.div
-        animate={scrolled
-          ? {
-              marginLeft:    32,
-              marginRight:   32,
-              marginTop:     12,
-              borderRadius:  9999,
-              paddingLeft:   24,
-              paddingRight:  24,
-              paddingTop:    10,
-              paddingBottom: 10,
-              boxShadow: '0 4px 24px rgba(0,0,0,0.08)',
-            }
-          : {
-              ...pillBase.from,
-              paddingLeft:   32,
-              paddingRight:  32,
-              paddingTop:    16,
-              paddingBottom: 16,
-            }
-        }
-        transition={{ duration: 0.4, ease: EASE }}
-        className="bg-background/95 backdrop-blur-md border border-border"
-      >
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
+ <div className="relative z-50">
+ <motion.div
+className="backdrop-blur-md border bg-primary border-transparent px-8 py-4"
+ >
+        <div className="w-full flex items-center justify-between">
           <Logo />
-
           <div className="flex items-center gap-8">
-            {NAV_LINKS.map(l => (
-              <NavLink key={l.href} href={l.href} label={l.label} />
-            ))}
-          </div>
+            <div className="flex items-center gap-8">
+              {NAV_LINKS.map(l => (
+                <NavLink key={l.href} href={l.href} label={l.label} />
+              ))}
+            </div>
 
-          <div className="flex items-center gap-2">
-            <ThemeToggle />
-            <Button
-              size="sm"
-              className="bg-primary text-primary-foreground hover:bg-primary/90 font-medium rounded-full px-5"
-              asChild
-            >
-              <Link href="#demo">Solicitar demo</Link>
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button
+                size="sm"
+                className="bg-primary text-primary-foreground hover:bg-primary/90 font-medium rounded-2xl px-5"
+                asChild
+              >
+                <Link href="#demo">Empezar</Link>
+              </Button>
+            </div>
           </div>
         </div>
       </motion.div>

@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "./landing.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -135,21 +136,73 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
   }
   html {
     @apply font-sans;
   }
-  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading font-extrabold tracking-tight;
+  }
+
   @layer utilities {
-  .hide-scrollbar {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    .hide-scrollbar {
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* ===== Fondo papel cuadriculado (Bannerbear grid) ===== */
+    .bg-paper-grid {
+      background-color: var(--background);
+      background-image:
+        linear-gradient(to right, color-mix(in oklch, var(--foreground) 8%, transparent) 1px, transparent 1px),
+        linear-gradient(to bottom, color-mix(in oklch, var(--foreground) 8%, transparent) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    /* ===== Sombras duras neo-brutalismo (offset sin blur) ===== */
+    .shadow-hard-xs { box-shadow: 2px 2px 0 0 var(--border); }
+    .shadow-hard-sm { box-shadow: 3px 3px 0 0 var(--border); }
+    .shadow-hard-md { box-shadow: 4px 4px 0 0 var(--border); }
+    .shadow-hard-lg { box-shadow: 6px 6px 0 0 var(--border); }
+    .shadow-hard-xl { box-shadow: 8px 8px 0 0 var(--border); }
+
+    /* ===== Efecto "press / squish" (Bannerbear hover signature) ===== */
+    .press {
+      transition: transform 150ms ease-out, box-shadow 150ms ease-out;
+    }
+    .press:active {
+      transform: translate(4px, 4px);
+      box-shadow: 0 0 0 0 var(--border) !important;
+    }
+    .press-subtle {
+      transition: transform 180ms ease-out, box-shadow 180ms ease-out;
+    }
+    .press-subtle:hover {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 0 var(--border) !important;
+    }
+    .press-subtle:active {
+      transform: translate(4px, 4px);
+      box-shadow: 0 0 0 0 var(--border) !important;
+    }
+
+    /* ===== Efecto sticker rotado ===== */
+    .sticker {
+      box-shadow: 3px 3px 0 0 var(--border);
+    }
+    .sticker-tilt-left { transform: rotate(-2deg); }
+    .sticker-tilt-right { transform: rotate(2deg); }
+
+    /* ===== Resaltado amarillo para palabras clave en títulos ===== */
+    .ink-highlight {
+      background-image: linear-gradient(180deg, transparent 60%, var(--primary) 60%);
+      padding: 0 0.15em;
+    }
   }
-  .hide-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
- }
 }
 
 /* Scrollbar nativa del navegador */
@@ -159,7 +212,7 @@ html {
 }
 
 html::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
 
 html::-webkit-scrollbar-track {
@@ -167,10 +220,41 @@ html::-webkit-scrollbar-track {
 }
 
 html::-webkit-scrollbar-thumb {
-  background-color: oklch(from var(--foreground) l c h / 0.25);
+  background-color: var(--border);
+  border: 2px solid var(--background);
   border-radius: 9999px;
 }
 
 html::-webkit-scrollbar-thumb:hover {
-  background-color: oklch(from var(--foreground) l c h / 0.45);
+  background-color: oklch(from var(--foreground) l c h / 0.75);
+}
+
+/* Spinner personalizado para <input type="number"> — estilo neo-brutalismo */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+  width: 24px;
+  height: 100%;
+  cursor: pointer;
+  opacity: 1;
+  border-left: 2px solid var(--border);
+  border-radius: 0;
+  background-color: var(--primary);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 5L5 1L9 5' stroke='%23000000' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23000000' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-position: center calc(50% - 5px), center calc(50% + 5px);
+  background-size: 8px 5px, 8px 5px;
+  background-repeat: no-repeat;
+  transition: background-color 0.15s ease;
+}
+
+input[type="number"]::-webkit-inner-spin-button:hover,
+input[type="number"]::-webkit-outer-spin-button:hover {
+  background-color: var(--accent);
 }

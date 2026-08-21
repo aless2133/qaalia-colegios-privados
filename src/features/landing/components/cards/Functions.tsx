@@ -1,5 +1,5 @@
 import { QrCode, ShieldCheck, Bot, LayoutDashboard, CalendarCheck, BarChart3 } from 'lucide-react'
-import { Card, CardHeader, CardContent } from '@/components/ui/card'
+import { Card, CardHeader, CardContent } from '@/components/landing/card'
 import { Calendar, Category2, Chart2, Messages2, ScanBarcode, ShieldTick } from 'iconsax-react'
 
 const FEATURES = [

@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 
 const PUBLIC_ROUTES  = ['/', '/terms', '/privacy', '/home', '/team', '/client', '/auth/callback']
-const RESERVE_PREFIX   = '/r/'
+const RESERVE_PREFIX   = '/agent/'
 const AUTH_ROUTES    = ['/login', '/register']
 
 export async function middleware(req: NextRequest) {
