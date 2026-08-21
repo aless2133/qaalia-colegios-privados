@@ -9,15 +9,12 @@ export type RegisterStep = 'google' | 'step1' | 'step2' | 'success'
 
 interface Form {
   nombre:       string
-  tipo:         string
-  tipo_id:      string
-  ciudad:       string
   telefono:     string
   nombre_dueno: string
 }
 
 const INITIAL_FORM: Form = {
-  nombre: '', tipo: '', tipo_id: '', ciudad: '', telefono: '', nombre_dueno: '',
+  nombre: '', telefono: '', nombre_dueno: '',
 }
 
 export function useRegister() {
@@ -28,10 +25,6 @@ export function useRegister() {
   const [form,    setForm]    = useState<Form>(INITIAL_FORM)
   const [loading, setLoading] = useState(false)
   const [error,   setError]   = useState('')
-
-  const [tipos,        setTipos]        = useState<{ id: number; nombre: string }[]>([])
-  const [showTipos,    setShowTipos]    = useState(false)
-  const [loadingTipos, setLoadingTipos] = useState(false)
 
   const [user, setUser] = useState<any>(null)
 
@@ -90,25 +83,8 @@ export function useRegister() {
   })
 }, [])
 
-  const buscarTipos = async (q: string) => {
-    setForm(prev => ({ ...prev, tipo: q, tipo_id: '' }))
-    if (q.length < 1) { setShowTipos(false); return }
-    setLoadingTipos(true)
-    const { data } = await supabase.rpc('buscar_tipos', { p_q: q, p_limit: 8 })
-    setTipos(data || [])
-    setShowTipos(true)
-    setLoadingTipos(false)
-  }
-
-  const seleccionarTipo = (t: { id: number; nombre: string }) => {
-    setForm(prev => ({ ...prev, tipo: t.nombre, tipo_id: String(t.id) }))
-    setShowTipos(false)
-  }
-
   const handleStep1 = () => {
     if (!form.nombre.trim())  { setError('Ingresa el nombre del negocio'); return }
-    if (!form.tipo.trim())    { setError('Selecciona el tipo de negocio'); return }
-    if (!form.ciudad.trim())  { setError('Ingresa la ciudad'); return }
     setError('')
     setStep('step2')
   }
@@ -124,8 +100,6 @@ export function useRegister() {
       const { data, error: rpcErr } = await supabase.rpc('crear_negocio', {
         p_owner_id:     user.id,
         p_nombre:       form.nombre,
-        p_tipo:         form.tipo,
-        p_ciudad:       form.ciudad,
         p_telefono:     form.telefono,
         p_correo:       user.email,
         p_nombre_dueno: form.nombre_dueno,
@@ -154,9 +128,7 @@ export function useRegister() {
     loading: loading || googleLoading,
     error:   error || googleError,
     setError,
-    tipos, showTipos, loadingTipos,
-    buscarTipos, seleccionarTipo,
-    loginWithGoogle: handleGoogleLogin, 
+    loginWithGoogle: handleGoogleLogin,
     initUser,
     handleStep1,
     handleSubmit,

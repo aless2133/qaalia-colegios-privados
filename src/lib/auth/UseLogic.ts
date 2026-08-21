@@ -15,8 +15,6 @@ export interface NegocioData {
   nombre: string
   slug: string
   plan: string
-  tipo_negocio: string
-  ciudad: string
   telefono: string
   correo: string
   nombre_dueno: string
